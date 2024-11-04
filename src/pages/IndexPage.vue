@@ -152,6 +152,7 @@ onMounted(() => {
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       plugins: {
         title: {
           display: true,
@@ -183,6 +184,7 @@ onMounted(() => {
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           title: {
             display: true,
@@ -374,7 +376,7 @@ onMounted(() => {
 }
 
 .hero-content {
-  max-width: 1000px;
+  max-width: 100vw;
   margin: 0 auto;
   position: relative;
   z-index: 1;
@@ -459,9 +461,8 @@ onMounted(() => {
 }
 
 .charts-container {
-  max-width: 1200px;
+  max-width: 100vw;
   margin: 2rem auto;
-  padding: 1rem;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
   gap: 2rem;
@@ -473,6 +474,7 @@ onMounted(() => {
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   opacity: 0;
+  height: 300px;
   transform: translateY(20px);
 }
 
@@ -482,7 +484,7 @@ onMounted(() => {
   }
 
   .charts-container {
-    grid-template-columns: 1fr;
+    grid-template-columns: 100vw;
   }
 }
 

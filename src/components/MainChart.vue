@@ -1,22 +1,24 @@
 <template>
   <!-- Template tetap sama seperti sebelumnya -->
-  <div class="q-pa-none">
-    <q-card class="my-card shadow-0 q-pa-none">
+  <div class="q-pa-none full-width full-height">
+    <q-card class="my-card shadow-0 q-pa-none full-height flex">
       <q-card-section class="q-pa-none">
-        <div class="text-h4 q-mb-xs">{{ selectedCommodity }}</div>
-        <div class="text-h3">Rp {{ displayPrice.toLocaleString() }}</div>
-        <div :class="[priceChangeClass, 'text-subtitle1']">
+        <div class="text-h6 q-mb-xs">{{ selectedCommodity }}</div>
+        <div class="text-h5 text-weight-medium">
+          Rp {{ displayPrice.toLocaleString() }}
+        </div>
+        <div :class="[priceChangeClass, 'text-body2']">
           {{ priceChangePrefix }}Rp
           {{ displayPriceChange.toLocaleString() }} ({{
             displayPriceChangePercentage
           }}%)
         </div>
-        <div class="text-grey">
+        <div class="text-grey text-caption">
           Harga Awal Periode: Rp {{ displayInitialPrice.toLocaleString() }}
         </div>
       </q-card-section>
 
-      <q-card-section class="chart-container q-pa-none">
+      <q-card-section class="chart-container q-pa-none line">
         <div
           v-show="showTooltip"
           class="date-tooltip"
@@ -41,15 +43,16 @@
         />
       </q-card-section>
 
-      <q-card-section class="q-pa-none">
-        <div class="row q-gutter-sm">
+      <q-card-section class="q-pa-none full-width">
+        <div class="row q-gutter-sm flex justify-evenly">
           <q-btn
             v-for="period in periods"
             :key="period.value"
             :label="period.label"
             :color="selectedPeriod === period.value ? 'primary' : 'grey'"
             @click="changePeriod(period.value)"
-            outline
+            flat
+            round
           />
         </div>
       </q-card-section>
@@ -194,7 +197,6 @@ const showTooltip = ref(false);
 const tooltipPosition = ref(0);
 
 const periods = [
-  { label: "1D", value: "1D" },
   { label: "1W", value: "1W" },
   { label: "1M", value: "1M" },
   { label: "3M", value: "3M" },
@@ -373,6 +375,7 @@ const chartData = computed(() => ({
       borderColor: lineColor.value,
       data: filteredData.value.map((item) => item.price),
       tension: 0.1,
+      borderWidth: 1,
       pointRadius: 0,
       pointHoverRadius: 4,
       pointHoverBackgroundColor: lineColor.value,
@@ -397,10 +400,13 @@ const changePeriod = (period) => {
 .my-card {
   width: 100%;
   margin: 0 auto;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .my-chart {
-  height: 400px;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .chart-container {
@@ -431,5 +437,9 @@ const changePeriod = (period) => {
   pointer-events: none;
   z-index: 2;
   white-space: nowrap;
+}
+.line {
+  width: 100%;
+  max-height: 45%;
 }
 </style>
