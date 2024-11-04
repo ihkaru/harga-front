@@ -64,8 +64,12 @@
           </span>
         </p>
         <div class="button-container">
-          <a href="#" class="hero-button glow-on-hover">Data Komoditas</a>
-          <a href="#" class="hero-button glow-on-hover">Statistik Inflasi</a>
+          <a href="#komoditas" class="hero-button glow-on-hover"
+            >Data Komoditas</a
+          >
+          <a href="#inflasi" class="hero-button glow-on-hover"
+            >Statistik Inflasi</a
+          >
         </div>
       </div>
     </div>
@@ -89,10 +93,10 @@
     </div>
 
     <div class="charts-container">
-      <div class="chart-card">
+      <div class="chart-card" id="komoditas">
         <main-chart></main-chart>
       </div>
-      <div class="chart-card">
+      <div class="chart-card" id="inflasi">
         <canvas id="inflationTrend"></canvas>
       </div>
       <div class="chart-card">
@@ -258,6 +262,9 @@ onMounted(() => {
 });
 </script>
 <style>
+html {
+  scroll-behavior: smooth;
+}
 .glow-on-hover {
   width: 220px;
   height: 50px;
