@@ -16,5 +16,4 @@ jobs:
           server: ${{ secrets.FTP_SERVER_DVLP }}
           username: ${{ secrets.FTP_USERNAME_HARGA }}
           password: ${{ secrets.FTP_PASSWORD_HARGA}}
-          protocol: sftp
-          port: 22
+          protocol: ftps
