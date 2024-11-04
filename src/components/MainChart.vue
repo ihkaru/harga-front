@@ -7,7 +7,7 @@
     >
       <q-card-section class="q-pa-none">
         <div class="text-h6 q-mb-xs">{{ selectedCommodity }}</div>
-        <div class="text-h5 text-weight-medium">
+        <div class="text-h5 text-weight-bold">
           Rp {{ displayPrice.toLocaleString() }}
         </div>
         <div :class="[priceChangeClass, 'text-body2']">
@@ -33,7 +33,7 @@
         <div
           v-show="showTooltip"
           class="vertical-line"
-          :style="{ left: tooltipPosition + 5 + 'px' }"
+          :style="{ left: tooltipPosition - 16 + 'px' }"
         ></div>
 
         <Line
