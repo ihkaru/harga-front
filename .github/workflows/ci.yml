@@ -13,7 +13,8 @@ jobs:
       - name: FTP-Deploy-Action
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER_DVLP }}
-          username: ${{ secrets.FTP_USERNAME_HARGA }}
+          server: ftp.dvlp.asia
+          username: harga@dvlp.asia
           password: ${{ secrets.FTP_PASSWORD_HARGA}}
           protocol: ftps
+          port: 21
