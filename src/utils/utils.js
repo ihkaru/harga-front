@@ -2,7 +2,6 @@ import { ref } from "vue";
 
 export function useUtils() {
   const priceData = ref([]);
-
   function generatePriceData(startDate, endDate, averageIncreasePercent) {
     const start = new Date(startDate);
     const end = new Date(endDate);
