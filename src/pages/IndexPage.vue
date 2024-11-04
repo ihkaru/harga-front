@@ -339,6 +339,7 @@ onMounted(() => {
 
 .hero {
   min-height: 100vh;
+  max-width: 100vw;
   background: linear-gradient(135deg, #0a0426 0%, #1a1040 100%);
   color: white;
   padding: 2rem;
@@ -376,7 +377,7 @@ onMounted(() => {
 }
 
 .hero-content {
-  max-width: 100vw;
+  max-width: 80vw;
   margin: 0 auto;
   position: relative;
   z-index: 1;
@@ -410,7 +411,7 @@ onMounted(() => {
 }
 
 .hero-button {
-  padding: 0.8rem 2rem;
+  padding: 0.8rem 0rem;
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.1);
@@ -470,11 +471,12 @@ onMounted(() => {
 
 .chart-card {
   background: white;
-  padding: 1.5rem;
+  padding: 1rem;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   opacity: 0;
-  height: 300px;
+  height: 50vh;
+  max-height: 400px;
   transform: translateY(20px);
 }
 
