@@ -90,13 +90,13 @@
 
     <div class="charts-container">
       <div class="chart-card">
+        <main-chart></main-chart>
+      </div>
+      <div class="chart-card">
         <canvas id="inflationTrend"></canvas>
       </div>
       <div class="chart-card">
         <canvas id="commodityPrices"></canvas>
-      </div>
-      <div class="chart-card">
-        <main-chart></main-chart>
       </div>
     </div>
   </q-page>
