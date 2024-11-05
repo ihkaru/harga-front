@@ -1,7 +1,11 @@
 import { boot } from "quasar/wrappers";
 import axios from "axios";
 axios.defaults.headers.get["Content-Type"] = "application/json";
-const api = axios.create({ baseURL: process.env.API_BASE_URL });
+const api = axios.create({
+  baseURL: process.env.PROD
+    ? "http://harga.test"
+    : "https://harga-api.dvlp.asia",
+});
 console.log("dev", process.env.DEV);
 console.log("prod", process.env.PROD);
 console.log("NODE_ENV", process.env.NODE_ENV);
