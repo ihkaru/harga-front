@@ -3,8 +3,8 @@ import axios from "axios";
 axios.defaults.headers.get["Content-Type"] = "application/json";
 const api = axios.create({
   baseURL: process.env.DEV
-    ? "http://harga.test"
-    : "https://harga-api.dvlp.asia",
+    ? "http://harga.test/api"
+    : "https://harga-api.dvlp.asia/api",
 });
 console.log("dev", process.env.DEV);
 console.log("prod", process.env.PROD);
