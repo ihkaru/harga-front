@@ -21,6 +21,7 @@ export function useSyncService() {
       loadingUpdate.value = false;
     }
   };
+
   const fetchKomoditas = async () => {
     let apiUrl = "/komoditas";
     loading.value = true;
