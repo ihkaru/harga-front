@@ -7,10 +7,8 @@
 
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
-let file = process.env.NODE_ENV ? "dev" : "prod";
-console.log("mode", file);
 const env = require("dotenv").config({
-  path: `.env.${file}`,
+  path: `.env.${"production"}`,
 }).parsed;
 
 const { configure } = require("quasar/wrappers");
