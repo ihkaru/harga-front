@@ -6,6 +6,7 @@ const api = axios.create({
     ? "http://harga.test/api"
     : "https://harga-api.dvlp.asia/api",
 });
+
 console.log("dev", process.env.DEV);
 console.log("prod", process.env.PROD);
 console.log("NODE_ENV", process.env.NODE_ENV);
