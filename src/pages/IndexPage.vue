@@ -91,18 +91,56 @@
         <p>Komoditas</p>
       </div>
     </div>
-
-    <div class="charts-container">
-      <div class="chart-card" id="komoditas">
-        <main-chart></main-chart>
+    <div class="flex row-xs q-pa-xl-ls q-mx-xl-ls q-mt-lg-ls shadow-10">
+      <!-- <div>
+        <canvas id="inflationTrend"></canvas>
       </div>
+      <div>
+        <canvas id="commodityPrices"></canvas>
+      </div> -->
+      <div class="col-8"></div>
+      <div class="col-4"></div>
+    </div>
+    <div>
+      <div class="row evenly">
+        <!-- Grafik kiri -->
+        <div class="col-md-8 col-xs-12">
+          <div class="bg-white rounded-borders q-pa-lg">
+            <!-- Tempatkan grafik kiri di sini -->
+            <main-chart
+              :key="selectedData?.nama"
+              :data="selectedData"
+            ></main-chart>
+          </div>
+        </div>
+
+        <!-- Grafik kanan -->
+        <div class="col-md-4 col-xs-12">
+          <div class="bg-white rounded-borders full-width">
+            <!-- Tempatkan grafik kanan di sini -->
+            <list-komoditas v-if="komoditas" :data="komoditas"></list-komoditas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <q-layout view="hHh lpR fFf">
+      <q-drawer show-if-above v-model="rightDrawerOpen" side="right" bordered>
+      </q-drawer>
+
+      <q-page-container>
+      </q-page-container>
+    </q-layout> -->
+    <div class="charts-container hidden">
+      <div class="chart-card" id="komoditas"></div>
+      <div class="chart-card"></div>
       <div class="chart-card" id="inflasi">
         <canvas id="inflationTrend"></canvas>
       </div>
-      <div class="chart-card">
+      <div class="chart-card h">
         <canvas id="commodityPrices"></canvas>
       </div>
     </div>
+    <saham-chart class="hidden" />
   </q-page>
 </template>
 
@@ -122,8 +160,56 @@ import {
   BarController,
   BarElement,
 } from "chart.js";
+import { watch, watchEffect } from "vue";
+import ListKomoditas from "src/components/ListKomoditas.vue";
 import MainChart from "src/components/MainChart.vue";
-
+import SahamChart from "src/components/SahamChart.vue";
+import { useSyncService } from "src/services/SyncKomoditas";
+import { useSelectionStore } from "src/stores/selectionStore";
+import { useUtils } from "src/utils/utils";
+const selectedData = ref({
+  nama: "-",
+  symbol: "-",
+  icon: "-",
+  currentPrice: 0,
+  data: [
+    {
+      date: "2024-10-01",
+      price: 17000,
+    },
+  ],
+  sparklineData: {
+    "1W": [17000],
+    "1M": [17000],
+    "3M": [17000],
+    YTD: [17000],
+    "1Y": [17000],
+    ALL: [17000],
+  },
+});
+const komoditas = ref([]);
+const Utils = useUtils();
+const SyncService = useSyncService();
+const selectionStore = useSelectionStore();
+const Constants = Utils.Constants;
+watch(
+  () => selectionStore.getSelectionByKey(Constants.SELECTED_KOMODITAS),
+  (newVal, oldVal) => {
+    selectedData.value = { ...newVal };
+    // console.log("newval", selectedData.value);
+  }
+);
+onMounted(async () => {
+  // console.log(Utils.priceData.value);
+  await SyncService.fetchKomoditas();
+  Utils.generatePriceData("2024-01-01", "2024-11-04", 2);
+  console.log("selectedData", SyncService.komoditas.value[0]);
+  selectedData.value = SyncService.komoditas.value[0];
+  komoditas.value = SyncService.komoditas.value;
+  console.log("komoditas.value", komoditas.value);
+  // selectedData.value = Utils.priceData.value;
+  console.log("priceData", Utils.priceData.value);
+});
 Chart.register(
   LineController,
   LineElement,
@@ -134,7 +220,8 @@ Chart.register(
   BarController,
   BarElement
 );
-import { onMounted } from "vue";
+import { onBeforeMount, onMounted, ref } from "vue";
+import { onBeforeRouteUpdate } from "vue-router";
 
 onMounted(() => {
   // Data dummy untuk grafik
@@ -264,7 +351,7 @@ onMounted(() => {
 
 <style>
 html {
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth; */
 }
 .glow-on-hover {
   width: 220px;

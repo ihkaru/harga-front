@@ -6,7 +6,16 @@
       style="height: 100%"
     >
       <q-card-section class="q-pa-none">
-        <div class="text-h6 q-mb-xs">{{ selectedCommodity }}</div>
+        <div class="row justify-between">
+          <div class="text-h6 q-mb-xs">{{ selectedCommodity }}</div>
+          <q-btn
+            @click="SyncSerice.updateBackend"
+            :loading="loadingUpdate"
+            round
+            color="secondary"
+            icon="refresh"
+          ></q-btn>
+        </div>
         <div class="text-h5 text-weight-bold">
           Rp {{ displayPrice.toLocaleString() }}
         </div>
@@ -17,7 +26,10 @@
           }}%)
         </div>
         <div class="text-grey text-caption">
-          Harga Awal Periode: Rp {{ displayInitialPrice.toLocaleString() }}
+          Harga {{ periodLabels[selectedPeriod] }} ({{
+            displayInitialPriceDate ?? ""
+          }}): Rp
+          {{ displayInitialPrice.toLocaleString() }}
         </div>
       </q-card-section>
 
@@ -68,8 +80,14 @@
 defineOptions({
   name: "MainChart",
 });
+const props = defineProps({
+  data: {
+    type: Object,
+    required: true,
+  },
+});
 import { easingEffects } from "chart.js/helpers";
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, onBeforeMount, watch } from "vue";
 import { Line } from "vue-chartjs";
 import {
   Chart as ChartJS,
@@ -82,9 +100,15 @@ import {
   Legend,
 } from "chart.js";
 import { useUtils } from "src/utils/utils";
+import { useSelectionStore } from "src/stores/selectionStore";
+import { useSyncService } from "src/services/SyncKomoditas";
+const SyncSerice = useSyncService();
 const Utils = useUtils();
-
+const loadingUpdate = ref(false);
+const selectionStore = useSelectionStore();
+const Constants = Utils.Constants;
 // Plugin yang dimodifikasi untuk menangani label di ujung grafik
+
 const minMaxLabelsPlugin = {
   id: "minMaxLabels",
   afterDraw: (chart) => {
@@ -163,11 +187,15 @@ const minMaxLabelsPlugin = {
     };
 
     // Mencari dan menggambar label untuk nilai max dan min
+    var isMaxLabelDone = false;
+    var isMinLabelDone = false;
     meta.data.forEach((point, index) => {
-      if (values[index] === maxValue) {
+      if (values[index] === maxValue && !isMaxLabelDone) {
+        isMaxLabelDone = true;
         drawLabel(maxValue, point, true);
       }
-      if (values[index] === minValue) {
+      if (values[index] === minValue && !isMinLabelDone) {
+        isMinLabelDone = true;
         drawLabel(minValue, point, false);
       }
     });
@@ -186,14 +214,25 @@ ChartJS.register(
   minMaxLabelsPlugin
 );
 
-const commodityData = Utils.priceData;
 Utils.generatePriceData("2024-01-01", "2024-11-04", 2);
+
+const commodityData = ref([]);
+// console.log(props.data);
+// const commodityData = ref(Utils.priceData.value);
 
 const chartRef = ref(null);
 const selectedCommodity = ref("Beras");
-const selectedPeriod = ref("1W");
+
+const selectedPeriod = ref(
+  selectionStore.getSelectionByKey(Constants.SELECTED_PERIOD_CHART) ?? "1W"
+);
+console.log(
+  "selected period",
+  selectionStore.getSelectionByKey(Constants.SELECTED_PERIOD_CHART)
+);
 const displayPrice = ref(0);
 const displayInitialPrice = ref(0);
+const displayInitialPriceDate = ref("");
 const displayPriceChange = ref(0);
 const displayPriceChangePercentage = ref(0);
 const displayDate = ref("");
@@ -209,7 +248,21 @@ const periods = [
   { label: "1Y", value: "1Y" },
   { label: "ALL", value: "ALL" },
 ];
+const periodLabels = {
+  "1W": "1 pekan lalu",
+  "1M": "1 bulan lalu",
+  "3M": "3 bulan lalu",
+  YTD: "Year to Date",
+  "1Y": "1 tahun lalu",
+  ALL: "awal",
+};
 
+onMounted(async () => {
+  commodityData.value = props.data?.data;
+  selectedCommodity.value = props.data?.nama;
+  loadingUpdate.value = SyncSerice.loadingUpdate.value;
+  console.log("mainchart", props.data);
+});
 const formatDate = (dateString) => {
   const date = new Date(dateString);
   return date.toLocaleDateString("id-ID", {
@@ -304,6 +357,7 @@ const handleChartLeave = () => {
     const lastIndex = filteredData.value.length - 1;
     const currentData = filteredData.value[lastIndex];
     const initialData = filteredData.value[0];
+    displayInitialPriceDate.value = initialData.date;
     updateDisplayValues(currentData.price, initialData.price, currentData.date);
   }
 };
@@ -398,6 +452,7 @@ const chartOptions = {
       const dataIndex = elements[0].index;
       const currentData = filteredData.value[dataIndex];
       const initialData = filteredData.value[0];
+      displayInitialPriceDate.value = initialData.date;
 
       const xPosition = elements[0].element.x;
       tooltipPosition.value = xPosition + 15;
@@ -436,6 +491,16 @@ onMounted(() => {
   handleChartLeave();
 });
 
+watch(
+  () => selectedPeriod.value,
+  (newVal, oldVal) => {
+    selectionStore.setSelection(Constants.SELECTED_PERIOD_CHART, newVal);
+    console.log(
+      Constants.SELECTED_PERIOD_CHART,
+      selectionStore.getSelectionByKey(Constants.SELECTED_PERIOD_CHART)
+    );
+  }
+);
 const changePeriod = (period) => {
   selectedPeriod.value = period;
   handleChartLeave();
