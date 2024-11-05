@@ -224,7 +224,7 @@ const chartRef = ref(null);
 const selectedCommodity = ref("Beras");
 
 const selectedPeriod = ref(
-  selectionStore.getSelectionByKey(Constants.SELECTED_PERIOD_CHART) ?? "1W"
+  selectionStore.getSelectionByKey(Constants.SELECTED_PERIOD_CHART) ?? "1M"
 );
 console.log(
   "selected period",

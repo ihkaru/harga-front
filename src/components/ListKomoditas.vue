@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <div class="q-pa-md">
+    <div>
       <q-list bordered separator v-if="props.data">
         <q-item
           v-for="commodity in props.data"
@@ -111,7 +111,7 @@ const props = defineProps({
   },
 });
 // Period selection state
-const selectedPeriod = ref("1W");
+const selectedPeriod = ref("1M");
 const showPeriodDialog = ref(false);
 
 const periodLabels = {
