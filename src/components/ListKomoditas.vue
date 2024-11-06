@@ -1,101 +1,105 @@
 <template>
-  <q-page padding>
-    <div>
-      <q-list bordered separator v-if="props.data">
-        <q-item
-          v-for="commodity in props.data"
-          :key="commodity.symbol"
-          class="q-py-md"
-          v-ripple
-          @click="selectCommodity(commodity)"
-          clickable
-        >
-          <q-item-section avatar>
-            <q-avatar>
-              <q-icon :name="commodity.icon" size="md" color="positive" />
-            </q-avatar>
-          </q-item-section>
+  <div>
+    <q-list
+      class="scroll"
+      style="max-height: 550px"
+      bordered
+      separator
+      v-if="props.data"
+    >
+      <q-item
+        v-for="commodity in props.data"
+        :key="commodity.symbol"
+        class="q-py-md"
+        v-ripple
+        @click="selectCommodity(commodity)"
+        clickable
+      >
+        <q-item-section avatar>
+          <q-avatar>
+            <q-icon :name="commodity.icon" size="md" color="positive" />
+          </q-avatar>
+        </q-item-section>
 
-          <q-item-section>
-            <q-item-label class="text-weight-bold">{{
-              commodity.nama
-            }}</q-item-label>
-            <q-item-label caption
-              >{{ periodLabels[selectedPeriod] }} lalu: Rp
-              {{
-                Utils.formatCurrency(commodity.sparklineData[selectedPeriod][0])
-              }}</q-item-label
-            >
-          </q-item-section>
+        <q-item-section>
+          <q-item-label class="text-weight-bold">{{
+            commodity.nama
+          }}</q-item-label>
+          <q-item-label caption
+            >{{ periodLabels[selectedPeriod] }} lalu: Rp
+            {{
+              Utils.formatCurrency(commodity.sparklineData[selectedPeriod][0])
+            }}</q-item-label
+          >
+        </q-item-section>
 
-          <q-item-section class="col-4">
-            <Sparkline
-              :data="commodity.sparklineData[selectedPeriod]"
-              :color="
-                getPriceChange(commodity).change >= 0 ? '#21ba45' : '#c10015'
-              "
-              :width="100"
-              :height="30"
-            />
-          </q-item-section>
+        <q-item-section class="col-4">
+          <Sparkline
+            :data="commodity.sparklineData[selectedPeriod]"
+            :color="
+              getPriceChange(commodity).change >= 0 ? '#21ba45' : '#c10015'
+            "
+            :width="100"
+            :height="30"
+          />
+        </q-item-section>
 
-          <q-item-section side>
-            <div class="text-right">
-              <div class="text-weight-bold">
-                Rp{{ Utils.formatCurrency(commodity.currentPrice) }}
-              </div>
-              <div
-                :class="
-                  getPriceChange(commodity).change >= 0
-                    ? 'text-positive'
-                    : 'text-negative'
-                "
-              >
-                {{ getPriceChange(commodity).change }}%
-              </div>
+        <q-item-section side>
+          <div class="text-right">
+            <div class="text-weight-bold">
+              Rp{{ Utils.formatCurrency(commodity.currentPrice) }}
             </div>
-          </q-item-section>
-        </q-item>
-      </q-list>
-    </div>
-
-    <!-- Floating Speed Dial Button -->
-    <q-page-sticky position="bottom-right" :offset="[20, 20]">
-      <q-btn
-        fab
-        color="primary"
-        :label="periodLabels[selectedPeriod]"
-        @click="showPeriodDialog = true"
-      />
-    </q-page-sticky>
-
-    <!-- Period Selection Dialog -->
-    <q-dialog v-model="showPeriodDialog" position="bottom">
-      <q-card style="width: 100%; max-width: 400px">
-        <q-card-section class="row items-center no-wrap">
-          <div class="text-h6">Select Period</div>
-        </q-card-section>
-
-        <q-card-section class="q-pt-none">
-          <div class="row q-col-gutter-sm">
             <div
-              v-for="(label, period) in periodLabels"
-              :key="period"
-              class="col-4"
+              :class="
+                getPriceChange(commodity).change >= 0
+                  ? 'text-positive'
+                  : 'text-negative'
+              "
             >
-              <q-btn
-                :label="label"
-                class="full-width"
-                :color="selectedPeriod === period ? 'primary' : 'grey-4'"
-                :text-color="selectedPeriod === period ? 'white' : 'black'"
-                @click="selectPeriod(period)"
-              />
+              {{ getPriceChange(commodity).change }}%
             </div>
           </div>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
-  </q-page>
+        </q-item-section>
+      </q-item>
+    </q-list>
+  </div>
+
+  <!-- Floating Speed Dial Button -->
+  <q-page-sticky position="bottom-right" :offset="[20, 20]">
+    <q-btn
+      fab
+      color="primary"
+      :label="periodLabels[selectedPeriod]"
+      @click="showPeriodDialog = true"
+    />
+  </q-page-sticky>
+
+  <!-- Period Selection Dialog -->
+  <q-dialog v-model="showPeriodDialog" position="bottom">
+    <q-card style="width: 100%; max-width: 400px">
+      <q-card-section class="row items-center no-wrap">
+        <div class="text-h6">Select Period</div>
+      </q-card-section>
+
+      <q-card-section class="q-pt-none">
+        <div class="row q-col-gutter-sm">
+          <div
+            v-for="(label, period) in periodLabels"
+            :key="period"
+            class="col-4"
+          >
+            <q-btn
+              :label="label"
+              class="full-width"
+              :color="selectedPeriod === period ? 'primary' : 'grey-4'"
+              :text-color="selectedPeriod === period ? 'white' : 'black'"
+              @click="selectPeriod(period)"
+            />
+          </div>
+        </div>
+      </q-card-section>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script setup>

@@ -1,11 +1,8 @@
 <template>
   <!-- Template tetap sama seperti sebelumnya -->
   <div class="q-pa-none full-width full-height">
-    <q-card
-      class="my-card shadow-0 q-pa-none full-height column justify-between"
-      style="height: 100%"
-    >
-      <q-card-section class="q-pa-none">
+    <q-card class="my-card shadow-0 q-pa-none full-height column">
+      <q-card-section class="q-pa-none col">
         <div class="row justify-between">
           <div class="text-h6 q-mb-xs">{{ selectedCommodity }}</div>
           <q-btn
@@ -33,7 +30,7 @@
         </div>
       </q-card-section>
 
-      <q-card-section class="chart-container col">
+      <q-card-section class="chart-container col-12">
         <div
           v-show="showTooltip"
           class="date-tooltip"
@@ -58,7 +55,7 @@
         />
       </q-card-section>
 
-      <q-card-section class="q-pa-none full-width column justify-between">
+      <q-card-section class="q-pa-none full-width column justify-between col">
         <div></div>
         <div class="row q-gutter-sm flex justify-evenly">
           <q-btn
@@ -522,7 +519,7 @@ const changePeriod = (period) => {
 }
 
 .chart-container {
-  position: relative;
+  /* position: relative; */
   padding: 0;
   /* Menambahkan padding untuk memastikan ada ruang untuk label */
 }

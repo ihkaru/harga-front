@@ -10,7 +10,7 @@
             <span class="word">&nbsp;Monitoring</span>
           </span>
           <span class="word-wrapper">
-            <span class="word">&nbsp; Inflasi</span>
+            <span class="word">&nbsp; Harga</span>
           </span>
         </div>
         <h1>
@@ -18,7 +18,7 @@
             <span class="word">&nbsp;Memantau</span>
           </span>
           <span class="word-wrapper">
-            <span class="word">&nbsp;Inflasi,</span>
+            <span class="word">&nbsp;Harga,</span>
           </span>
           <br />
           <span class="word-wrapper">
@@ -33,10 +33,10 @@
             <span class="word">&nbsp;Sistem</span>
           </span>
           <span class="word-wrapper">
-            <span class="word">&nbsp;Informasi</span>
+            <span class="word">&nbsp;Dashboard</span>
           </span>
           <span class="word-wrapper">
-            <span class="word">&nbsp;Terpadu</span>
+            <span class="word">&nbsp;Terbuka</span>
           </span>
           <span class="word-wrapper">
             <span class="word">&nbsp;untuk</span>
@@ -51,7 +51,7 @@
             <span class="word">&nbsp;Pengendalian</span>
           </span>
           <span class="word-wrapper">
-            <span class="word">&nbsp;Inflasi</span>
+            <span class="word">&nbsp;Harga</span>
           </span>
           <span class="word-wrapper">
             <span class="word">&nbsp;di</span>
@@ -67,14 +67,14 @@
           <a href="#komoditas" class="hero-button glow-on-hover"
             >Data Komoditas</a
           >
-          <a href="#inflasi" class="hero-button glow-on-hover"
+          <!-- <a href="#inflasi" class="hero-button glow-on-hover"
             >Statistik Inflasi</a
-          >
+          > -->
         </div>
       </div>
     </div>
 
-    <div class="stats-container">
+    <!-- <div class="stats-container">
       <div class="stat-card">
         <h5>Tingkat Inflasi</h5>
         <div class="value">4.2%</div>
@@ -90,7 +90,7 @@
         <div class="value">12</div>
         <p>Komoditas</p>
       </div>
-    </div>
+    </div> -->
     <div class="flex row-xs q-pa-xl-ls q-mx-xl-ls q-mt-lg-ls shadow-10">
       <!-- <div>
         <canvas id="inflationTrend"></canvas>
@@ -101,11 +101,11 @@
       <div class="col-8"></div>
       <div class="col-4"></div>
     </div>
-    <div>
+    <div style="margin-bottom: 30vh">
       <div class="row evenly">
         <!-- Grafik kiri -->
         <div class="col-md-8 col-xs-12">
-          <div class="bg-white rounded-borders q-pa-lg">
+          <div class="bg-white rounded-borders q-pa-lg" id="komoditas">
             <!-- Tempatkan grafik kiri di sini -->
             <main-chart
               :key="selectedData?.nama"
