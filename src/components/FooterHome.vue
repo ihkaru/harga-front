@@ -43,14 +43,14 @@
       >
         <!-- Disperindagkop Logo -->
         <q-img
-          src="src/assets/MPW.png"
+          src="~assets/MPW.png"
           spinner-color="primary"
           style="height: 8vh; max-width: 200px"
           fit="contain"
         />
         <!-- BPS Logo -->
         <q-img
-          src="src/assets/BPS.png"
+          src="~assets/BPS.png"
           spinner-color="primary"
           style="height: 8vh; max-width: 200px"
           fit="contain"
