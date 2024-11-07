@@ -83,14 +83,14 @@
         >
           <!-- Disperindagkop Logo -->
           <q-img
-            src="/public/MPW.png"
+            src="src/assets/MPW.png"
             spinner-color="primary"
             style="height: 8vh; max-width: 200px"
             fit="contain"
           />
           <!-- BPS Logo -->
           <q-img
-            src="public/BPS.png"
+            src="src/assets/BPS.png"
             spinner-color="primary"
             style="height: 8vh; max-width: 200px"
             fit="contain"
