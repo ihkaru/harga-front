@@ -3,16 +3,17 @@
   <div class="q-pa-none full-width full-height">
     <q-card class="my-card shadow-0 q-pa-none full-height column">
       <q-card-section class="q-pa-none col">
-        <div class="row justify-between">
-          <div class="text-h6 q-mb-xs">{{ selectedCommodity }}</div>
+        <div class="text-right q-pb-md">
           <q-btn
             @click="SyncSerice.updateBackend"
             :loading="loadingUpdate"
             round
             color="secondary"
             icon="refresh"
+            class="text-right"
           ></q-btn>
         </div>
+        <div class="text-h6 q-mb-xs">{{ selectedCommodity }}</div>
         <div class="text-h5 text-weight-bold">
           Rp {{ displayPrice.toLocaleString() }}
         </div>
@@ -272,7 +273,7 @@ const formatDate = (dateString) => {
 
 const priceChangeClass = computed(() => {
   const change = displayPrice.value - displayInitialPrice.value;
-  return change >= 0 ? "text-positive" : "text-negative";
+  return change <= 0 ? "text-positive" : "text-negative";
 });
 
 const priceChangePrefix = computed(() => {
@@ -323,7 +324,7 @@ const filteredData = computed(() => {
 });
 
 const updateChartColor = (currentPrice, initialPrice) => {
-  lineColor.value = currentPrice >= initialPrice ? "#22C55E" : "#EF4444";
+  lineColor.value = currentPrice <= initialPrice ? "#22C55E" : "#EF4444";
 };
 
 const calculatePriceChange = (currentPrice, initialPrice) => {

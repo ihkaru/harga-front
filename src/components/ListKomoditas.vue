@@ -37,7 +37,7 @@
           <Sparkline
             :data="commodity.sparklineData[selectedPeriod]"
             :color="
-              getPriceChange(commodity).change >= 0 ? '#21ba45' : '#c10015'
+              getPriceChange(commodity).change <= 0 ? '#21ba45' : '#c10015'
             "
             :width="100"
             :height="30"
@@ -51,7 +51,7 @@
             </div>
             <div
               :class="
-                getPriceChange(commodity).change >= 0
+                getPriceChange(commodity).change <= 0
                   ? 'text-positive'
                   : 'text-negative'
               "
