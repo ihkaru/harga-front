@@ -7,15 +7,24 @@
             <span class="word">&nbsp;Sistem</span>
           </span>
           <span class="word-wrapper">
-            <span class="word">&nbsp;Monitoring</span>
+            <span class="word">&nbsp;Informasi</span>
           </span>
           <span class="word-wrapper">
-            <span class="word">&nbsp; Harga</span>
+            <span class="word">&nbsp; Data</span>
+          </span>
+          <span class="word-wrapper">
+            <span class="word">&nbsp; Perdagangan</span>
+          </span>
+          <span class="word-wrapper">
+            <span class="word">&nbsp; Kabupaten</span>
+          </span>
+          <span class="word-wrapper">
+            <span class="word">&nbsp; Mempawah</span>
           </span>
         </div>
         <h1>
           <span class="word-wrapper">
-            <span class="word">&nbsp;Memantau</span>
+            <span class="word">&nbsp;Pemantauan</span>
           </span>
           <span class="word-wrapper">
             <span class="word">&nbsp;Harga,</span>
