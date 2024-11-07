@@ -17,7 +17,13 @@
       >
         <q-item-section avatar>
           <q-avatar>
-            <q-icon :name="commodity.icon" size="md" color="positive" />
+            <q-icon
+              :name="commodity.icon"
+              size="md"
+              :color="
+                getPriceChange(commodity).change <= 0 ? 'positive' : 'negative'
+              "
+            />
           </q-avatar>
         </q-item-section>
 
@@ -34,7 +40,7 @@
         </q-item-section>
 
         <q-item-section class="col-4">
-          <Sparkline
+          <SparkLine
             :data="commodity.sparklineData[selectedPeriod]"
             :color="
               getPriceChange(commodity).change <= 0 ? '#21ba45' : '#c10015'
@@ -104,7 +110,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
-import Sparkline from "./Sparkline.vue";
+import SparkLine from "./SparkLine.vue";
 import { useUtils } from "src/utils/utils";
 import { useSelectionStore } from "src/stores/selectionStore";
 const Utils = useUtils();

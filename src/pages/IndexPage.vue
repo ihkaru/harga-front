@@ -39,9 +39,6 @@
         </h1>
         <p>
           <span class="word-wrapper">
-            <span class="word">&nbsp;Sistem</span>
-          </span>
-          <span class="word-wrapper">
             <span class="word">&nbsp;Dashboard</span>
           </span>
           <span class="word-wrapper">
@@ -80,36 +77,33 @@
             >Statistik Inflasi</a
           > -->
         </div>
+        <div
+          class="justify-center q-gutter-xs"
+          style="margin-top: 50px; display: flex"
+        >
+          <!-- Disperindagkop Logo -->
+          <q-img
+            src="/public/MPW.png"
+            spinner-color="primary"
+            style="height: 8vh; max-width: 200px"
+            fit="contain"
+          />
+          <!-- BPS Logo -->
+          <q-img
+            src="public/BPS.png"
+            spinner-color="primary"
+            style="height: 8vh; max-width: 200px"
+            fit="contain"
+          />
+        </div>
+        <p style="margin-top: 1vh">
+          Kolaborasi <br />
+          Disperindagnaker dan BPS <br />
+          Kabupaten Mempawah
+        </p>
       </div>
     </div>
 
-    <!-- <div class="stats-container">
-      <div class="stat-card">
-        <h5>Tingkat Inflasi</h5>
-        <div class="value">4.2%</div>
-        <p>YoY September 2024</p>
-      </div>
-      <div class="stat-card">
-        <h5>Inflasi Bulanan</h5>
-        <div class="value">0.3%</div>
-        <p>MoM September 2024</p>
-      </div>
-      <div class="stat-card">
-        <h5>Komoditas Terpengaruh</h5>
-        <div class="value">12</div>
-        <p>Komoditas</p>
-      </div>
-    </div> -->
-    <div class="flex row-xs q-pa-xl-ls q-mx-xl-ls q-mt-lg-ls shadow-10">
-      <!-- <div>
-        <canvas id="inflationTrend"></canvas>
-      </div>
-      <div>
-        <canvas id="commodityPrices"></canvas>
-      </div> -->
-      <div class="col-8"></div>
-      <div class="col-4"></div>
-    </div>
     <div style="margin-bottom: 30vh">
       <div class="row evenly">
         <!-- Grafik kiri -->
@@ -132,24 +126,6 @@
         </div>
       </div>
     </div>
-    <!-- <q-layout view="hHh lpR fFf">
-      <q-drawer show-if-above v-model="rightDrawerOpen" side="right" bordered>
-      </q-drawer>
-
-      <q-page-container>
-      </q-page-container>
-    </q-layout> -->
-    <div class="charts-container hidden">
-      <div class="chart-card" id="komoditas"></div>
-      <div class="chart-card"></div>
-      <div class="chart-card" id="inflasi">
-        <canvas id="inflationTrend"></canvas>
-      </div>
-      <div class="chart-card h">
-        <canvas id="commodityPrices"></canvas>
-      </div>
-    </div>
-    <saham-chart class="hidden" />
   </q-page>
 </template>
 
@@ -172,6 +148,7 @@ import {
 import { watch, watchEffect } from "vue";
 import ListKomoditas from "src/components/ListKomoditas.vue";
 import MainChart from "src/components/MainChart.vue";
+import FooterHome from "src/components/FooterHome.vue";
 import SahamChart from "src/components/SahamChart.vue";
 import { useSyncService } from "src/services/SyncKomoditas";
 import { useSelectionStore } from "src/stores/selectionStore";
@@ -237,124 +214,66 @@ onMounted(() => {
   const months = ["Apr", "Mei", "Jun", "Jul", "Agu", "Sep"];
 
   // Grafik trend inflasi
-  new Chart(document.getElementById("inflationTrend"), {
-    type: "line",
-    data: {
-      labels: months,
-      datasets: [
-        {
-          label: "Tingkat Inflasi (%)",
-          data: [3.8, 3.9, 4.0, 4.1, 4.0, 4.2],
-          borderColor: "#1a237e",
-          tension: 0.4,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        title: {
-          display: true,
-          text: "Trend Inflasi 6 Bulan Terakhir",
-        },
-      },
-    },
-  });
-
-  const ctx = document.getElementById("inflationTrend");
-  if (ctx) {
-    new Chart(document.getElementById("commodityPrices"), {
-      type: "bar",
-      data: {
-        labels: ["Beras", "Telur", "Minyak Goreng", "Cabai", "Daging Ayam"],
-        datasets: [
-          {
-            label: "Perubahan Harga (%)",
-            data: [5.2, 3.8, -2.1, 8.4, 4.2],
-            backgroundColor: [
-              "#1a237e",
-              "#283593",
-              "#3949ab",
-              "#3f51b5",
-              "#5c6bc0",
-            ],
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          title: {
-            display: true,
-            text: "Perubahan Harga Komoditas Utama",
-          },
-        },
-      },
-    });
-    // Animasi per kata untuk hero badge
-    anime
-      .timeline({
-        easing: "easeOutExpo",
-      })
-      .add({
-        targets: ".hero-badge .word",
+  anime
+    .timeline({
+      easing: "easeOutExpo",
+    })
+    .add({
+      targets: ".hero-badge .word",
+      translateY: [100, 0],
+      opacity: [0, 1],
+      duration: 800,
+      delay: anime.stagger(100),
+    })
+    .add(
+      {
+        targets: "h1 .word",
         translateY: [100, 0],
         opacity: [0, 1],
         duration: 800,
         delay: anime.stagger(100),
-      })
-      .add(
-        {
-          targets: "h1 .word",
-          translateY: [100, 0],
-          opacity: [0, 1],
-          duration: 800,
-          delay: anime.stagger(100),
-        },
-        "-=400"
-      )
-      .add(
-        {
-          targets: "p .word",
-          translateY: [50, 0],
-          opacity: [0, 1],
-          duration: 800,
-          delay: anime.stagger(50),
-        },
-        "-=400"
-      )
-      .add(
-        {
-          targets: ".button-container",
-          translateY: [20, 0],
-          opacity: [0, 1],
-          duration: 600,
-        },
-        "-=400"
-      );
+      },
+      "-=400"
+    )
+    .add(
+      {
+        targets: "p .word",
+        translateY: [50, 0],
+        opacity: [0, 1],
+        duration: 800,
+        delay: anime.stagger(50),
+      },
+      "-=400"
+    )
+    .add(
+      {
+        targets: ".button-container",
+        translateY: [20, 0],
+        opacity: [0, 1],
+        duration: 600,
+      },
+      "-=400"
+    );
 
-    // Animasi untuk stat cards
-    anime({
-      targets: ".stat-card",
-      opacity: [0, 1],
-      translateY: [20, 0],
-      duration: 800,
-      delay: anime.stagger(100),
-      easing: "easeOutExpo",
-    });
+  // Animasi untuk stat cards
+  anime({
+    targets: ".stat-card",
+    opacity: [0, 1],
+    translateY: [20, 0],
+    duration: 800,
+    delay: anime.stagger(100),
+    easing: "easeOutExpo",
+  });
 
-    // Animasi untuk chart cards
-    anime({
-      targets: ".chart-card",
-      opacity: [0, 1],
-      translateY: [20, 0],
-      duration: 800,
-      delay: anime.stagger(100),
-      easing: "easeOutExpo",
-    });
-  }
+  // Animasi untuk chart cards
+  anime({
+    targets: ".chart-card",
+    opacity: [0, 1],
+    translateY: [20, 0],
+    duration: 800,
+    delay: anime.stagger(100),
+    easing: "easeOutExpo",
+  });
 });
 </script>
 
@@ -362,6 +281,7 @@ onMounted(() => {
 html {
   /* scroll-behavior: smooth; */
 }
+
 .glow-on-hover {
   width: 220px;
   height: 50px;

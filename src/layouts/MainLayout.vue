@@ -1,13 +1,16 @@
 <template>
-  <q-layout>
+  <q-layout view="hHh lpR fFf">
     <q-page-container>
       <router-view />
+      <footer-home class="q-mt-xl" />
     </q-page-container>
   </q-layout>
 </template>
 
 <script setup>
+import FooterHome from "src/components/FooterHome.vue";
 import { ref } from "vue";
+// FooterHome;
 defineOptions({
   name: "MainLayout",
 });
@@ -56,10 +59,4 @@ const linksList = [
     link: "https://awesome.quasar.dev",
   },
 ];
-
-const leftDrawerOpen = ref(false);
-
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value;
-}
 </script>

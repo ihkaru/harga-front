@@ -112,7 +112,7 @@ export function useUtils() {
       "Sawi Hijau,1 kg": { symbol: "SH", icon: "fas fa-leaf" },
       "Kangkung,1 kg": { symbol: "KANGKUNG", icon: "fas fa-leaf" },
       "Ketimun Sedang,1 kg": { symbol: "KTS", icon: "fas fa-leaf" },
-      "Kacang Panjang,1 kg": { symbol: "KP", icon: "fas fa-pepper-hot" },
+      "Kacang Panjang,1 kg": { symbol: "KP", icon: "fas fa-leaf" },
       "Ketela Pohon,1 kg": { symbol: "KTP", icon: "fas fa-leaf" },
       "Ayam Kampung Utuh,1 ekor": {
         symbol: "AKU",
