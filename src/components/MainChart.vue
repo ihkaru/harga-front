@@ -484,6 +484,7 @@ const chartData = computed(() => ({
     },
   ],
 }));
+
 onMounted(() => {
   handleChartLeave();
 });
