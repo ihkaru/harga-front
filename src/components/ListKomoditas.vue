@@ -69,7 +69,6 @@
       </q-item>
     </q-list>
   </div>
-
   <!-- Floating Speed Dial Button -->
   <q-page-sticky position="bottom-right" :offset="[20, 20]">
     <q-btn
