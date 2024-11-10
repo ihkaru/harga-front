@@ -111,7 +111,7 @@
           <div class="bg-white rounded-borders q-pa-lg" id="komoditas">
             <!-- Tempatkan grafik kiri di sini -->
             <main-chart
-              :key="selectedData?.nama"
+              :key="selectedData?.nama + mainChartKey"
               :data="selectedData"
             ></main-chart>
           </div>
@@ -121,7 +121,11 @@
         <div class="col-md-4 col-xs-12">
           <div class="bg-white rounded-borders full-width">
             <!-- Tempatkan grafik kanan di sini -->
-            <list-komoditas v-if="komoditas" :data="komoditas"></list-komoditas>
+            <list-komoditas
+              v-if="komoditas"
+              :data="komoditasStore.get()"
+              :key="listKomoditasKey"
+            ></list-komoditas>
           </div>
         </div>
       </div>
@@ -178,6 +182,15 @@ const Utils = useUtils();
 const SyncService = useSyncService();
 const selectionStore = useSelectionStore();
 const Constants = Utils.Constants;
+const komoditasStore = useKomoditasStore();
+const mainChartKey = ref("main-chart");
+const updateMainchart = () => {
+  mainChartKey.value += "1";
+};
+const listKomoditasKey = ref("list-komoditas");
+const updateListKomoditas = () => {
+  listKomoditasKey.value += "1";
+};
 watch(
   () => selectionStore.getSelectionByKey(Constants.SELECTED_KOMODITAS),
   (newVal, oldVal) => {
@@ -185,13 +198,21 @@ watch(
     // console.log("newval", selectedData.value);
   }
 );
+watch(
+  () => komoditasStore.get(),
+  (newVal, oldVal) => {
+    if (newVal && selectedData.value.nama != "-") {
+      updateMainchart();
+      updateListKomoditas();
+    }
+  }
+);
 onMounted(async () => {
   // console.log(Utils.priceData.value);
   await SyncService.fetchKomoditas();
   Utils.generatePriceData("2024-01-01", "2024-11-04", 2);
-  console.log("selectedData", SyncService.komoditas.value[0]);
-  selectedData.value = SyncService.komoditas.value[0];
-  komoditas.value = SyncService.komoditas.value;
+  komoditas.value = komoditasStore.get();
+  selectedData.value = komoditas.value[0];
   console.log("komoditas.value", komoditas.value);
   // selectedData.value = Utils.priceData.value;
   console.log("priceData", Utils.priceData.value);
@@ -208,6 +229,7 @@ Chart.register(
 );
 import { onBeforeMount, onMounted, ref } from "vue";
 import { onBeforeRouteUpdate } from "vue-router";
+import { useKomoditasStore } from "src/stores/komoditasStore";
 
 onMounted(() => {
   // Data dummy untuk grafik

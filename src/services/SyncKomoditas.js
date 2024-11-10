@@ -1,4 +1,5 @@
 import { api } from "src/boot/axios";
+import { useKomoditasStore } from "src/stores/komoditasStore";
 import { useUtils } from "src/utils/utils";
 import { ref } from "vue";
 
@@ -7,13 +8,18 @@ export function useSyncService() {
   const loading = ref(false);
   const error = ref(null);
   const Utils = useUtils();
+  const lastUpdate = ref(null);
+  const komoditasStore = useKomoditasStore();
 
   const loadingUpdate = ref(false);
   const errodUpdate = ref(null);
+  const dataUpdate = ref({});
   const updateBackend = async () => {
     try {
       loadingUpdate.value = true;
-      await api.get("/update_komoditas");
+      await api.get("/update_komoditas").then((res) => {
+        dataUpdate.value = res.data;
+      });
       await fetchKomoditas();
     } catch (error) {
       console.log("error updating", error.message);
@@ -27,9 +33,10 @@ export function useSyncService() {
     error.value = null;
     try {
       await api.get(apiUrl).then((res) => {
-        komoditas.value = Utils.transformDataArray(res.data);
+        komoditasStore.set(Utils.transformDataArray(res.data));
+        komoditasStore.setLastUpdate(Utils.getCurrentDateTime());
       });
-      console.log("komo", komoditas.value);
+      console.log("komo", komoditasStore.getLastUpdate);
     } catch (err) {
       error.value = err.message;
       console.log("err:", err.message);
@@ -39,12 +46,13 @@ export function useSyncService() {
     }
   };
   return {
-    komoditas,
     fetchKomoditas,
     loading,
     error,
     updateBackend,
     errodUpdate,
     loadingUpdate,
+    dataUpdate,
+    lastUpdate,
   };
 }

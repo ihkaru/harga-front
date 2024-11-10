@@ -3,25 +3,36 @@
   <div class="q-pa-none full-width full-height">
     <q-card class="my-card shadow-0 q-pa-none full-height column">
       <q-card-section class="q-pa-none col">
-        <div class="text-right q-pb-md">
+        <div class="q-pb-md text-right">
+          <span class="q-pr-md" v-if="dataUpdate.last_date"
+            >Terakhir update:
+            {{ dataUpdate?.last_date + " - " + dataUpdate?.last_try ?? "" }}
+          </span>
           <q-btn
-            @click="SyncSerice.updateBackend"
+            @click="handleSync"
             :loading="loadingUpdate"
             round
             color="secondary"
             icon="refresh"
             class="text-right"
-          ></q-btn>
+          >
+            <template v-slot:loading>
+              <q-spinner-grid color="white" />
+            </template>
+          </q-btn>
         </div>
         <div class="text-h6 q-mb-xs">{{ selectedCommodity }}</div>
         <div class="text-h5 text-weight-bold">
-          Rp {{ displayPrice.toLocaleString() }}
+          Rp
+          <NumberFlow :value="displayPrice" :locales="'id-ID'" />
         </div>
         <div :class="[priceChangeClass, 'text-body2']">
           {{ priceChangePrefix }}Rp
-          {{ displayPriceChange.toLocaleString() }} ({{
-            displayPriceChangePercentage
-          }}%)
+          <NumberFlow :value="displayPriceChange" :locales="'id-ID'" />
+          (<NumberFlow
+            :value="displayPriceChangePercentage"
+            :locales="'id-ID'"
+          />%)
         </div>
         <div class="text-grey text-caption">
           Harga {{ periodLabels[selectedPeriod] }} ({{
@@ -100,11 +111,24 @@ import {
 import { useUtils } from "src/utils/utils";
 import { useSelectionStore } from "src/stores/selectionStore";
 import { useSyncService } from "src/services/SyncKomoditas";
+import NumberFlow from "@number-flow/vue";
+const animated = ref(true);
+const showCaret = ref(true);
+
 const SyncSerice = useSyncService();
 const Utils = useUtils();
 const loadingUpdate = ref(false);
+const dataUpdate = ref({});
+const lastUpdate = ref(Utils.getCurrentDateTime());
 const selectionStore = useSelectionStore();
 const Constants = Utils.Constants;
+
+const handleSync = async () => {
+  loadingUpdate.value = true;
+  await SyncSerice.updateBackend();
+  dataUpdate.value = SyncSerice.dataUpdate.value;
+  loadingUpdate.value = SyncSerice.loadingUpdate.value;
+};
 // Plugin yang dimodifikasi untuk menangani label di ujung grafik
 
 const minMaxLabelsPlugin = {
@@ -474,7 +498,7 @@ const chartData = computed(() => ({
       label: selectedCommodity.value,
       borderColor: lineColor.value,
       data: filteredData.value.map((item) => item.price),
-      tension: 0.2,
+      tension: 0.1,
       borderWidth: 3,
       pointRadius: 0,
       pointHoverRadius: 4,
@@ -499,6 +523,7 @@ watch(
     );
   }
 );
+
 const changePeriod = (period) => {
   selectedPeriod.value = period;
   handleChartLeave();

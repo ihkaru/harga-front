@@ -36,6 +36,22 @@ export function useUtils() {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return diffDays <= days;
   }
+  function getCurrentDateTime() {
+    const now = new Date();
+
+    // Mendapatkan tahun, bulan, dan hari
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0"); // Bulan dimulai dari 0
+    const day = String(now.getDate()).padStart(2, "0");
+
+    // Mendapatkan jam, menit, dan detik
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const seconds = String(now.getSeconds()).padStart(2, "0");
+
+    // Menggabungkan semua dalam format yang diinginkan
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  }
   function transformDataArray(dataArray) {
     const today = new Date();
 
@@ -131,7 +147,7 @@ export function useUtils() {
         )}-${item.tanggal_angka.padStart(2, "0")}`,
         price: parseFloat(item.harga),
       }));
-      console.log(prices);
+      // console.log(prices);
 
       // Get the current price as the last price in the list
       const currentPrice = prices[prices.length - 1]?.price || 0;
@@ -186,11 +202,20 @@ export function useUtils() {
     SELECTED_KOMODITAS: "SELECTED_KOMODITAS",
     SELECTED_PERIOD_CHART: "SELECTED_PERIOD_CHART",
   };
+  function getObjectById(array, id) {
+    return array.find((item) => item.id === id);
+  }
+  function getObjectByCol(array, col, value) {
+    return array.find((item) => item[col] === value);
+  }
   return {
     priceData,
     generatePriceData,
     transformDataArray,
     formatCurrency,
     Constants,
+    getCurrentDateTime,
+    getObjectById,
+    getObjectByCol,
   };
 }

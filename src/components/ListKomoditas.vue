@@ -74,9 +74,10 @@
   <q-page-sticky position="bottom-right" :offset="[20, 20]">
     <q-btn
       fab
-      color="primary"
       :label="periodLabels[selectedPeriod]"
       @click="showPeriodDialog = true"
+      style="background-color: #120a33; color: white"
+      elevated
     />
   </q-page-sticky>
 
@@ -84,7 +85,7 @@
   <q-dialog v-model="showPeriodDialog" position="bottom">
     <q-card style="width: 100%; max-width: 400px">
       <q-card-section class="row items-center no-wrap">
-        <div class="text-h6">Select Period</div>
+        <div class="text-h6">Pilih Periode</div>
       </q-card-section>
 
       <q-card-section class="q-pt-none">
@@ -143,7 +144,14 @@ const getPriceChange = (commodity) => {
   const data = commodity.sparklineData[selectedPeriod.value];
   const startPrice = data[0];
   const endPrice = data[data.length - 1];
-  const change = (((endPrice - startPrice) / startPrice) * 100).toFixed(2);
+
+  let change;
+  if (startPrice === 0) {
+    change = 0;
+  } else {
+    change = (((endPrice - startPrice) / startPrice) * 100).toFixed(2);
+  }
+
   return {
     change,
     startPrice,
