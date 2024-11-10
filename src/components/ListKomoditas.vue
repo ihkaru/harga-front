@@ -109,7 +109,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, onBeforeMount, watch } from "vue";
 import SparkLine from "./SparkLine.vue";
 import { useUtils } from "src/utils/utils";
 import { useSelectionStore } from "src/stores/selectionStore";
@@ -132,6 +132,13 @@ const periodLabels = {
   "1Y": "1 tahun",
   ALL: "All Time",
 };
+
+watch(
+  () => props.data,
+  (newVal, oldVal) => {
+    if (props.data?.length > 0) commodities.value = props.data.data;
+  }
+);
 
 const selectPeriod = (period) => {
   selectedPeriod.value = period;
@@ -160,7 +167,7 @@ const getPriceChange = (commodity) => {
 
 const Constants = useUtils().Constants;
 // Commodities data
-const commodities = ref([]);
+const commodities = ref(props.data);
 const selectionStore = useSelectionStore();
 const selectCommodity = (commodity) => {
   selectionStore.setSelection(Constants.SELECTED_KOMODITAS, commodity);
@@ -169,7 +176,7 @@ const selectCommodity = (commodity) => {
     selectionStore.getSelectionByKey(Constants.SELECTED_KOMODITAS)
   );
 };
-onMounted(() => {
+onBeforeMount(() => {
   commodities.value = props.data;
   console.log("commodities", commodities.value);
 });

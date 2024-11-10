@@ -119,10 +119,9 @@
 
         <!-- Grafik kanan -->
         <div class="col-md-4 col-xs-12">
-          <div class="bg-white rounded-borders full-width">
+          <div class="bg-white rounded-borders full-width" v-if="isDataReady">
             <!-- Tempatkan grafik kanan di sini -->
             <list-komoditas
-              v-if="komoditas"
               :data="komoditasStore.get()"
               :key="listKomoditasKey"
             ></list-komoditas>
@@ -149,7 +148,7 @@ import {
   BarController,
   BarElement,
 } from "chart.js";
-import { watch, watchEffect } from "vue";
+import { computed, toRaw, watch, watchEffect } from "vue";
 import ListKomoditas from "src/components/ListKomoditas.vue";
 import MainChart from "src/components/MainChart.vue";
 import FooterHome from "src/components/FooterHome.vue";
@@ -184,6 +183,9 @@ const selectionStore = useSelectionStore();
 const Constants = Utils.Constants;
 const komoditasStore = useKomoditasStore();
 const mainChartKey = ref("main-chart");
+const isDataReady = computed(() => {
+  return komoditasStore.get()?.length > 2;
+});
 const updateMainchart = () => {
   mainChartKey.value += "1";
 };
@@ -202,20 +204,27 @@ watch(
   () => komoditasStore.get(),
   (newVal, oldVal) => {
     if (newVal && selectedData.value.nama != "-") {
+      console.log("befpre", selectedData.value);
+      selectedData.value = Utils.getObjectByCol(
+        newVal,
+        "nama",
+        selectedData.value.nama
+      );
+      console.log("newVal", selectedData.value);
       updateMainchart();
       updateListKomoditas();
     }
   }
 );
 onMounted(async () => {
-  // console.log(Utils.priceData.value);
+  console.log("On Mounted IndexPage---------");
   await SyncService.fetchKomoditas();
-  Utils.generatePriceData("2024-01-01", "2024-11-04", 2);
   komoditas.value = komoditasStore.get();
   selectedData.value = komoditas.value[0];
   console.log("komoditas.value", komoditas.value);
   // selectedData.value = Utils.priceData.value;
   console.log("priceData", Utils.priceData.value);
+  console.log("On Mounted IndexPage--------- End");
 });
 Chart.register(
   LineController,

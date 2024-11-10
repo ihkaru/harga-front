@@ -523,6 +523,12 @@ watch(
     );
   }
 );
+watch(
+  () => props.data,
+  (newVal, oldVal) => {
+    if (props.data?.length > 0) commodityData.value = props.data.data;
+  }
+);
 
 const changePeriod = (period) => {
   selectedPeriod.value = period;
