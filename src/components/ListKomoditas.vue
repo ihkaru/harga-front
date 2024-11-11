@@ -84,6 +84,24 @@
   <q-dialog v-model="showPeriodDialog" position="bottom">
     <q-card style="width: 100%; max-width: 400px">
       <q-card-section class="row items-center no-wrap">
+        <div class="text-h6">Pilih Wilayah</div>
+      </q-card-section>
+      <q-card-section class="q-pt-none">
+        <div class="row q-col-gutter-sm">
+          <div v-for="(label, key) in wilayahLabels" :key="key" class="col-4">
+            <q-btn
+              :label="label"
+              class="full-width"
+              :color="selectedPeriod === period ? 'primary' : 'grey-4'"
+              :text-color="selectedPeriod === period ? 'white' : 'black'"
+              @click="() => {}"
+              no-caps
+            />
+          </div>
+        </div>
+      </q-card-section>
+
+      <q-card-section class="row items-center no-wrap">
         <div class="text-h6">Pilih Periode</div>
       </q-card-section>
 
@@ -131,6 +149,12 @@ const periodLabels = {
   YTD: "Year to Date",
   "1Y": "1 tahun",
   ALL: "All Time",
+};
+const wilayahLabels = {
+  "090": "Sungai Pinyuh",
+  "091": "Anjongan",
+  100: "Mempawah Hilir",
+  110: "Sungai Kunyit",
 };
 
 watch(

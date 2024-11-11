@@ -21,6 +21,7 @@
             </template>
           </q-btn>
         </div>
+        <div>Mempawah Hilir</div>
         <div class="text-h6 q-mb-xs">{{ selectedCommodity }}</div>
         <div class="text-h5 text-weight-bold">
           Rp
@@ -42,7 +43,7 @@
         </div>
       </q-card-section>
 
-      <q-card-section class="chart-container col-12">
+      <q-card-section class="chart-container">
         <div
           v-show="showTooltip"
           class="date-tooltip"
@@ -58,10 +59,9 @@
         ></div>
 
         <Line
-          ref="chartRef"
+          :ref="chartRef"
           :data="chartData"
           :options="chartOptions"
-          class="my-chart"
           @mouseout="handleChartLeave"
           @touchend="handleChartLeave"
         />
@@ -78,6 +78,7 @@
             @click="changePeriod(period.value)"
             flat
             round
+            outline
           />
         </div>
       </q-card-section>

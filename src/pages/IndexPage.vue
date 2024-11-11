@@ -97,9 +97,7 @@
           />
         </div>
         <p style="margin-top: 1vh">
-          Kolaborasi <br />
-          Disperindagnaker dan BPS <br />
-          Kabupaten Mempawah
+          KOLABORASI PENGENDALIAN INFLASI KABUPATEN MEMPAWAH
         </p>
       </div>
     </div>
