@@ -34,7 +34,7 @@
             <span class="word" style="color: #b19cd9">Mengendalikan</span>
           </span>
           <span class="word-wrapper">
-            <span class="word" style="color: #b19cd9">&nbsp;Ekonomi</span>
+            <span class="word" style="color: #b19cd9">&nbsp;Inflasi</span>
           </span>
         </h1>
         <p>
