@@ -24,7 +24,6 @@
     </div>
   </div>
 </template>
-
 <script setup>
 import CommodityCard from "components/CommodityCard.vue";
 import { computed, defineProps, onBeforeUnmount, onMounted, ref } from "vue";
