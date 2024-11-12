@@ -31,7 +31,7 @@
           </span>
           <br />
           <span class="word-wrapper">
-            <span class="word" style="color: #b19cd9">Menstabilkan</span>
+            <span class="word" style="color: #b19cd9">Mengendalikan</span>
           </span>
           <span class="word-wrapper">
             <span class="word" style="color: #b19cd9">&nbsp;Ekonomi</span>
@@ -97,7 +97,9 @@
           />
         </div>
         <p style="margin-top: 1vh">
-          KOLABORASI PENGENDALIAN INFLASI KABUPATEN MEMPAWAH
+          KOLABORASI PENGENDALIAN INFLASI DAERAH
+          <br />
+          (Kopi Dara)
         </p>
       </div>
     </div>

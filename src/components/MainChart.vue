@@ -36,6 +36,9 @@
           />%)
         </div>
         <div class="text-grey text-caption">
+          Harga Hari Ini: Rp {{ currentPrice?.toLocaleString() ?? "" }}
+        </div>
+        <div class="text-grey text-caption">
           Harga {{ periodLabels[selectedPeriod] }} ({{
             displayInitialPriceDate ?? ""
           }}): Rp
@@ -444,12 +447,22 @@ const chartOptions = {
   },
   scales: {
     y: {
-      display: false,
+      display: true,
       // Menambahkan padding pada skala y untuk memberikan ruang bagi label
       beginAtZero: false,
+      title: {
+        display: true,
+        text: "Harga",
+      },
+      grid: {
+        display: false,
+      },
       padding: {
         top: 20,
         bottom: 20,
+      },
+      ticks: {
+        display: false,
       },
     },
     x: {
@@ -491,7 +504,15 @@ const chartOptions = {
   },
   events: ["mousemove", "mouseout", "touchstart", "touchmove", "touchend"],
 };
-
+const currentPrice = computed(() => {
+  let currentData = {};
+  if (filteredData.value && filteredData.value.length > 0) {
+    console.log("current price", filteredData.value.length);
+    currentData = filteredData.value[filteredData.value.length - 1];
+    console.log("current price", currentData);
+  }
+  return currentData?.price ?? 0;
+});
 const chartData = computed(() => ({
   labels: filteredData.value.map((item) => item.date),
   datasets: [
@@ -500,7 +521,7 @@ const chartData = computed(() => ({
       borderColor: lineColor.value,
       data: filteredData.value.map((item) => item.price),
       tension: 0.1,
-      borderWidth: 3,
+      borderWidth: 5,
       pointRadius: 0,
       pointHoverRadius: 4,
       pointHoverBackgroundColor: lineColor.value,

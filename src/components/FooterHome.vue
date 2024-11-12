@@ -17,7 +17,7 @@
             </div>
             <div class="text-body2 q-mt-xs">
               <q-icon name="mail" size="xs" class="q-mr-sm" />
-              E-Mail: disperindagkop@mempawahkab.go.id
+              E-Mail: perindagnakerdinas@gmail.com
             </div>
           </div>
         </div>
@@ -26,8 +26,7 @@
         <div class="col-12 col-md-8">
           <div class="text-h6 text-dark">Alamat</div>
           <div class="text-body2 q-mt-sm">
-            Dinas Perindustrian, Perdagangan, Koperasi dan UKM Kabupaten
-            Mempawah
+            Dinas Perdagangan, Perindustrian dan Tenaga Kerja Kabupaten Mempawah
             <br />
             Jalan Raden Kusno, Kelurahan Tengah, Kecamatan Mempawah Hilir
             <br />
@@ -63,7 +62,8 @@
       </div>
       <div class="row justify-center q-mt-sm">
         <div class="text-center text-body2 text-grey-8">
-          Kolaborasi Dinas Perindustrian, Perdagangan, Koperasi dan UKM
+          Kolaborasi Dinas Perdagangan, Perindustrian dan Tenaga Kerja
+          Kabupaten Mempawah
           <br />
           dengan BPS Kabupaten Mempawah
         </div>
