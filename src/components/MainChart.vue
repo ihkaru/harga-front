@@ -1,6 +1,6 @@
 <template>
   <!-- Template tetap sama seperti sebelumnya -->
-  <div class="q-pa-none full-width full-height">
+  <div class="q-pa-none">
     <q-card class="my-card shadow-0 q-pa-none full-height column">
       <q-card-section class="q-pa-none col">
         <div class="q-pb-md text-right">
@@ -21,7 +21,7 @@
             </template>
           </q-btn>
         </div>
-        <div>Mempawah Hilir</div>
+        <div>Pasar Sebukit Rama, Mempawah Hilir</div>
         <div class="text-h6 q-mb-xs">{{ selectedCommodity }}</div>
         <div class="text-h5 text-weight-bold">
           Rp

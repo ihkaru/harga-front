@@ -4,22 +4,22 @@
       <div class="hero-content">
         <div class="hero-badge">
           <span class="word-wrapper">
-            <span class="word">&nbsp;Sistem</span>
+            <span class="word">&nbsp;Kolaborasi</span>
           </span>
           <span class="word-wrapper">
-            <span class="word">&nbsp;Informasi</span>
+            <span class="word">&nbsp;Pengendalian</span>
           </span>
           <span class="word-wrapper">
-            <span class="word">&nbsp; Data</span>
+            <span class="word">&nbsp;Inflasi</span>
           </span>
           <span class="word-wrapper">
-            <span class="word">&nbsp; Perdagangan</span>
+            <span class="word">&nbsp;Daerah</span>
           </span>
           <span class="word-wrapper">
-            <span class="word">&nbsp; Kabupaten</span>
+            <span class="word">&nbsp;Kabupaten</span>
           </span>
           <span class="word-wrapper">
-            <span class="word">&nbsp; Mempawah</span>
+            <span class="word">&nbsp;Mempawah</span>
           </span>
         </div>
         <h1>
@@ -37,38 +37,8 @@
             <span class="word" style="color: #b19cd9">&nbsp;Inflasi</span>
           </span>
         </h1>
-        <p>
-          <span class="word-wrapper">
-            <span class="word">&nbsp;Dashboard</span>
-          </span>
-          <span class="word-wrapper">
-            <span class="word">&nbsp;Terbuka</span>
-          </span>
-          <span class="word-wrapper">
-            <span class="word">&nbsp;untuk</span>
-          </span>
-          <span class="word-wrapper">
-            <span class="word">&nbsp;Pemantauan</span>
-          </span>
-          <span class="word-wrapper">
-            <span class="word">&nbsp;dan</span>
-          </span>
-          <span class="word-wrapper">
-            <span class="word">&nbsp;Pengendalian</span>
-          </span>
-          <span class="word-wrapper">
-            <span class="word">&nbsp;Harga</span>
-          </span>
-          <span class="word-wrapper">
-            <span class="word">&nbsp;di</span>
-          </span>
-          <span class="word-wrapper">
-            <span class="word">&nbsp;Kabupaten</span>
-          </span>
-          <span class="word-wrapper">
-            <span class="word">&nbsp;Mempawah</span>
-          </span>
-        </p>
+        <br />
+        <br />
         <div class="button-container">
           <a href="#komoditas" class="hero-button glow-on-hover"
             >Data Komoditas</a
@@ -78,7 +48,7 @@
           > -->
         </div>
         <div
-          class="justify-center q-gutter-xs"
+          class="justify-center q-gutter-xs q-pb-sm"
           style="margin-top: 50px; display: flex"
         >
           <!-- Disperindagkop Logo -->
@@ -96,14 +66,21 @@
             fit="contain"
           />
         </div>
-        <p style="margin-top: 1vh">
-          KOLABORASI PENGENDALIAN INFLASI DAERAH
+        <p style="margin-top: 10px">
+          KOLABORASI PENGENDALIAN INFLASI DAERAH <br />
+          KABUPATEN MEMPAWAH
           <br />
-          (Kopi Dara)
+          (KOPI DEWA)
         </p>
       </div>
     </div>
-
+    <div class="q-py-lg" style="width: 100vw; height: 35vh">
+      <commodity-display
+        class="commodity-display-container"
+        :data="komoditasStore.get()"
+      />
+    </div>
+    <!-- <div style="margin-bottom: 100vh"></div> -->
     <div style="margin-bottom: 30vh">
       <div class="row evenly">
         <!-- Grafik kiri -->
@@ -136,7 +113,7 @@
 defineOptions({
   name: "IndexPage",
 });
-import anime from "animejs";
+import anime from "animejs/lib/anime.es.js";
 import {
   Chart,
   LineController,
@@ -156,6 +133,15 @@ import SahamChart from "src/components/SahamChart.vue";
 import { useSyncService } from "src/services/SyncKomoditas";
 import { useSelectionStore } from "src/stores/selectionStore";
 import { useUtils } from "src/utils/utils";
+import CommodityDisplay from "src/components/CommodityDisplay.vue";
+
+const commodities = [
+  { name: "Beras", icon: "mdi-rice", price: 12000 },
+  { name: "Gula", icon: "mdi-sugar-cane", price: 15000 },
+  { name: "Minyak Goreng", icon: "mdi-oil", price: 20000 },
+  { name: "Daging Ayam", icon: "mdi-chicken", price: 40000 },
+  { name: "Telur", icon: "mdi-egg", price: 25000 },
+];
 const selectedData = ref({
   nama: "-",
   symbol: "-",
@@ -221,7 +207,7 @@ onMounted(async () => {
   await SyncService.fetchKomoditas();
   komoditas.value = komoditasStore.get();
   selectedData.value = komoditas.value[0];
-  console.log("komoditas.value", komoditas.value);
+  // console.log("komoditas.value", JSON.stringify(komoditas.value));
   // selectedData.value = Utils.priceData.value;
   console.log("priceData", Utils.priceData.value);
   console.log("On Mounted IndexPage--------- End");
@@ -282,37 +268,31 @@ onMounted(() => {
         translateY: [20, 0],
         opacity: [0, 1],
         duration: 600,
+        delay: anime.stagger(0),
       },
       "-=400"
-    );
-
-  // Animasi untuk stat cards
-  anime({
-    targets: ".stat-card",
-    opacity: [0, 1],
-    translateY: [20, 0],
-    duration: 800,
-    delay: anime.stagger(100),
-    easing: "easeOutExpo",
-  });
-
+    )
+    .add({
+      targets: ".commodity-display-container",
+      opacity: [0, 1],
+      translateY: [20, 0],
+      duration: 800,
+      delay: anime.stagger(500),
+      easing: "easeOutExpo",
+    });
+  // anime({
+  //   targets: ".commodity-display-container",
+  //   opacity: [0, 1],
+  //   translateY: [20, 0],
+  //   duration: 400,
+  //   delay: anime.stagger(150),
+  //   easing: "easeOutExpo",
+  // });
   // Animasi untuk chart cards
-  anime({
-    targets: ".chart-card",
-    opacity: [0, 1],
-    translateY: [20, 0],
-    duration: 800,
-    delay: anime.stagger(100),
-    easing: "easeOutExpo",
-  });
 });
 </script>
 
 <style>
-html {
-  /* scroll-behavior: smooth; */
-}
-
 .glow-on-hover {
   width: 220px;
   height: 50px;
@@ -464,7 +444,9 @@ html {
   opacity: 0;
   transform: translateY(20px);
 }
-
+.commodity-display-container {
+  opacity: 0;
+}
 .hero-button {
   padding: 0.8rem 0rem;
   border-radius: 8px;
