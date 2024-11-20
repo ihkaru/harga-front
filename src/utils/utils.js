@@ -52,6 +52,38 @@ export function useUtils() {
     // Menggabungkan semua dalam format yang diinginkan
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   }
+  function getFormattedDate(today = new Date()) {
+    const days = [
+      "Minggu",
+      "Senin",
+      "Selasa",
+      "Rabu",
+      "Kamis",
+      "Jumat",
+      "Sabtu",
+    ];
+    const months = [
+      "Januari",
+      "Februari",
+      "Maret",
+      "April",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Agustus",
+      "September",
+      "Oktober",
+      "November",
+      "Desember",
+    ];
+
+    const dayName = days[today.getDay()];
+    const date = today.getDate();
+    const monthName = months[today.getMonth()];
+    const year = today.getFullYear();
+
+    return `${dayName}, ${date} ${monthName} ${year}`;
+  }
   function transformDataArray(dataArray) {
     const today = new Date();
 
@@ -218,5 +250,6 @@ export function useUtils() {
     getCurrentDateTime,
     getObjectById,
     getObjectByCol,
+    getFormattedDate,
   };
 }

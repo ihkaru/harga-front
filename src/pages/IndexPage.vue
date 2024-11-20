@@ -2,6 +2,11 @@
   <q-page>
     <div class="hero">
       <div class="hero-content">
+        <div>
+          <h5 style="margin-bottom: 0">
+            {{ Utils.getFormattedDate() }}
+          </h5>
+        </div>
         <div class="hero-badge">
           <span class="word-wrapper">
             <span class="word">&nbsp;Kolaborasi</span>
