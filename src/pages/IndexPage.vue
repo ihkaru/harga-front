@@ -188,7 +188,12 @@ watch(
   () => selectionStore.getSelectionByKey(Constants.SELECTED_KOMODITAS),
   (newVal, oldVal) => {
     selectedData.value = { ...newVal };
-    // console.log("newval", selectedData.value);
+  }
+);
+watch(
+  () => selectionStore.getSelectionByKey(Constants.SELECTED_WILAYAH),
+  (newVal, oldVal) => {
+    updateMainchart();
   }
 );
 watch(

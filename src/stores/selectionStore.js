@@ -15,6 +15,10 @@ export const useSelectionStore = defineStore("selection", {
   },
   getters: {
     getSelectionByKey: (state) => (key) => {
+      if (!state.selectedItems[key]) {
+        if (key == Constants.SELECTED_WILAYAH)
+          return Constants.DEFAULT_SELECTED_WILAYAH;
+      }
       return state.selectedItems[key];
     },
   },

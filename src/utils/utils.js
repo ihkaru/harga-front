@@ -1,6 +1,10 @@
 import { ref } from "vue";
+import { useHargaUtils } from "./hargaUtils";
+import { useConstants } from "./constants";
 
 export function useUtils() {
+  const Harga = useHargaUtils();
+  const Constants = useConstants();
   const priceData = ref([]);
   function generatePriceData(startDate, endDate, averageIncreasePercent) {
     const start = new Date(startDate);
@@ -169,6 +173,30 @@ export function useUtils() {
       "Telur Ayam Kampung,1 kg": { symbol: "TAK", icon: "fas fa-egg" },
       "Kacang Hijau,1 kg": { symbol: "KH", icon: "fas fa-seedling" },
       "Kacang Tanah,1 kg": { symbol: "KT", icon: "fas fa-seedling" },
+      "Daging Sapi Tetelan, 1 kg": {
+        symbol: "DST",
+        icon: "fas fa-drumstick-bite",
+      },
+      "Jagung Lokal Pipilan, 1 kg": {
+        symbol: "JLP",
+        icon: "fas fa-corn",
+      },
+      "Jagung Halus, 1 kg": {
+        symbol: "JH",
+        icon: "fas fa-corn",
+      },
+      "Tepung Terigu Eceran Protein Tinggi, 1 kg": {
+        symbol: "TTP",
+        icon: "fas fa-bread-slice",
+      },
+      "Tepung Terigu Eceran Protein Rendah, 1 kg": {
+        symbol: "TTR",
+        icon: "fas fa-bread-slice",
+      },
+      "Ikan Laut Kembung, 1 kg": {
+        symbol: "ILK",
+        icon: "fas fa-fish",
+      },
     };
 
     return dataArray.map((data) => {
@@ -222,6 +250,7 @@ export function useUtils() {
             "0"
           )}`,
           price: parseFloat(item.harga),
+          kecamatan: item.kecamatan,
         })),
         sparklineData: sparklineData,
       };
@@ -231,10 +260,6 @@ export function useUtils() {
     if (!number) return "";
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
-  const Constants = {
-    SELECTED_KOMODITAS: "SELECTED_KOMODITAS",
-    SELECTED_PERIOD_CHART: "SELECTED_PERIOD_CHART",
-  };
   function getObjectById(array, id) {
     return array.find((item) => item.id === id);
   }
@@ -251,5 +276,6 @@ export function useUtils() {
     getObjectById,
     getObjectByCol,
     getFormattedDate,
+    Harga,
   };
 }

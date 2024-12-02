@@ -21,7 +21,7 @@
             </template>
           </q-btn>
         </div>
-        <div>Pasar Sebukit Rama, Mempawah Hilir</div>
+        <div>Pasar {{ selectedPasar }}, {{ selectedKecamatanLabel }}</div>
         <div class="text-h6 q-mb-xs">{{ selectedCommodity }}</div>
         <div class="text-h5 text-weight-bold">
           Rp
@@ -303,6 +303,16 @@ const priceChangeClass = computed(() => {
   const change = displayPrice.value - displayInitialPrice.value;
   return change <= 0 ? "text-positive" : "text-negative";
 });
+const selectedPasar = computed(() => {
+  return Constants.KECAMATAN_PASAR[
+    selectionStore.getSelectionByKey(Constants.SELECTED_WILAYAH)
+  ];
+});
+const selectedKecamatanLabel = computed(() => {
+  return Constants.WILAYAH_LABELS[
+    selectionStore.getSelectionByKey(Constants.SELECTED_WILAYAH)
+  ];
+});
 
 const priceChangePrefix = computed(() => {
   const change = displayPrice.value - displayInitialPrice.value;
@@ -311,7 +321,12 @@ const priceChangePrefix = computed(() => {
 
 const filteredData = computed(() => {
   const now = new Date();
-  const data = [...commodityData.value];
+  const data = [
+    ...Utils.Harga.filterByKecamatan(
+      props.data,
+      selectionStore.getSelectionByKey(Constants.SELECTED_WILAYAH)
+    ).data,
+  ];
 
   switch (selectedPeriod.value) {
     case "1D":
@@ -507,9 +522,9 @@ const chartOptions = {
 const currentPrice = computed(() => {
   let currentData = {};
   if (filteredData.value && filteredData.value.length > 0) {
-    console.log("current price", filteredData.value.length);
+    // console.log("current price", filteredData.value.length);
     currentData = filteredData.value[filteredData.value.length - 1];
-    console.log("current price", currentData);
+    // console.log("current price", currentData);
   }
   return currentData?.price ?? 0;
 });

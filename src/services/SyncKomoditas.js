@@ -32,11 +32,15 @@ export function useSyncService() {
     loading.value = true;
     error.value = null;
     try {
+      console.log("fetching");
       await api.get(apiUrl).then((res) => {
+        console.log("fetching success");
+        // console.log("tes", res.data);
         komoditasStore.set(Utils.transformDataArray(res.data));
+        // console.log("tes", res.data);
         komoditasStore.setLastUpdate(Utils.getCurrentDateTime());
       });
-      console.log("komo", komoditasStore.getLastUpdate);
+      // console.log("komo", komoditasStore.getLastUpdate);
     } catch (err) {
       error.value = err.message;
       console.log("err:", err.message);
