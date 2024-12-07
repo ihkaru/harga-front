@@ -133,8 +133,6 @@ import {
 import { computed, toRaw, watch, watchEffect } from "vue";
 import ListKomoditas from "src/components/ListKomoditas.vue";
 import MainChart from "src/components/MainChart.vue";
-import FooterHome from "src/components/FooterHome.vue";
-import SahamChart from "src/components/SahamChart.vue";
 import { useSyncService } from "src/services/SyncKomoditas";
 import { useSelectionStore } from "src/stores/selectionStore";
 import { useUtils } from "src/utils/utils";

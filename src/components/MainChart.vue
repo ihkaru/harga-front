@@ -39,7 +39,7 @@
           Harga Hari Ini: Rp {{ currentPrice?.toLocaleString() ?? "" }}
         </div>
         <div class="text-grey text-caption">
-          Harga {{ periodLabels[selectedPeriod] }} ({{
+          Harga {{ Utils.Constants.CHART_PERIODS_LABEL[selectedPeriod] }} ({{
             displayInitialPriceDate ?? ""
           }}): Rp
           {{ displayInitialPrice.toLocaleString() }}
@@ -74,11 +74,11 @@
         <div></div>
         <div class="row q-gutter-sm flex justify-evenly">
           <q-btn
-            v-for="period in periods"
+            v-for="period in Utils.Constants.CHART_PERIODS"
             :key="period.value"
             :label="period.label"
             :color="selectedPeriod === period.value ? 'primary' : 'grey'"
-            @click="changePeriod(period.value)"
+            @click="selectPeriod(period.value)"
             flat
             round
             outline
@@ -249,13 +249,13 @@ const commodityData = ref([]);
 const chartRef = ref(null);
 const selectedCommodity = ref("Beras");
 
-const selectedPeriod = ref(
-  selectionStore.getSelectionByKey(Constants.SELECTED_PERIOD_CHART) ?? "1M"
-);
-console.log(
-  "selected period",
-  selectionStore.getSelectionByKey(Constants.SELECTED_PERIOD_CHART)
-);
+const selectedPeriod = computed(() => {
+  return (
+    selectionStore.getSelectionByKey(Constants.SELECTED_PERIOD_CHART) ??
+    Constants.DEFAULT_SELECTED_PERIOD
+  );
+});
+
 const displayPrice = ref(0);
 const displayInitialPrice = ref(0);
 const displayInitialPriceDate = ref("");
@@ -265,23 +265,6 @@ const displayDate = ref("");
 const lineColor = ref("#FF0000");
 const showTooltip = ref(false);
 const tooltipPosition = ref(0);
-
-const periods = [
-  { label: "1W", value: "1W" },
-  { label: "1M", value: "1M" },
-  { label: "3M", value: "3M" },
-  { label: "YTD", value: "YTD" },
-  { label: "1Y", value: "1Y" },
-  { label: "ALL", value: "ALL" },
-];
-const periodLabels = {
-  "1W": "1 pekan lalu",
-  "1M": "1 bulan lalu",
-  "3M": "3 bulan lalu",
-  YTD: "Year to Date",
-  "1Y": "1 tahun lalu",
-  ALL: "awal",
-};
 
 onMounted(async () => {
   commodityData.value = props.data?.data;
@@ -551,24 +534,15 @@ onMounted(() => {
 });
 
 watch(
-  () => selectedPeriod.value,
-  (newVal, oldVal) => {
-    selectionStore.setSelection(Constants.SELECTED_PERIOD_CHART, newVal);
-    console.log(
-      Constants.SELECTED_PERIOD_CHART,
-      selectionStore.getSelectionByKey(Constants.SELECTED_PERIOD_CHART)
-    );
-  }
-);
-watch(
   () => props.data,
   (newVal, oldVal) => {
     if (props.data?.length > 0) commodityData.value = props.data.data;
   }
 );
 
-const changePeriod = (period) => {
-  selectedPeriod.value = period;
+const selectPeriod = (period) => {
+  console.log("period selected", period);
+  selectionStore.setSelection(Constants.SELECTED_PERIOD_CHART, period);
   handleChartLeave();
 };
 </script>

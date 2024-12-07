@@ -32,7 +32,7 @@
             commodity.nama
           }}</q-item-label>
           <q-item-label caption
-            >{{ periodLabels[selectedPeriod] }} lalu: Rp
+            >{{ Constants.CHART_PERIODS_LABEL[selectedPeriod] }} lalu: Rp
             {{
               Utils.formatCurrency(
                 generateSparklinePrices(
@@ -92,7 +92,7 @@
   <q-page-sticky position="bottom-right" :offset="[20, 20]">
     <q-btn
       fab
-      :label="periodLabels[selectedPeriod]"
+      :label="Constants.CHART_PERIODS_LABEL[selectedPeriod]"
       @click="showPeriodDialog = true"
       style="background-color: #120a33; color: white"
       elevated
@@ -129,7 +129,7 @@
       <q-card-section class="q-pt-none">
         <div class="row q-col-gutter-sm">
           <div
-            v-for="(label, period) in periodLabels"
+            v-for="(label, period) in Constants.CHART_PERIODS_LABEL"
             :key="period"
             class="col-4"
           >
@@ -152,13 +152,18 @@ import { ref, computed, onMounted, onBeforeMount, watch } from "vue";
 import SparkLine from "./SparkLine.vue";
 import { useUtils } from "src/utils/utils";
 import { useSelectionStore } from "src/stores/selectionStore";
+
 const Utils = useUtils();
+const Constants = Utils.Constants;
+
 const props = defineProps({
   data: {
     type: Array,
     required: true,
   },
 });
+
+const selectionStore = useSelectionStore();
 const selectedKecamatan = computed(() => {
   return selectionStore.getSelectionByKey(Constants.SELECTED_WILAYAH);
 });
@@ -184,17 +189,14 @@ const filteredKomoditas = computed(() => {
   });
 });
 // Period selection state
-const selectedPeriod = ref("1M");
-const showPeriodDialog = ref(false);
+const selectedPeriod = computed(() => {
+  return (
+    selectionStore.getSelectionByKey(Constants.SELECTED_PERIOD_CHART) ??
+    Constants.DEFAULT_SELECTED_PERIOD
+  );
+});
 
-const periodLabels = {
-  "1W": "1 pekan",
-  "1M": "1 bulan",
-  "3M": "3 bulan",
-  YTD: "Year to Date",
-  "1Y": "1 tahun",
-  ALL: "All Time",
-};
+const showPeriodDialog = ref(false);
 
 // watch(
 //   () => props.data,
@@ -209,6 +211,8 @@ const periodLabels = {
 // };
 
 const selectPeriod = (period) => {
+  console.log("period selected", period);
+  selectionStore.setSelection(Constants.SELECTED_PERIOD_CHART, period);
   selectedPeriod.value = period;
   showPeriodDialog.value = false;
 };
@@ -234,7 +238,7 @@ const getPriceChange = (commodity) => {
     change = 0.0;
   }
   if (!(startPrice * 1)) {
-    console.log("Komoditas tanpa start: ", commodity);
+    // console.log("Komoditas tanpa start: ", commodity);
   }
 
   return {
@@ -244,10 +248,8 @@ const getPriceChange = (commodity) => {
   };
 };
 
-const Constants = useUtils().Constants;
 // Commodities data
 // const commodities = ref(props.data);
-const selectionStore = useSelectionStore();
 const selectCommodity = (commodity) => {
   selectionStore.setSelection(Constants.SELECTED_KOMODITAS, commodity);
   // console.log(
@@ -316,7 +318,7 @@ const generateSparklinePrices = (data, period, kecamatan) => {
     .map((entry) => entry.price);
 
   if (sparklinePrices.length < 1) {
-    console.log("Komoditas " + data.nama + " Tanpa sparkline", data, startDate);
+    // console.log("Komoditas " + data.nama + " Tanpa sparkline", data, startDate);
   }
   return sparklinePrices;
 };
