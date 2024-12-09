@@ -17,11 +17,17 @@
       >
         <q-item-section avatar>
           <q-avatar>
-            <q-icon
-              :name="commodity.icon"
-              size="md"
-              :color="
-                getPriceChange(commodity).change <= 0 ? 'positive' : 'negative'
+            <q-img
+              :src="
+                'https://harga-api.dvlp.asia/komoditas/' +
+                commodity.nama +
+                '.webp'
+              "
+              style="
+                max-width: 50px;
+                max-height: 50px;
+                border-radius: 50%;
+                margin-bottom: 5px;
               "
             />
           </q-avatar>

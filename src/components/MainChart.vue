@@ -4,10 +4,6 @@
     <q-card class="my-card shadow-0 q-pa-none full-height column">
       <q-card-section class="q-pa-none col">
         <div class="q-pb-md text-right">
-          <span class="q-pr-md" v-if="dataUpdate.last_date"
-            >Terakhir update:
-            {{ dataUpdate?.last_date + " - " + dataUpdate?.last_try ?? "" }}
-          </span>
           <q-btn
             @click="handleSync"
             :loading="loadingUpdate"
@@ -21,9 +17,33 @@
             </template>
           </q-btn>
         </div>
-        <div>Pasar {{ selectedPasar }}, {{ selectedKecamatanLabel }}</div>
-        <div class="text-h6 q-mb-xs">{{ selectedCommodity }}</div>
-        <div class="text-h5 text-weight-bold">
+        <div style="display: flex">
+          <q-avatar style="margin-right: 10px">
+            <q-img
+              :src="
+                'https://harga-api.dvlp.asia/komoditas/' +
+                selectedCommodity +
+                '.webp'
+              "
+              style="
+                max-width: 50px;
+                max-height: 50px;
+                border-radius: 50%;
+                margin-bottom: 5px;
+              "
+            />
+          </q-avatar>
+          <div>
+            <div>Pasar {{ selectedPasar }}, {{ selectedKecamatanLabel }}</div>
+            <div
+              class="text-h6 q-mb-xs"
+              style="word-wrap: normal; max-width: 80vw"
+            >
+              {{ selectedCommodity }}
+            </div>
+          </div>
+        </div>
+        <div class="text-h5 text-weight-bold" style="margin-top: 0.2em">
           Rp
           <NumberFlow :value="displayPrice" :locales="'id-ID'" />
         </div>
