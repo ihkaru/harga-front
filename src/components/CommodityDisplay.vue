@@ -10,6 +10,9 @@
           :icon="commodity.icon"
           :price="commodity.currentPrice"
           :data="commodity.data"
+          :src="
+            'https://harga-api.dvlp.asia/komoditas/' + commodity.nama + '.webp'
+          "
         />
         <!-- Loop kedua, menggandakan card untuk efek looping tanpa jeda -->
         <CommodityCard
@@ -19,6 +22,9 @@
           :icon="commodity.icon"
           :price="commodity.currentPrice"
           :data="commodity.data"
+          :src="
+            'https://harga-api.dvlp.asia/komoditas/' + commodity.nama + '.webp'
+          "
         />
       </div>
     </div>

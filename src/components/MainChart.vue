@@ -310,6 +310,19 @@ const filteredData = computed(() => {
       selectionStore.getSelectionByKey(Constants.SELECTED_WILAYAH)
     ).data,
   ];
+  if (selectedPeriod.value == "1W") {
+    console.log("1W data", data);
+    console.log(
+      "1W data",
+      data.filter((item) => {
+        const date = new Date(item.date);
+        console.log("date of " + item.date, date.getTime());
+        console.log("more than ", now.getTime() - 7 * 86400000);
+        return date.getTime() >= now.getTime() - 7 * 86400000;
+      }),
+      now.getTime()
+    );
+  }
 
   switch (selectedPeriod.value) {
     case "1D":

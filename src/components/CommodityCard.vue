@@ -2,8 +2,17 @@
   <q-card class="commodity-card q-pa-md">
     <q-card-section>
       <div class="text-center">
-        <q-icon :name="icon" class="q-mb-sm" color="primary" size="xl" />
-        <div class="text-subtitle2 text-primary">{{ name }}</div>
+        <!-- <q-icon :name="icon" class="q-mb-sm" color="primary" size="xl" /> -->
+        <q-img
+          :src="src"
+          style="
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 50%;
+            margin-bottom: 5px;
+          "
+        />
+        <div class="text-subtitle1 text-primary">{{ name }}</div>
       </div>
     </q-card-section>
     <q-card-section>
@@ -44,6 +53,10 @@ const props = defineProps({
   },
   data: {
     type: Array,
+    required: true,
+  },
+  src: {
+    type: String,
     required: true,
   },
 });

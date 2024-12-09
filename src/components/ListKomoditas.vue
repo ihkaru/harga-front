@@ -213,7 +213,6 @@ const showPeriodDialog = ref(false);
 const selectPeriod = (period) => {
   console.log("period selected", period);
   selectionStore.setSelection(Constants.SELECTED_PERIOD_CHART, period);
-  selectedPeriod.value = period;
   showPeriodDialog.value = false;
 };
 
