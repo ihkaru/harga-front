@@ -86,7 +86,7 @@
       />
     </div>
     <!-- <div style="margin-bottom: 100vh"></div> -->
-    <div style="margin-bottom: 30vh">
+    <div style="margin-bottom: 30vh; margin-top: 7em">
       <div class="row evenly">
         <!-- Grafik kiri -->
         <div class="col-md-8 col-xs-12">
