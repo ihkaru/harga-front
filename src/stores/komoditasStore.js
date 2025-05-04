@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 
 export const useKomoditasStore = defineStore("komoditas", {
   state: () => ({
-    komoditas: {},
+    komoditas: [],
     lastUpdate: null,
   }),
   getters: {

@@ -30,6 +30,9 @@
         }}{{ priceChangePercentage }}%)
       </div>
     </q-card-section>
+    <q-card-section class="text-center">
+      <div class="text-center">{{ location ?? "" }}</div>
+    </q-card-section>
   </q-card>
 </template>
 
@@ -56,6 +59,10 @@ const props = defineProps({
     required: true,
   },
   src: {
+    type: String,
+    required: true,
+  },
+  location: {
     type: String,
     required: true,
   },

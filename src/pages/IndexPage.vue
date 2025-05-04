@@ -132,6 +132,7 @@ import {
 } from "chart.js";
 import { computed, toRaw, watch, watchEffect } from "vue";
 import ListKomoditas from "src/components/ListKomoditas.vue";
+import CommodityCard from "src/components/CommodityCard.vue";
 import MainChart from "src/components/MainChart.vue";
 import { useSyncService } from "src/services/SyncKomoditas";
 import { useSelectionStore } from "src/stores/selectionStore";

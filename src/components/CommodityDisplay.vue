@@ -4,24 +4,26 @@
       <div ref="scrollContent" class="scroll-content">
         <!-- Loop pertama -->
         <CommodityCard
-          v-for="commodity in props.data"
+          v-for="commodity in commodities"
           :key="'first-' + commodity.symbol"
           :name="commodity.nama.trim()"
           :icon="commodity.icon"
           :price="commodity.currentPrice"
           :data="commodity.data"
+          :location="'Pasar ' + selectedPasar"
           :src="
             'https://harga-api.dvlp.asia/komoditas/' + commodity.nama + '.webp'
           "
         />
         <!-- Loop kedua, menggandakan card untuk efek looping tanpa jeda -->
         <CommodityCard
-          v-for="commodity in props.data"
+          v-for="commodity in commodities"
           :key="'second-' + commodity.symbol"
           :name="commodity.nama"
           :icon="commodity.icon"
           :price="commodity.currentPrice"
           :data="commodity.data"
+          :location="'Pasar ' + selectedPasar"
           :src="
             'https://harga-api.dvlp.asia/komoditas/' + commodity.nama + '.webp'
           "
@@ -32,7 +34,11 @@
 </template>
 <script setup>
 import CommodityCard from "components/CommodityCard.vue";
+import { useSelectionStore } from "src/stores/selectionStore";
+import { useConstants } from "src/utils/constants";
 import { computed, defineProps, onBeforeUnmount, onMounted, ref } from "vue";
+const Constants = useConstants();
+const selectionStore = useSelectionStore();
 const props = defineProps({
   data: {
     type: Array,
@@ -40,22 +46,18 @@ const props = defineProps({
   },
 });
 const commodities = computed(() => {
-  if (props.data.length > 0) return props.data;
-  let com = {
-    nama: "Beras Cap Burung Hong (Medium)",
-    symbol: "BCHM",
-    icon: "fas fa-seedling",
-    currentPrice: 13000,
-    data: [
-      { date: "2024-10-01", price: 13000 },
-      { date: "2024-10-02", price: 13000 },
-    ],
-  };
-  let commodities = [];
-  for (let i = 0; i < 20; i++) {
-    commodities[i] = com;
-  }
-  return commodities;
+  return props.data.filter((commodity) => commodity.currentPrice !== 0);
+});
+
+const selectedPasar = computed(() => {
+  return Constants.KECAMATAN_PASAR[
+    selectionStore.getSelectionByKey(Constants.SELECTED_WILAYAH)
+  ];
+});
+const selectedKecamatanLabel = computed(() => {
+  return Constants.WILAYAH_LABELS[
+    selectionStore.getSelectionByKey(Constants.SELECTED_WILAYAH)
+  ];
 });
 const scrollWrapper = ref(null);
 const scrollContent = ref(null);
