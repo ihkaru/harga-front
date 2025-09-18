@@ -138,6 +138,7 @@ import { useSyncService } from "src/services/SyncKomoditas";
 import { useSelectionStore } from "src/stores/selectionStore";
 import { useUtils } from "src/utils/utils";
 import CommodityDisplay from "src/components/CommodityDisplay.vue";
+import AnalysisSection from "src/components/AnalysisSection.vue";
 
 const commodities = [
   { name: "Beras", icon: "mdi-rice", price: 12000 },
@@ -551,6 +552,12 @@ onMounted(() => {
 .char {
   display: inline-block;
   opacity: 0;
+  transform: translateY(100%);
+}
+
+/* ... Style lainnya tetap sama ... */
+</style>
+ 0;
   transform: translateY(100%);
 }
 
