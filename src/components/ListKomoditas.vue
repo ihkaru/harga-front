@@ -1,14 +1,25 @@
 <template>
   <div>
+    <q-input
+      v-model="searchQuery"
+      dense
+      debounce="300"
+      placeholder="Cari Komoditas..."
+      class="q-ma-md"
+    >
+      <template v-slot:append>
+        <q-icon name="search" />
+      </template>
+    </q-input>
     <q-list
       class="scroll"
       style="max-height: 550px"
       bordered
       separator
-      v-if="filteredKomoditas"
+      v-if="searchedKomoditas"
     >
       <q-item
-        v-for="commodity in filteredKomoditas"
+        v-for="commodity in searchedKomoditas"
         :key="commodity.symbol"
         class="q-py-md"
         v-ripple
@@ -95,7 +106,7 @@
     </q-list>
   </div>
   <!-- Floating Speed Dial Button -->
-  <q-page-sticky position="bottom-right" :offset="[20, 20]">
+  <q-page-sticky position="bottom-right" :offset="[20, 20]" style="z-index: 1000">
     <q-btn
       fab
       :label="Constants.CHART_PERIODS_LABEL[selectedPeriod]"
@@ -175,6 +186,17 @@ const selectedKecamatan = computed(() => {
 });
 const selectedKecamatanLabel = computed(() => {
   return Constants.WILAYAH_LABELS[selectedKecamatan];
+});
+
+const searchQuery = ref('');
+
+const searchedKomoditas = computed(() => {
+  if (!searchQuery.value) {
+    return filteredKomoditas.value;
+  }
+  return filteredKomoditas.value.filter(commodity => {
+    return commodity.nama.toLowerCase().includes(searchQuery.value.toLowerCase());
+  });
 });
 
 const filteredKomoditas = computed(() => {

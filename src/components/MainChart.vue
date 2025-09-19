@@ -66,7 +66,7 @@
         </div>
       </q-card-section>
 
-      <q-card-section class="chart-container">
+      <q-card-section class="chart-container" style="overflow: hidden;">
         <div
           v-show="showTooltip"
           class="date-tooltip"
@@ -291,6 +291,12 @@ onMounted(async () => {
   selectedCommodity.value = props.data?.nama;
   loadingUpdate.value = SyncSerice.loadingUpdate.value;
   console.log("mainchart", props.data);
+
+  window.addEventListener('resize', () => {
+    if (chartRef.value) {
+      chartRef.value.chart.resize();
+    }
+  });
 });
 const formatDate = (dateString) => {
   const date = new Date(dateString);

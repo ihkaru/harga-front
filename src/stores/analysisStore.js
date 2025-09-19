@@ -14,13 +14,22 @@ export const useAnalysisStore = defineStore('analysis', {
       this.error = null;
       try {
         const today = new Date().toISOString().slice(0, 10);
-        const response = await axios.get('https://harga-api.dvlp.asia/api/analisis-harga', {
+        let response = await axios.get('https://harga-api.dvlp.asia/api/analisis-harga', {
           params: {
             limit: 5,
             start_date: today,
             end_date: today,
           },
         });
+
+        if (response.data.length === 0) {
+          response = await axios.get('https://harga-api.dvlp.asia/api/analisis-harga', {
+            params: {
+              limit: 5,
+            },
+          });
+        }
+
         this.analyses = response.data;
       } catch (error) {
         this.error = 'Failed to fetch analyses.';

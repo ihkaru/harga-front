@@ -14,7 +14,23 @@ This document describes the user interactions with the application in a Behavior
 
 **And** each commodity card should show the commodity's name, icon, and current price
 
-## Scenario 2: Viewing Detailed Commodity Information
+## Scenario 2: Viewing AI Analysis
+
+**Given** the user is on the main page
+
+**When** the page loads
+
+**Then** the user should see an AI Analysis section
+
+**And** the user should see a card for each commodity analysis
+
+**And** each card should have a tabbed interface with the following tabs: "Ringkasan", "Detail Analisis", "Rekomendasi", and "Peringatan"
+
+**When** the user clicks on a tab
+
+**Then** the content of the tab should be displayed
+
+## Scenario 3: Viewing Detailed Commodity Information
 
 **Given** the user is on the main page
 
@@ -26,7 +42,7 @@ This document describes the user interactions with the application in a Behavior
 
 **And** the main chart should show the commodity's name, current price, and price change
 
-## Scenario 3: Changing the Time Period
+## Scenario 4: Changing the Time Period
 
 **Given** the user is viewing the detailed chart for a commodity
 
@@ -36,7 +52,7 @@ This document describes the user interactions with the application in a Behavior
 
 **And** the list of commodities should update to show the price change for the selected time period
 
-## Scenario 4: Changing the Region
+## Scenario 5: Changing the Region
 
 **Given** the user is on the main page
 

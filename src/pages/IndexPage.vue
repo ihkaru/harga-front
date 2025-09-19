@@ -45,31 +45,16 @@
         <br />
         <br />
         <div class="button-container">
-          <a href="#komoditas" class="hero-button glow-on-hover"
-            >Data Komoditas</a
-          >
+          <a href="#komoditas" class="hero-button glow-on-hover">Data Komoditas</a>
           <!-- <a href="#inflasi" class="hero-button glow-on-hover"
             >Statistik Inflasi</a
           > -->
         </div>
-        <div
-          class="justify-center q-gutter-xs q-pb-sm"
-          style="margin-top: 50px; display: flex"
-        >
+        <div class="justify-center q-gutter-xs q-pb-sm" style="margin-top: 50px; display: flex">
           <!-- Disperindagkop Logo -->
-          <q-img
-            src="~assets/MPW.png"
-            spinner-color="primary"
-            style="height: 8vh; max-width: 200px"
-            fit="contain"
-          />
+          <q-img src="~assets/MPW.png" spinner-color="primary" style="height: 8vh; max-width: 200px" fit="contain" />
           <!-- BPS Logo -->
-          <q-img
-            src="~assets/BPS.png"
-            spinner-color="primary"
-            style="height: 8vh; max-width: 200px"
-            fit="contain"
-          />
+          <q-img src="~assets/BPS.png" spinner-color="primary" style="height: 8vh; max-width: 200px" fit="contain" />
         </div>
         <p style="margin-top: 10px">
           KOLABORASI PENGENDALIAN INFLASI DAERAH <br />
@@ -80,10 +65,7 @@
       </div>
     </div>
     <div class="q-py-lg" style="width: 100vw; height: 35vh">
-      <commodity-display
-        class="commodity-display-container"
-        :data="komoditasStore.get()"
-      />
+      <commodity-display class="commodity-display-container" :data="komoditasStore.get()" />
     </div>
     <!-- <div style="margin-bottom: 100vh"></div> -->
     <div style="margin-bottom: 30vh; margin-top: 7em">
@@ -92,10 +74,7 @@
         <div class="col-md-8 col-xs-12">
           <div class="bg-white rounded-borders q-pa-lg" id="komoditas">
             <!-- Tempatkan grafik kiri di sini -->
-            <main-chart
-              :key="selectedData?.nama + mainChartKey"
-              :data="selectedData"
-            ></main-chart>
+            <main-chart :key="selectedData?.nama + mainChartKey" :data="selectedData"></main-chart>
           </div>
         </div>
 
@@ -103,12 +82,12 @@
         <div class="col-md-4 col-xs-12">
           <div class="bg-white rounded-borders full-width" v-if="isDataReady">
             <!-- Tempatkan grafik kanan di sini -->
-            <list-komoditas
-              :data="komoditasStore.get()"
-              :key="listKomoditasKey"
-            ></list-komoditas>
+            <list-komoditas :data="komoditasStore.get()" :key="listKomoditasKey"></list-komoditas>
           </div>
         </div>
+      </div>
+      <div id="ai-analysis" class="q-px-md" style="margin-top: 2em;">
+        <analysis-section :dark="false" />
       </div>
     </div>
   </q-page>
@@ -318,18 +297,16 @@ onMounted(() => {
 
 .glow-on-hover:before {
   content: "";
-  background: linear-gradient(
-    45deg,
-    #ff0000,
-    #ff7300,
-    #fffb00,
-    #48ff00,
-    #00ffd5,
-    #002bff,
-    #7a00ff,
-    #ff00c8,
-    #ff0000
-  );
+  background: linear-gradient(45deg,
+      #ff0000,
+      #ff7300,
+      #fffb00,
+      #48ff00,
+      #00ffd5,
+      #002bff,
+      #7a00ff,
+      #ff00c8,
+      #ff0000);
   position: absolute;
   top: -2px;
   left: -2px;
@@ -454,9 +431,11 @@ onMounted(() => {
   opacity: 0;
   transform: translateY(20px);
 }
+
 .commodity-display-container {
   opacity: 0;
 }
+
 .hero-button {
   padding: 0.8rem 0rem;
   border-radius: 8px;
@@ -554,12 +533,4 @@ onMounted(() => {
   opacity: 0;
   transform: translateY(100%);
 }
-
-/* ... Style lainnya tetap sama ... */
-</style>
- 0;
-  transform: translateY(100%);
-}
-
-/* ... Style lainnya tetap sama ... */
 </style>

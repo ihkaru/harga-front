@@ -10,7 +10,7 @@ The application uses Pinia for state management and Chart.js for displaying char
 
 ### AI Analysis Section
 
-The application includes a section that displays AI-powered analysis of commodity prices. This analysis is fetched from an external API and provides insights into price trends, volatility, and short-term outlooks. The UI for this section is designed to have a modern, "AI feel" to reflect the nature of the data being displayed.
+The application includes a section within the main hero banner that displays AI-powered analysis of commodity prices. This analysis is fetched from an external API and provides insights into price trends, volatility, and short-term outlooks. The UI for this section is designed to have a modern, "AI feel" with semi-transparent cards, a blur effect, and a subtle glow. It also uses icons to visually represent price trends and volatility levels.
 
 ## Building and Running
 
