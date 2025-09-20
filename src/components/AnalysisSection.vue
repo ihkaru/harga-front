@@ -39,9 +39,11 @@
                   </q-avatar>
                 </q-item-section>
                 <q-item-section>
-                  <q-item-label class="text-h6 text-weight-bold">{{ analysis.komoditas.nama }}</q-item-label>
-                  <q-item-label caption :class="dark ? 'text-grey-5' : 'text-grey-7'">Analisis per: {{ new
-                    Date(analysis.analysis_date).toLocaleDateString() }}</q-item-label>
+                  <q-item-label class="text-weight-bold" style="font-size: clamp(0.9rem, 1.5vw, 1rem);">{{
+                    analysis.komoditas.nama }}</q-item-label>
+                  <q-item-label caption :class="dark ? 'text-grey-5' : 'text-grey-7'"
+                    style="font-size: clamp(0.6rem, 1.5vw, 0.8rem);">Analisis per: {{ new
+                      Date(analysis.analysis_date).toLocaleDateString() }}</q-item-label>
                 </q-item-section>
                 <q-item-section side>
                   <q-chip :color="getWeekPriceChange(analysis.komoditas.nama).trend === 'up' ? 'red' : 'green'"
@@ -49,19 +51,18 @@
                     {{ getWeekPriceChange(analysis.komoditas.nama).change }}%
                     <q-tooltip>{{ getWeekPriceChange(analysis.komoditas.nama).tooltip }}</q-tooltip>
                   </q-chip>
-                  1 Minggu Terakhir
                 </q-item-section>
               </q-item>
               <div class="row items-center q-gutter-sm q-mt-sm">
-                <q-chip dense :icon="getTrendIcon(analysis.trend_direction)"
-                  :color="getTrendColor(analysis.trend_direction)" text-color="white">
+                <q-chip :icon="getTrendIcon(analysis.trend_direction)" :color="getTrendColor(analysis.trend_direction)"
+                  text-color="white">
                   Tren {{ analysis.trend_direction }}
                 </q-chip>
-                <q-chip dense :icon="getConditionIcon(analysis.condition_level)"
+                <q-chip :icon="getConditionIcon(analysis.condition_level)"
                   :color="getConditionColor(analysis.condition_level)" text-color="white">
                   {{ analysis.condition_level }}
                 </q-chip>
-                <q-chip dense :icon="getVolatilityIcon(analysis.volatility_level)"
+                <q-chip :icon="getVolatilityIcon(analysis.volatility_level)"
                   :color="getVolatilityColor(analysis.volatility_level)" text-color="white">
                   Volatilitas {{ analysis.volatility_level }}
                 </q-chip>
@@ -192,7 +193,6 @@ const komoditasStore = useKomoditasStore();
 
 function getWeekPriceChange(komoditasNama) {
   const commodity = komoditasStore.get().find(c => c.nama === komoditasNama);
-  console.log('Calculating week price change for commodity ID:', komoditasNama, commodity, komoditasStore.get());
   if (!commodity || !commodity.data || commodity.data.length < 2) {
     return {
       change: 0,

@@ -1,108 +1,83 @@
 <template>
-  <!-- Template tetap sama seperti sebelumnya -->
-  <div class="q-pa-none">
+  <!-- Enhanced visual styling while maintaining exact structure -->
+  <div class="q-pa-none full-width full-height">
     <q-card class="my-card shadow-0 q-pa-none full-height column">
       <q-card-section class="q-pa-none col">
+        <!-- Enhanced refresh button with subtle shadow and hover effect -->
         <div class="q-pb-md text-right">
-          <q-btn
-            @click="handleSync"
-            :loading="loadingUpdate"
-            round
-            color="secondary"
-            icon="refresh"
-            class="text-right"
-          >
+          <q-btn @click="handleSync" :loading="loadingUpdate" round color="secondary" icon="refresh"
+            class="text-right refresh-btn" size="md">
             <template v-slot:loading>
               <q-spinner-grid color="white" />
             </template>
           </q-btn>
         </div>
-        <div style="display: flex">
-          <q-avatar style="margin-right: 10px">
-            <q-img
-              :src="
-                'https://harga-api.dvlp.asia/komoditas/' +
-                selectedCommodity +
-                '.webp'
-              "
-              style="
-                max-width: 50px;
-                max-height: 50px;
-                border-radius: 50%;
-                margin-bottom: 5px;
-              "
-            />
+
+        <!-- Enhanced header section with better spacing -->
+        <div class="header-section">
+          <q-avatar class="commodity-avatar">
+            <q-img :src="'https://harga-api.dvlp.asia/komoditas/' + selectedCommodity + '.webp'"
+              class="commodity-image" />
           </q-avatar>
-          <div>
-            <div>Pasar {{ selectedPasar }}, {{ selectedKecamatanLabel }}</div>
-            <div
-              class="text-h6 q-mb-xs"
-              style="word-wrap: normal; max-width: 80vw"
-            >
-              {{ selectedCommodity }}
-            </div>
+          <div class="commodity-info">
+            <div class="location-text">Pasar {{ selectedPasar }}, {{ selectedKecamatanLabel }}</div>
+            <div class="commodity-name">{{ selectedCommodity }}</div>
           </div>
         </div>
-        <div class="text-h5 text-weight-bold" style="margin-top: 0.2em">
+
+        <!-- Enhanced price display with better typography -->
+        <div class="price-display">
           Rp
           <NumberFlow :value="displayPrice" :locales="'id-ID'" />
         </div>
-        <div :class="[priceChangeClass, 'text-body2']">
+
+        <!-- Enhanced price change indicator with icons -->
+        <div :class="[priceChangeClass, 'price-change-container']">
+          <span class="price-change-icon">
+            {{ displayPrice >= displayInitialPrice ? '↗' : '↘' }}
+          </span>
           {{ priceChangePrefix }}Rp
           <NumberFlow :value="displayPriceChange" :locales="'id-ID'" />
-          (<NumberFlow
-            :value="displayPriceChangePercentage"
-            :locales="'id-ID'"
-          />%)
+          (
+          <NumberFlow :value="displayPriceChangePercentage" :locales="'id-ID'" />%)
         </div>
-        <div class="text-grey text-caption">
-          Harga Hari Ini: Rp {{ currentPrice?.toLocaleString() ?? "" }}
-        </div>
-        <div class="text-grey text-caption">
-          Harga {{ Utils.Constants.CHART_PERIODS_LABEL[selectedPeriod] }} ({{
-            displayInitialPriceDate ?? ""
-          }}): Rp
-          {{ displayInitialPrice.toLocaleString() }}
+
+        <!-- Enhanced info section with better visual hierarchy -->
+        <div class="price-info-section">
+          <div class="info-row">
+            <span class="info-label">Harga Hari Ini:</span>
+            <span class="info-value">Rp {{ currentPrice?.toLocaleString() ?? "" }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">
+              Harga {{ Utils.Constants.CHART_PERIODS_LABEL[selectedPeriod] }}
+              ({{ displayInitialPriceDate ?? "" }}):
+            </span>
+            <span class="info-value">Rp {{ displayInitialPrice.toLocaleString() }}</span>
+          </div>
         </div>
       </q-card-section>
 
-      <q-card-section class="chart-container" style="overflow: hidden;">
-        <div
-          v-show="showTooltip"
-          class="date-tooltip"
-          :style="{ left: tooltipPosition + 'px' }"
-        >
+      <!-- Enhanced chart container with subtle border -->
+      <q-card-section class="chart-container enhanced-chart">
+        <div v-show="showTooltip" class="date-tooltip enhanced-tooltip" :style="{ left: tooltipPosition + 'px' }">
           {{ displayDate }}
         </div>
 
-        <div
-          v-show="showTooltip"
-          class="vertical-line"
-          :style="{ left: tooltipPosition - 16 + 'px' }"
-        ></div>
+        <div v-show="showTooltip" class="vertical-line enhanced-line" :style="{ left: tooltipPosition - 16 + 'px' }">
+        </div>
 
-        <Line
-          :ref="chartRef"
-          :data="chartData"
-          :options="chartOptions"
-          @mouseout="handleChartLeave"
-          @touchend="handleChartLeave"
-        />
+        <Line :ref="chartRef" :data="chartData" :options="chartOptions" @mouseout="handleChartLeave"
+          @touchend="handleChartLeave" />
       </q-card-section>
 
+      <!-- Enhanced period selector with modern button styling -->
       <q-card-section class="q-pa-none full-width column justify-between col">
         <div></div>
-        <div class="row q-gutter-sm flex justify-evenly">
-          <q-btn
-            v-for="period in Utils.Constants.CHART_PERIODS"
-            :key="period.value"
-            :label="period.label"
-            :color="selectedPeriod === period.value ? 'primary' : 'grey'"
-            @click="selectPeriod(period.value)"
-            flat
-            round
-            outline
-          />
+        <div class="period-selector">
+          <q-btn v-for="period in Utils.Constants.CHART_PERIODS" :key="period.value" :label="period.label"
+            :class="['period-btn', selectedPeriod === period.value ? 'period-btn-active' : 'period-btn-inactive']"
+            @click="selectPeriod(period.value)" flat round size="sm" />
         </div>
       </q-card-section>
     </q-card>
@@ -217,7 +192,7 @@ const minMaxLabelsPlugin = {
       }
 
       // Menggambar background
-      ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+      ctx.fillStyle = "rgba(255, 255, 255, 1)";
       ctx.fillRect(
         xPos - textWidth / 2 - bgPadding,
         yPos - textHeight / 2,
@@ -290,7 +265,6 @@ onMounted(async () => {
   commodityData.value = props.data?.data;
   selectedCommodity.value = props.data?.nama;
   loadingUpdate.value = SyncSerice.loadingUpdate.value;
-  console.log("mainchart", props.data);
 
   window.addEventListener('resize', () => {
     if (chartRef.value) {
@@ -336,19 +310,6 @@ const filteredData = computed(() => {
       selectionStore.getSelectionByKey(Constants.SELECTED_WILAYAH)
     ).data,
   ];
-  if (selectedPeriod.value == "1W") {
-    console.log("1W data", data);
-    console.log(
-      "1W data",
-      data.filter((item) => {
-        const date = new Date(item.date);
-        console.log("date of " + item.date, date.getTime());
-        console.log("more than ", now.getTime() - 7 * 86400000);
-        return date.getTime() >= now.getTime() - 7 * 86400000;
-      }),
-      now.getTime()
-    );
-  }
 
   switch (selectedPeriod.value) {
     case "1D":
@@ -436,8 +397,8 @@ const previousY = (ctx) =>
   ctx.index === 0
     ? ctx.chart.scales.y.getPixelForValue(100)
     : ctx.chart
-        .getDatasetMeta(ctx.datasetIndex)
-        .data[ctx.index - 1].getProps(["y"], true).y;
+      .getDatasetMeta(ctx.datasetIndex)
+      .data[ctx.index - 1].getProps(["y"], true).y;
 const animation = {
   x: {
     type: "number",
@@ -580,57 +541,280 @@ watch(
 );
 
 const selectPeriod = (period) => {
-  console.log("period selected", period);
   selectionStore.setSelection(Constants.SELECTED_PERIOD_CHART, period);
   handleChartLeave();
 };
 </script>
 
 <style scoped>
-/* Style tetap sama seperti sebelumnya */
+/* Enhanced styling while maintaining exact structure */
 .my-card {
   width: 100%;
   margin: 0 auto;
   max-width: 100%;
   max-height: 100%;
+  /* background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); */
+  border-radius: 16px;
+  overflow: hidden;
 }
 
-.my-chart {
-  max-width: 100%;
-  max-height: 100%;
+/* Enhanced refresh button */
+.refresh-btn {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
-.chart-container {
-  /* position: relative; */
-  padding: 0;
-  /* Menambahkan padding untuk memastikan ada ruang untuk label */
+.refresh-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.vertical-line {
+/* Enhanced header section */
+.header-section {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.commodity-avatar {
+  margin-right: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.commodity-avatar:hover {
+  transform: scale(1.05);
+}
+
+.commodity-image {
+  max-width: 50px;
+  max-height: 50px;
+  border-radius: 50%;
+  margin-bottom: 5px;
+  object-fit: cover;
+}
+
+.commodity-info {
+  flex: 1;
+}
+
+.location-text {
+  color: #6b7280;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.commodity-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  word-wrap: normal;
+  max-width: 80vw;
+  line-height: 1.3;
+}
+
+/* Enhanced price display */
+.price-display {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0.5rem 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  letter-spacing: -0.025em;
+}
+
+/* Enhanced price change with icons */
+.price-change-container {
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.price-change-icon {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+/* Enhanced info section */
+.price-info-section {
+  background: rgba(248, 250, 252, 0.6);
+  border-radius: 12px;
+  padding: 12px;
+  margin-top: 8px;
+  border-left: 4px solid #e5e7eb;
+}
+
+.info-row {
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.info-row:last-child {
+  margin-bottom: 0;
+}
+
+.info-label {
+  color: #6b7280;
+  font-size: 0.75rem;
+  font-weight: 500;
+  flex: 1;
+  margin-right: 8px;
+}
+
+.info-value {
+  color: #374151;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+/* Enhanced chart container */
+.enhanced-chart {
+  position: relative;
+  padding: 16px 8px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  margin: 8px 0;
+  border: 1px solid rgba(229, 231, 235, 0.3);
+}
+
+/* Enhanced tooltip */
+.enhanced-tooltip {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background-color: rgba(0, 0, 0, 0.2);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.date-tooltip {
-  position: absolute;
-  top: 0;
+  top: -8px;
   transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.8);
+  background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
   color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
   pointer-events: none;
   z-index: 2;
   white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(8px);
 }
-/* .line {
-  width: 100%;
-  max-height: 70%;
-} */
+
+.enhanced-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: #1f2937;
+}
+
+/* Enhanced vertical line */
+.enhanced-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.2) 20%, rgba(0, 0, 0, 0.2) 80%, transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 1px;
+}
+
+/* Enhanced period selector */
+.period-selector {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 4px;
+  padding: 12px 8px;
+  background: rgba(248, 250, 252, 0.4);
+  border-radius: 16px;
+  margin: 8px;
+}
+
+.period-btn {
+  transition: all 0.3s ease;
+  border-radius: 12px !important;
+  font-weight: 600;
+  font-size: 0.75rem;
+  min-width: 44px;
+  height: 32px;
+}
+
+.period-btn-active {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
+  color: white !important;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+  transform: translateY(-1px);
+}
+
+.period-btn-inactive {
+  background: rgba(255, 255, 255, 0.8) !important;
+  color: #6b7280 !important;
+  border: 1px solid rgba(229, 231, 235, 0.5);
+}
+
+.period-btn-inactive:hover {
+  background: rgba(255, 255, 255, 1) !important;
+  color: #374151 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Color enhancements for price changes */
+.text-positive {
+  color: #059669 !important;
+  background: linear-gradient(135deg, rgba(5, 150, 105, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
+  padding: 4px 8px;
+  border-radius: 8px;
+  border-left: 3px solid #059669;
+}
+
+.text-negative {
+  color: #dc2626 !important;
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.1) 0%, rgba(239, 68, 68, 0.1) 100%);
+  padding: 4px 8px;
+  border-radius: 8px;
+  border-left: 3px solid #dc2626;
+}
+
+/* Subtle animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.my-card>* {
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* Responsive enhancements */
+@media (max-width: 768px) {
+  .price-display {
+    font-size: 1.75rem;
+  }
+
+  .commodity-name {
+    font-size: 1.125rem;
+  }
+
+  .period-selector {
+    gap: 2px;
+    padding: 8px 4px;
+  }
+
+  .period-btn {
+    min-width: 36px;
+    height: 28px;
+    font-size: 0.7rem;
+  }
+}
 </style>

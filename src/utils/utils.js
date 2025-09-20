@@ -266,6 +266,97 @@ export function useUtils() {
   function getObjectByCol(array, col, value) {
     return array.find((item) => item[col] === value);
   }
+
+  function getSparklinePrices(data, period, kecamatan) {
+    // Helper function to calculate date ranges
+
+    // Filter data based on kecamatan
+    const filteredByKecamatan = data.data.filter(
+      (entry) => entry.kecamatan == Constants.WILAYAH_LABELS[kecamatan]
+    );
+
+    // Get the date range for the specified period
+    const startDate = getDataRange(period);
+
+    // Filter data based on the date range and extract prices
+    const sparklinePrices = filteredByKecamatan
+      .filter((entry) => new Date(entry.date) >= startDate)
+      .map((entry) => entry.price);
+
+    if (sparklinePrices.length < 1) {
+      // console.log("Komoditas " + data.nama + " Tanpa sparkline", data, startDate);
+    }
+    return sparklinePrices;
+  }
+
+  function getPriceChange(commodity, period, kecamatan) {
+    const data = getSparklinePrices(
+      commodity,
+      period,
+      kecamatan
+    );
+    // console.log("data price change: ", data, commodity);
+    const startPrice = data[0];
+    const endPrice = data[data.length - 1];
+
+    let change;
+    if (startPrice === 0) {
+      change = 0;
+    } else {
+      change = (((endPrice - startPrice) / startPrice) * 100).toFixed(2);
+    }
+    if (isNaN(change)) {
+      change = 0.0;
+    }
+    if (!(startPrice * 1)) {
+      // console.log("Komoditas tanpa start: ", commodity);
+    }
+
+    return {
+      change,
+      startPrice,
+      endPrice,
+    };
+  }
+
+  function getDataRange(period) {
+    const now = new Date();
+    let startDate;
+    switch (period) {
+      case "1W": // Last 7 days
+        startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+        break;
+      case "1M": // Last 1 month
+        startDate = new Date(
+          now.getFullYear(),
+          now.getMonth() - 1,
+          now.getDate()
+        );
+        break;
+      case "3M": // Last 3 months
+        startDate = new Date(
+          now.getFullYear(),
+          now.getMonth() - 3,
+          now.getDate()
+        );
+        break;
+      case "YTD": // Year-to-Date
+        startDate = new Date(now.getFullYear(), 0, 1);
+        break;
+      case "1Y": // Last 1 year
+        startDate = new Date(
+          now.getFullYear() - 1,
+          now.getMonth(),
+          now.getDate()
+        );
+        break;
+      default:
+        return null;
+      // throw new Error("Invalid period specified: " + period);
+    }
+    return startDate;
+  }
+
   return {
     priceData,
     generatePriceData,
@@ -277,5 +368,7 @@ export function useUtils() {
     getObjectByCol,
     getFormattedDate,
     Harga,
+    getSparklinePrices,
+    getPriceChange,
   };
 }

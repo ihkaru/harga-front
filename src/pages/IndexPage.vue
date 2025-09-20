@@ -68,11 +68,11 @@
       <commodity-display class="commodity-display-container" :data="komoditasStore.get()" />
     </div>
     <!-- <div style="margin-bottom: 100vh"></div> -->
-    <div style="margin-bottom: 30vh; margin-top: 7em">
+    <div style="margin-bottom: 30vh; margin-top: 10em">
       <div class="row evenly">
         <!-- Grafik kiri -->
-        <div class="col-md-8 col-xs-12">
-          <div class="bg-white rounded-borders q-pa-lg" id="komoditas">
+        <div class="col-md-8 col-xs-12 q-ma-none full-height" id="komoditas">
+          <div class="bg-white rounded-borders q-px-lg full-height">
             <!-- Tempatkan grafik kiri di sini -->
             <main-chart :key="selectedData?.nama + mainChartKey" :data="selectedData"></main-chart>
           </div>
@@ -88,6 +88,9 @@
       </div>
       <div id="ai-analysis" class="q-px-md" style="margin-top: 2em;">
         <analysis-section :dark="false" />
+      </div>
+      <div id="category-section" class="q-px-md" style="margin-top: 2em;">
+        <CategorySection />
       </div>
     </div>
   </q-page>
@@ -111,12 +114,12 @@ import {
 } from "chart.js";
 import { computed, toRaw, watch, watchEffect } from "vue";
 import ListKomoditas from "src/components/ListKomoditas.vue";
-import CommodityCard from "src/components/CommodityCard.vue";
 import MainChart from "src/components/MainChart.vue";
 import { useSyncService } from "src/services/SyncKomoditas";
 import { useSelectionStore } from "src/stores/selectionStore";
 import { useUtils } from "src/utils/utils";
 import CommodityDisplay from "src/components/CommodityDisplay.vue";
+import CategorySection from "src/components/CategorySection.vue";
 import AnalysisSection from "src/components/AnalysisSection.vue";
 
 const commodities = [

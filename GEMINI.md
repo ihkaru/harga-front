@@ -20,10 +20,28 @@ The application includes a section within the main hero banner that displays AI-
 *   **Formatting:** `npm run format`
 *   **Testing:** `npm run test` (Note: No tests are currently specified)
 
-## Development Conventions
+## Known Issues
+
+### MainChart Not Rendering
+
+- **Symptom:** The `MainChart.vue` component is not rendering the chart, only the "Terakhir diperbarui..." text.
+- **Investigation:**
+  - The `props.data` is being passed correctly to the component.
+  - The `filteredData` computed property is returning the correct data.
+  - The `chartData` computed property is also returning the correct data.
+- **Attempts to fix:**
+  - Added `overflow: hidden` to the chart container.
+  - Added a window resize event listener to force a re-render.
+  - Wrapped the `Line` component in a `v-if` to ensure data is ready.
+- **Next Steps:**
+  - Further investigation is needed to identify the root cause of the issue. It might be related to the chart.js library itself or how it's being used in the component.
 
 *   **Spec-Driven Development:** Before making any code changes, you must first consult the `spec` folder to understand the project's specifications. This is to ensure that your changes are consistent with the existing design and to avoid duplicating any functionality.
 *   **API:** The API specification is documented in `spec/05-api-specification.md`.
 *   **Components:** Component specifications are documented in the `spec/components` folder.
 *   **User Interaction:** The application's behavior is described in `spec/03-user-interaction.md` using a Behavior-Driven Development (BDD) format.
 *   **Styling:** The application uses a combination of a dark theme for the hero section and a light theme for the main content area. The styling is documented in `spec/04-styling-and-theme.md`.
+
+## Workflow Instructions
+
+*   **Planning:** Before taking any action, create a detailed plan outlining the steps to be taken. Save this plan as a new, versioned markdown file in the `/plan` directory (e.g., `plan/plan-v33.md`).
