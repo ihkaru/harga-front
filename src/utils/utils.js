@@ -290,30 +290,24 @@ export function useUtils() {
   }
 
   function getPriceChange(commodity, period, kecamatan) {
-    const data = getSparklinePrices(
-      commodity,
-      period,
-      kecamatan
-    );
-    // console.log("data price change: ", data, commodity);
-    const startPrice = data[0];
-    const endPrice = data[data.length - 1];
+    // Use the robust getLastPrice for the end price.
+    const endPrice = Harga.getLastPrice(commodity, kecamatan);
 
-    let change;
-    if (startPrice === 0) {
-      change = 0;
-    } else {
+    const sparklineData = getSparklinePrices(commodity, period, kecamatan);
+
+    if (sparklineData.length === 0) {
+      return { change: 0, startPrice: 0, endPrice: endPrice };
+    }
+
+    const startPrice = sparklineData[0];
+
+    let change = 0;
+    if (startPrice > 0) {
       change = (((endPrice - startPrice) / startPrice) * 100).toFixed(2);
-    }
-    if (isNaN(change)) {
-      change = 0.0;
-    }
-    if (!(startPrice * 1)) {
-      // console.log("Komoditas tanpa start: ", commodity);
     }
 
     return {
-      change,
+      change: isNaN(change) ? 0.0 : change,
       startPrice,
       endPrice,
     };
