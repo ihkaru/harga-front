@@ -35,10 +35,13 @@ export function useSyncService() {
       console.log("fetching");
       await api.get(apiUrl).then((res) => {
         console.log("fetching success");
-        // console.log("tes", res.data);
-        komoditasStore.set(Utils.transformDataArray(res.data));
-        // console.log("tes", res.data);
-        komoditasStore.setLastUpdate(Utils.getCurrentDateTime());
+        console.log("Raw data from API:", res.data);
+        const transformedData = Utils.transformDataArray(res.data);
+        console.log("Transformed data:", transformedData);
+        komoditasStore.set(transformedData);
+        const lastUpdate = Utils.getCurrentDateTime();
+        console.log("Setting last update:", lastUpdate);
+        komoditasStore.setLastUpdate(lastUpdate);
       });
       // console.log("komo", komoditasStore.getLastUpdate);
     } catch (err) {

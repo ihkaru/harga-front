@@ -34,6 +34,7 @@ export const useKomoditasStore = defineStore("komoditas", {
   actions: {
     set(komoditas) {
       this.komoditas = komoditas;
+      console.log("Komoditas updated:", this.komoditas);
     },
     setLastUpdate(lastUpdate) {
       this.lastUpdate = lastUpdate;

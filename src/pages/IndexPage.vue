@@ -8,23 +8,8 @@
           </h5>
         </div>
         <div class="hero-badge">
-          <span class="word-wrapper">
-            <span class="word">&nbsp;Kolaborasi</span>
-          </span>
-          <span class="word-wrapper">
-            <span class="word">&nbsp;Pengendalian</span>
-          </span>
-          <span class="word-wrapper">
-            <span class="word">&nbsp;Inflasi</span>
-          </span>
-          <span class="word-wrapper">
-            <span class="word">&nbsp;Daerah</span>
-          </span>
-          <span class="word-wrapper">
-            <span class="word">&nbsp;Kabupaten</span>
-          </span>
-          <span class="word-wrapper">
-            <span class="word">&nbsp;Mempawah</span>
+          <span v-for="(word, index) in subtitleWords" :key="index" class="word-wrapper">
+            <span class="word">&nbsp;{{ word }}</span>
           </span>
         </div>
         <h1>
@@ -51,16 +36,15 @@
           > -->
         </div>
         <div class="justify-center q-gutter-xs q-pb-sm" style="margin-top: 50px; display: flex">
-          <!-- Disperindagkop Logo -->
-          <q-img src="~assets/MPW.png" spinner-color="primary" style="height: 8vh; max-width: 200px" fit="contain" />
-          <!-- BPS Logo -->
-          <q-img src="~assets/BPS.png" spinner-color="primary" style="height: 8vh; max-width: 200px" fit="contain" />
+          <!-- Main Logo -->
+          <q-img :src="`assets/${Config.assets.logoMain}`" spinner-color="primary" style="height: 8vh; max-width: 200px" fit="contain" />
+          <!-- Partner Logo -->
+          <q-img :src="`assets/${Config.assets.logoPartner}`" spinner-color="primary" style="height: 8vh; max-width: 200px" fit="contain" />
         </div>
-        <p style="margin-top: 10px">
-          KOLABORASI PENGENDALIAN INFLASI DAERAH <br />
-          KABUPATEN MEMPAWAH
+        <p style="margin-top: 10px; text-transform: uppercase;">
+          {{ Config.appSubtitle }} <br />
           <br />
-          (KOPI DEWA)
+          ({{ Config.appName }})
         </p>
       </div>
     </div>
@@ -121,6 +105,9 @@ import { useUtils } from "src/utils/utils";
 import CommodityDisplay from "src/components/CommodityDisplay.vue";
 import CategorySection from "src/components/CategorySection.vue";
 import AnalysisSection from "src/components/AnalysisSection.vue";
+import Config from "src/config";
+
+const subtitleWords = computed(() => Config.appSubtitle.split(' '));
 
 const commodities = [
   { name: "Beras", icon: "mdi-rice", price: 12000 },

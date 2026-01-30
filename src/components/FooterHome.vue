@@ -13,11 +13,11 @@
           <div class="q-mt-sm">
             <div class="text-body2">
               <q-icon name="phone" size="xs" class="q-mr-sm" />
-              Telp: (0561) 691037
+              Telp: {{ Config.institution.phone }}
             </div>
             <div class="text-body2 q-mt-xs">
               <q-icon name="mail" size="xs" class="q-mr-sm" />
-              E-Mail: perindagnakerdinas@gmail.com
+              E-Mail: {{ Config.institution.email }}
             </div>
           </div>
         </div>
@@ -26,11 +26,11 @@
         <div class="col-12 col-md-8">
           <div class="text-h6 text-dark">Alamat</div>
           <div class="text-body2 q-mt-sm">
-            Dinas Perdagangan, Perindustrian dan Tenaga Kerja Kabupaten Mempawah
+            {{ Config.institution.name }}
             <br />
-            Jalan Raden Kusno, Kelurahan Tengah, Kecamatan Mempawah Hilir
+            {{ Config.institution.address }}
             <br />
-            Kabupaten Mempawah, Kalimantan Barat 78912
+            {{ Config.institution.cityStateZip }}
           </div>
         </div>
       </div>
@@ -40,16 +40,16 @@
         class="justify-center q-gutter-xs"
         style="margin-top: 50px; display: flex"
       >
-        <!-- Disperindagkop Logo -->
+        <!-- Main Logo -->
         <q-img
-          src="~assets/MPW.png"
+          :src="`assets/${Config.assets.logoMain}`"
           spinner-color="primary"
           style="height: 8vh; max-width: 200px"
           fit="contain"
         />
-        <!-- BPS Logo -->
+        <!-- Partner Logo -->
         <q-img
-          src="~assets/BPS.png"
+          :src="`assets/${Config.assets.logoPartner}`"
           spinner-color="primary"
           style="height: 8vh; max-width: 200px"
           fit="contain"
@@ -62,17 +62,14 @@
       </div>
       <div class="row justify-center q-mt-sm">
         <div class="text-center text-body2 text-grey-8">
-          Kolaborasi Dinas Perdagangan, Perindustrian dan Tenaga Kerja
-          Kabupaten Mempawah
-          <br />
-          dengan BPS Kabupaten Mempawah
+          {{ Config.appSubtitle }}
         </div>
       </div>
 
       <!-- Copyright -->
       <div class="row justify-center q-mt-lg">
         <div class="text-caption text-grey-7">
-          © {{ currentYear }} Kabupaten Mempawah
+          © {{ currentYear }} {{ Config.region.name }}
         </div>
       </div>
     </div>
@@ -81,6 +78,7 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount, computed } from "vue";
+import Config from "src/config";
 
 // Refs
 const footerRef = ref(null);

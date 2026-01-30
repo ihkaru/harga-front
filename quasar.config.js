@@ -7,14 +7,21 @@
 
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
-const env = require("dotenv").config({
-  path: `.env.${"production"}`,
-}).parsed;
+// Configuration for your app
+// https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
+require("dotenv").config(); // Load .env file into process.env
 
 const { configure } = require("quasar/wrappers");
 
 module.exports = configure(function (/* ctx */) {
+  const appName = process.env.VITE_APP_NAME || "Dashboard Harga Komoditas";
+  const appDescription = process.env.VITE_APP_SUBTITLE || "Dashboard Harga Komoditas di Kabupaten Mempawah";
+
   return {
+    // Top-level properties to override package.json
+    productName: appName,
+    description: appDescription,
+    
     // https://v2.quasar.dev/quasar-cli-vite/prefetch-feature
     // preFetch: true,
 
@@ -56,7 +63,7 @@ module.exports = configure(function (/* ctx */) {
 
       // publicPath: '/',
       // analyze: true,
-      env: { ...env },
+      // env: { ...env },
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,
@@ -82,6 +89,7 @@ module.exports = configure(function (/* ctx */) {
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
     devServer: {
       // https: true
+      port: 9100,
       open: true, // opens browser window automatically
     },
 
