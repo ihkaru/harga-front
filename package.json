@@ -1,9 +1,9 @@
 {
   "name": "front",
   "version": "0.0.1",
-  "description": "Dashboard Harga Komoditas di Kabupaten Mempawah",
-  "productName": "Dashboard Harga Komoditas di Kabupaten Mempawah",
-  "author": "ihza",
+  "description": "Dashboard Harga Komoditas (TPID)",
+  "productName": "Dashboard Harga Komoditas",
+  "author": "TPID",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
