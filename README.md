@@ -1,41 +1,42 @@
-# Dashboard Harga Komoditas di Kabupaten Mempawah (front)
+# Dashboard Harga Komoditas (Frontend)
 
-Dashboard Harga Komoditas di Kabupaten Mempawah
+Ini adalah repositori frontend untuk aplikasi Dashboard Harga Komoditas, sebuah aplikasi **ATM (Amati, Tiru, Modifikasi)** yang dirancang untuk membantu Tim Pengendali Inflasi Daerah (TPID) memantau harga pasar.
 
-## Install the dependencies
+## 🚀 Panduan Instalasi & Replikasi
+
+Untuk panduan lengkap mengenai cara menginstall, mengatur konfigurasi wilayah (nama daerah, logo, kontak), dan menghubungkan ke backend, silakan baca dokumen berikut:
+
+👉 **[BACA PANDUAN INSTALASI (SETUP_GUIDE.md)](./SETUP_GUIDE.md)** 👈
+
+## ⚡ Perintah Cepat (Quick Start)
+
+Jika Anda sudah menyelesaikan konfigurasi di `SETUP_GUIDE.md`:
+
+### Install Dependencies
+
 ```bash
-yarn
-# or
 npm install
 ```
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+### Jalankan Server Development
+
 ```bash
-quasar dev
+npm run dev
 ```
 
+_Aplikasi berjalan di port 9100 secara default._
 
-### Lint the files
+### Build untuk Production
+
 ```bash
-yarn lint
-# or
-npm run lint
+npm run build
 ```
 
+_Hasil build ada di folder `.dist/spa`_
 
-### Format the files
-```bash
-yarn format
-# or
-npm run format
-```
+## 🛠️ Tech Stack
 
-
-
-### Build the app for production
-```bash
-quasar build
-```
-
-### Customize the configuration
-See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
+- **Framework**: Quasar (Vue.js 3)
+- **State Management**: Pinia
+- **Charts**: Chart.js
+- **Animation**: Anime.js
