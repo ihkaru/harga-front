@@ -24,10 +24,10 @@
         v-for="commodity in searchedKomoditas"
         :key="commodity.symbol || commodity.nama"
         @click="selectCommodity(commodity)"
-        class="flex items-center justify-between gap-3 p-3.5 hover:bg-slate-50/80 transition-colors cursor-pointer group"
+        class="grid grid-cols-[1fr_90px_120px] items-center gap-3 p-3.5 hover:bg-slate-50/80 transition-colors cursor-pointer group"
       >
         <!-- Avatar & Name Info -->
-        <div class="flex items-center gap-3 min-w-0 flex-1">
+        <div class="flex items-center gap-3 min-w-0">
           <q-avatar size="40px" class="shrink-0 border border-slate-200 shadow-2xs">
             <q-img
               :src="`https://harga-api.dvlp.asia/komoditas/${commodity.nama}.webp`"
@@ -57,8 +57,8 @@
           </div>
         </div>
 
-        <!-- Sparkline -->
-        <div class="flex shrink-0 w-20 justify-center">
+        <!-- Sparkline (Vertically & Horizontally Aligned Column) -->
+        <div class="flex justify-center items-center w-full min-w-0">
           <SparkLine
             :data="Utils.getSparklinePrices(
               commodity,
@@ -81,8 +81,8 @@
         </div>
 
         <!-- Price Info & Badge -->
-        <div class="text-right shrink-0">
-          <div class="text-xs sm:text-sm font-bold text-slate-900 tracking-tight">
+        <div class="text-right flex flex-col items-end justify-center min-w-0">
+          <div class="text-xs sm:text-sm font-bold text-slate-900 tracking-tight whitespace-nowrap">
             Rp {{
               Utils.formatCurrency(
                 Utils.Harga.getLastPrice(
@@ -94,7 +94,7 @@
           </div>
           <div
             :class="[
-              'inline-block px-2 py-0.5 mt-0.5 text-[11px] font-bold rounded-full text-center min-w-[45px]',
+              'inline-block px-2 py-0.5 mt-0.5 text-[11px] font-bold rounded-full text-center whitespace-nowrap min-w-[50px]',
               Utils.getPriceChange(
                 commodity,
                 selectedPeriod,
