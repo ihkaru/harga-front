@@ -19,7 +19,7 @@
     </div>
 
     <!-- Commodity List -->
-    <div class="flex-1 max-h-[580px] overflow-y-auto divide-y divide-slate-100" v-if="searchedKomoditas && searchedKomoditas.length > 0">
+    <div class="flex-1 max-h-[400px] sm:max-h-[430px] md:max-h-[460px] lg:max-h-[480px] overflow-y-auto divide-y divide-slate-100" v-if="searchedKomoditas && searchedKomoditas.length > 0">
       <div
         v-for="commodity in searchedKomoditas"
         :key="commodity.symbol || commodity.nama"

@@ -104,7 +104,7 @@
     </div>
 
     <!-- Chart Canvas -->
-    <div class="relative w-full h-[180px] sm:h-[320px] bg-slate-50/40 rounded-xl p-1.5 sm:p-2 border border-slate-100/80 overflow-hidden">
+    <div class="relative w-full h-[180px] sm:h-[210px] md:h-[240px] lg:h-[260px] xl:h-[290px] bg-slate-50/40 rounded-xl p-1.5 sm:p-2 border border-slate-100/80 overflow-hidden">
       <div v-show="showTooltip" class="absolute -top-2 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[11px] font-semibold px-2.5 py-1 rounded-md shadow-md z-10 whitespace-nowrap pointer-events-none" :style="{ left: tooltipPosition + 'px' }">
         {{ displayDate }}
       </div>
