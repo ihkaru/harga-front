@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import axios from 'axios';
+import { api } from 'src/boot/axios';
 
 export const useAnalysisStore = defineStore('analysis', {
   state: () => ({
@@ -14,7 +14,7 @@ export const useAnalysisStore = defineStore('analysis', {
       this.error = null;
       try {
         const today = new Date().toISOString().slice(0, 10);
-        let response = await axios.get('https://harga-api.dvlp.asia/api/analisis-harga', {
+        let response = await api.get('/analisis-harga', {
           params: {
             limit: 5,
             start_date: today,
@@ -23,7 +23,7 @@ export const useAnalysisStore = defineStore('analysis', {
         });
 
         if (response.data.length === 0) {
-          response = await axios.get('https://harga-api.dvlp.asia/api/analisis-harga', {
+          response = await api.get('/analisis-harga', {
             params: {
               limit: 5,
             },
