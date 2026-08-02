@@ -86,19 +86,22 @@
 
     <!-- Period Selector -->
     <div class="flex justify-center mt-2 w-full">
-      <q-btn-toggle
-        :model-value="selectedPeriod"
-        @update:model-value="selectPeriod"
-        toggle-color="primary"
-        color="grey-2"
-        text-color="grey-7"
-        toggle-text-color="white"
-        dense
-        rounded
-        unelevated
-        :options="Utils.Constants.CHART_PERIODS.map(p => ({ label: p.label, value: p.value }))"
-        class="text-xs font-semibold"
-      />
+      <div class="inline-flex items-center gap-1 p-1 bg-slate-100/90 rounded-full border border-slate-200/60 shadow-inner">
+        <button
+          v-for="period in Utils.Constants.CHART_PERIODS"
+          :key="period.value"
+          @click="selectPeriod(period.value)"
+          type="button"
+          :class="[
+            selectedPeriod === period.value
+              ? 'bg-blue-600 text-white shadow-xs font-bold scale-[1.02]'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-white/60 font-medium',
+            'px-3.5 sm:px-4 py-1 rounded-full text-xs transition-all duration-200 ease-out cursor-pointer select-none'
+          ]"
+        >
+          {{ period.label }}
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -477,16 +480,21 @@ const chartOptions = computed(() => {
         beginAtZero: false,
         min: yMin,
         max: yMax,
-        title: {
-          display: true,
-          text: "Harga (Rp)",
+        border: {
+          display: false,
         },
         grid: {
           display: true,
-          color: "rgba(0, 0, 0, 0.05)",
+          color: "rgba(226, 232, 240, 0.6)",
+          drawTicks: false,
         },
         ticks: {
           display: true,
+          font: {
+            size: 11,
+          },
+          color: "#64748b",
+          padding: 8,
           callback: function (value) {
             return value.toLocaleString("id-ID");
           },

@@ -30,7 +30,7 @@ fi
 
 # Step 3: Check & terminate orphan processes on target port
 echo "🔍 Checking port $PORT for existing/orphan processes..."
-ORPHAN_PIDS=$(lsof -ti:$PORT 2>/dev/null || true)
+ORPHAN_PIDS=$(lsof -ti:"$PORT" 2>/dev/null || true)
 
 if [ -n "$ORPHAN_PIDS" ]; then
   echo "⚠️  Port $PORT is currently occupied by process(es): $ORPHAN_PIDS"
@@ -40,7 +40,7 @@ if [ -n "$ORPHAN_PIDS" ]; then
   done
   sleep 1
   # Force kill if still alive
-  STILL_ALIVE=$(lsof -ti:$PORT 2>/dev/null || true)
+  STILL_ALIVE=$(lsof -ti:"$PORT" 2>/dev/null || true)
   if [ -n "$STILL_ALIVE" ]; then
     echo "⚡ Force killing remaining process(es): $STILL_ALIVE..."
     for PID in $STILL_ALIVE; do
@@ -57,6 +57,7 @@ fi
 DEV_PID=""
 
 cleanup() {
+  trap - SIGINT SIGTERM EXIT # Prevent recursive trap execution
   echo ""
   echo "🛑 Received termination signal. Cleaning up background processes..."
   if [ -n "$DEV_PID" ] && kill -0 "$DEV_PID" 2>/dev/null; then
@@ -65,7 +66,7 @@ cleanup() {
   fi
 
   # Final check to ensure port is freed
-  REMAINING=$(lsof -ti:$PORT 2>/dev/null || true)
+  REMAINING=$(lsof -ti:"$PORT" 2>/dev/null || true)
   if [ -n "$REMAINING" ]; then
     kill -9 $REMAINING 2>/dev/null || true
   fi
