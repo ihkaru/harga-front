@@ -41,7 +41,7 @@
         transition-next="slide-left"
         swipeable
         arrows
-        class="w-full h-[220px] xs:h-[260px] sm:h-[360px] md:h-[440px] lg:h-[500px] bg-slate-950"
+        class="w-full h-[280px] xs:h-[340px] sm:h-[480px] md:h-[580px] lg:h-[650px] bg-slate-950"
       >
         <q-carousel-slide
           v-for="(item, index) in infographics"
@@ -51,13 +51,13 @@
           @click="openLightbox(index)"
         >
           <!-- Background Image with HTML5 <picture> -->
-          <picture class="w-full h-full flex items-center justify-center">
+          <picture class="w-full h-full flex items-center justify-center p-1 sm:p-2">
             <source :srcset="item.webp" type="image/webp" />
             <img
               :src="item.jpg"
               :alt="item.title"
               loading="lazy"
-              class="w-full h-full object-contain sm:object-cover"
+              class="w-full h-full object-contain rounded-lg"
             />
           </picture>
 
