@@ -2,7 +2,7 @@
   <q-page>
     <div class="hero">
       <div class="hero-content">
-        <div class="text-xs sm:text-sm font-semibold tracking-wide text-slate-300 mb-2">
+        <div class="text-xs sm:text-sm font-semibold tracking-wide text-slate-300 mb-2 sm:mb-3">
           {{ Utils.getFormattedDate() }}
         </div>
         <div class="hero-badge shadow-xs">
@@ -17,7 +17,7 @@
           <span class="word-wrapper">
             <span class="word">&nbsp;Harga,</span>
           </span>
-          <br class="hidden sm:inline" />
+          <br />
           <span class="word-wrapper">
             <span class="word" style="color: #b19cd9">&nbsp;Mengendalikan</span>
           </span>
@@ -25,17 +25,17 @@
             <span class="word" style="color: #b19cd9">&nbsp;Inflasi</span>
           </span>
         </h1>
-        <div class="button-container flex flex-col xs:flex-row items-center justify-center gap-2 sm:gap-3 mt-3 sm:mt-6">
+        <div class="button-container flex flex-col sm:flex-row items-center justify-center gap-3 mt-4 sm:mt-8">
           <a href="#komoditas" class="hero-button glow-on-hover">Data Komoditas</a>
           <a href="#edukasi-pangan" class="hero-button glow-on-hover bg-emerald-600/90 text-white border-emerald-400">🛡️ Edukasi BPOM</a>
         </div>
-        <div class="flex justify-center items-center gap-3 mt-3 sm:mt-8">
+        <div class="flex justify-center items-center gap-4 mt-6 sm:mt-12">
           <!-- Main Logo -->
-          <q-img :src="`assets/${Config.assets.logoMain}`" spinner-color="primary" class="h-8 sm:h-14 max-w-[80px] sm:max-w-[160px]" fit="contain" />
+          <q-img :src="`assets/${Config.assets.logoMain}`" spinner-color="primary" class="h-8 sm:h-16 max-w-[80px] sm:max-w-[180px]" fit="contain" />
           <!-- Partner Logo -->
-          <q-img :src="`assets/${Config.assets.logoPartner}`" spinner-color="primary" class="h-8 sm:h-14 max-w-[80px] sm:max-w-[160px]" fit="contain" />
+          <q-img :src="`assets/${Config.assets.logoPartner}`" spinner-color="primary" class="h-8 sm:h-16 max-w-[80px] sm:max-w-[180px]" fit="contain" />
         </div>
-        <p class="text-[10px] sm:text-xs tracking-wider uppercase opacity-80 mt-2 sm:mt-3 mb-0">
+        <p class="text-[10px] sm:text-xs tracking-wider uppercase opacity-80 mt-3 sm:mt-4 mb-0">
           {{ Config.appSubtitle }} <br />
           ({{ Config.appName }})
         </p>
@@ -258,7 +258,7 @@ onMounted(() => {
 <style>
 .glow-on-hover {
   width: 220px;
-  height: 48px;
+  height: 50px;
   border: none;
   outline: none;
   color: #fff;
@@ -273,7 +273,7 @@ onMounted(() => {
   font-size: 0.85rem;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 639px) {
   .glow-on-hover {
     width: 100%;
     max-width: 240px;
@@ -351,7 +351,7 @@ onMounted(() => {
   max-width: 100vw;
   background: linear-gradient(135deg, #0a0426 0%, #1a1040 100%);
   color: white;
-  padding: 1rem 0.5rem;
+  padding: 2rem;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -361,9 +361,9 @@ onMounted(() => {
   text-align: center;
 }
 
-@media (min-width: 640px) {
+@media (max-width: 639px) {
   .hero {
-    padding: 2rem;
+    padding: 1rem 0.5rem;
   }
 }
 
@@ -381,80 +381,76 @@ onMounted(() => {
 .hero-badge {
   background: #ffd700;
   color: #000;
-  padding: 0.25rem 0.65rem;
+  padding: 0.5rem 1.5rem;
   border-radius: 50px;
   font-weight: 700;
-  margin-bottom: 0.75rem;
+  margin-bottom: 2rem;
   text-transform: uppercase;
-  font-size: 0.62rem;
+  font-size: 0.9rem;
   opacity: 1;
   transform: translateY(20px);
-  max-width: 92%;
-  line-height: 1.25;
   display: inline-block;
 }
 
-@media (min-width: 480px) {
+@media (max-width: 639px) {
   .hero-badge {
     padding: 0.35rem 1rem;
     font-size: 0.75rem;
     margin-bottom: 1.25rem;
+    max-width: 95%;
+    line-height: 1.3;
   }
 }
 
-@media (min-width: 640px) {
+@media (max-width: 479px) {
   .hero-badge {
-    padding: 0.5rem 1.5rem;
-    font-size: 0.9rem;
-    margin-bottom: 2rem;
+    padding: 0.25rem 0.65rem;
+    font-size: 0.62rem;
+    margin-bottom: 0.75rem;
+    max-width: 92%;
+    line-height: 1.25;
   }
 }
 
 .hero-content {
-  max-width: 96vw;
+  max-width: 80vw;
   margin: 0 auto;
   position: relative;
   z-index: 1;
 }
 
-@media (min-width: 640px) {
+@media (max-width: 639px) {
   .hero-content {
-    max-width: 80vw;
+    max-width: 96vw;
   }
 }
 
 .hero h1 {
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
+  font-size: 4rem;
+  margin-bottom: 1rem;
   opacity: 1;
   transform: translateY(20px);
   line-height: 1.2;
   font-weight: 300;
 }
 
-@media (min-width: 380px) {
+@media (max-width: 1023px) {
   .hero h1 {
-    font-size: 1.4rem;
+    font-size: 3.25rem;
   }
 }
 
-@media (min-width: 480px) {
+@media (max-width: 767px) {
   .hero h1 {
-    font-size: 2rem;
+    font-size: 2.25rem;
     margin-bottom: 0.75rem;
   }
 }
 
-@media (min-width: 768px) {
+@media (max-width: 479px) {
   .hero h1 {
-    font-size: 3.25rem;
-    margin-bottom: 1rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .hero h1 {
-    font-size: 4rem;
+    font-size: 1.35rem;
+    margin-bottom: 0.5rem;
   }
 }
 
