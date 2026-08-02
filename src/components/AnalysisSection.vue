@@ -538,10 +538,13 @@
 <script setup>
 import { onMounted, defineProps } from 'vue';
 import { storeToRefs } from 'pinia';
+import { useUtils } from 'src/utils/utils';
 import { useAnalysisStore } from 'src/stores/analysisStore';
 import { useKomoditasStore } from 'src/stores/komoditasStore';
 import InfoTooltip from './InfoTooltip.vue';
 import { termDefinitions } from 'src/utils/termDefinitions.js';
+
+const Utils = useUtils();
 
 const props = defineProps({
   dark: {

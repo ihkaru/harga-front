@@ -34,9 +34,11 @@
 import CommodityCard from "components/CommodityCard.vue";
 import { useSelectionStore } from "src/stores/selectionStore";
 import { useConstants } from "src/utils/constants";
+import { useUtils } from "src/utils/utils";
 import { computed, defineProps, onBeforeUnmount, onMounted, ref } from "vue";
 const Constants = useConstants();
 const selectionStore = useSelectionStore();
+const Utils = useUtils();
 const props = defineProps({
   data: {
     type: Array,
