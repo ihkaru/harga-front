@@ -104,8 +104,8 @@
     </div>
 
     <!-- Chart Canvas -->
-    <div class="relative w-full h-[180px] sm:h-[210px] md:h-[240px] lg:h-[260px] xl:h-[290px] bg-slate-50/40 rounded-xl p-1.5 sm:p-2 border border-slate-100/80 overflow-hidden">
-      <div v-show="showTooltip" class="absolute -top-2 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[11px] font-semibold px-2.5 py-1 rounded-md shadow-md z-10 whitespace-nowrap pointer-events-none" :style="{ left: tooltipPosition + 'px' }">
+    <div class="relative w-full h-[180px] sm:h-[210px] md:h-[240px] lg:h-[260px] xl:h-[290px] bg-slate-50/40 rounded-xl p-1.5 sm:p-2 pt-8 sm:pt-9 border border-slate-100/80 overflow-hidden">
+      <div v-show="showTooltip" class="absolute top-2 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[11px] font-semibold px-2.5 py-1 rounded-md shadow-md z-20 whitespace-nowrap pointer-events-none" :style="{ left: tooltipPosition + 'px' }">
         {{ displayDate }}
       </div>
       <Line :ref="chartRef" :data="chartData" :options="chartOptions" @mouseout="handleChartLeave" @touchend="handleChartLeave" />
@@ -370,51 +370,101 @@ const priceChangePrefix = computed(() => {
   return change >= 0 ? "+" : "-";
 });
 
+const fillMissingDates = (items) => {
+  if (!items || items.length < 2) return items || [];
+
+  const sorted = [...items].sort((a, b) => new Date(a.date) - new Date(b.date));
+  const result = [];
+
+  let lastPrice = sorted[0].price;
+  let lastKecamatan = sorted[0].kecamatan;
+
+  for (let i = 0; i < sorted.length; i++) {
+    const current = sorted[i];
+    if (result.length > 0) {
+      const prevDate = new Date(result[result.length - 1].date);
+      const currDate = new Date(current.date);
+      const diffDays = Math.round((currDate - prevDate) / (1000 * 60 * 60 * 24));
+
+      if (diffDays > 1 && diffDays <= 14) {
+        for (let d = 1; d < diffDays; d++) {
+          const missingDate = new Date(prevDate);
+          missingDate.setDate(missingDate.getDate() + d);
+          const dateStr = missingDate.toISOString().split("T")[0];
+          result.push({
+            date: dateStr,
+            price: lastPrice,
+            kecamatan: lastKecamatan,
+          });
+        }
+      }
+    }
+
+    lastPrice = current.price;
+    lastKecamatan = current.kecamatan;
+    result.push(current);
+  }
+
+  return result;
+};
+
 const filteredData = computed(() => {
   const now = new Date();
-  const data = [
+  const rawData = [
     ...Utils.Harga.filterByKecamatan(
       props.data,
       selectionStore.getSelectionByKey(Constants.SELECTED_WILAYAH)
     ).data,
   ];
 
+  let filtered = [];
+
   switch (selectedPeriod.value) {
     case "1D":
-      return data.filter((item) => {
+      filtered = rawData.filter((item) => {
         const date = new Date(item.date);
         return date.getTime() >= now.getTime() - 86400000;
       });
+      break;
     case "1W":
-      return data.filter((item) => {
+      filtered = rawData.filter((item) => {
         const date = new Date(item.date);
         return date.getTime() >= now.getTime() - 7 * 86400000;
       });
+      break;
     case "1M":
-      return data.filter((item) => {
+      filtered = rawData.filter((item) => {
         const date = new Date(item.date);
         return date.getTime() >= now.getTime() - 30 * 86400000;
       });
+      break;
     case "3M":
-      return data.filter((item) => {
+      filtered = rawData.filter((item) => {
         const date = new Date(item.date);
         return date.getTime() >= now.getTime() - 90 * 86400000;
       });
+      break;
     case "YTD":
-      return data.filter((item) => {
+      filtered = rawData.filter((item) => {
         const date = new Date(item.date);
         return date.getFullYear() === now.getFullYear();
       });
+      break;
     case "1Y":
-      return data.filter((item) => {
+      filtered = rawData.filter((item) => {
         const date = new Date(item.date);
         return date.getTime() >= now.getTime() - 365 * 86400000;
       });
+      break;
     case "ALL":
-      return data;
+      filtered = rawData;
+      break;
     default:
-      return data;
+      filtered = rawData;
+      break;
   }
+
+  return fillMissingDates(filtered);
 });
 
 const updateChartColor = (currentPrice, initialPrice) => {
@@ -589,8 +639,9 @@ const chartOptions = computed(() => {
         const initialData = filteredData.value[0];
         displayInitialPriceDate.value = initialData.date;
 
-        const xPosition = elements[0].element.x;
-        tooltipPosition.value = xPosition + 15;
+        const rawX = elements[0].element.x;
+        const chartWidth = chart.width || 300;
+        tooltipPosition.value = Math.max(65, Math.min(rawX, chartWidth - 65));
 
         updateDisplayValues(
           currentData.price,
