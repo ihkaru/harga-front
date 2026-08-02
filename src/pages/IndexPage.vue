@@ -29,11 +29,9 @@
         </h1>
         <br />
         <br />
-        <div class="button-container">
+        <div class="button-container flex flex-wrap justify-center gap-3">
           <a href="#komoditas" class="hero-button glow-on-hover">Data Komoditas</a>
-          <!-- <a href="#inflasi" class="hero-button glow-on-hover"
-            >Statistik Inflasi</a
-          > -->
+          <a href="#edukasi-pangan" class="hero-button glow-on-hover bg-emerald-600/90 text-white border-emerald-400">🛡️ Edukasi Pangan BPOM</a>
         </div>
         <div class="justify-center q-gutter-xs q-pb-sm" style="margin-top: 50px; display: flex">
           <!-- Main Logo -->
@@ -70,6 +68,9 @@
       <div id="category-section" class="mt-8">
         <CategorySection />
       </div>
+      <div id="edukasi-section" class="mt-8">
+        <EdukasiPanganSection />
+      </div>
     </div>
   </q-page>
 </template>
@@ -99,6 +100,7 @@ import { useUtils } from "src/utils/utils";
 import CommodityDisplay from "src/components/CommodityDisplay.vue";
 import CategorySection from "src/components/CategorySection.vue";
 import AnalysisSection from "src/components/AnalysisSection.vue";
+import EdukasiPanganSection from "src/components/EdukasiPanganSection.vue";
 import Config from "src/config";
 
 const subtitleWords = computed(() => Config.appSubtitle.split(' '));
