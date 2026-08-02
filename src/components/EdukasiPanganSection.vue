@@ -1,19 +1,19 @@
 <template>
   <div id="edukasi-pangan" class="w-full bg-white rounded-3xl border border-slate-100 shadow-sm p-4 sm:p-6 space-y-4">
     <!-- Header Section -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
-      <div class="space-y-1">
-        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-semibold">
-          <q-icon name="verified_user" size="14px" />
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-slate-100 pb-3">
+      <div class="space-y-0.5">
+        <div class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-[10px] sm:text-xs font-semibold">
+          <q-icon name="verified_user" size="12px" />
           <span>Dukungan BPOM & Disperindagnaker Kab. Mempawah</span>
         </div>
-        <h2 class="text-lg sm:text-xl font-bold text-slate-800 tracking-tight">
+        <h2 class="text-sm sm:text-lg md:text-xl font-bold text-slate-800 tracking-tight leading-snug">
           Edukasi & Tips Keamanan Pangan
         </h2>
       </div>
 
       <!-- Quick Nav Buttons for Carousel -->
-      <div class="flex items-center gap-1.5 self-start sm:self-auto">
+      <div class="flex items-center gap-1 self-start sm:self-auto">
         <button
           v-for="(item, idx) in infographics"
           :key="item.id"
@@ -22,7 +22,7 @@
             currentSlide === idx
               ? 'bg-emerald-600 text-white font-bold shadow-xs'
               : 'bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium',
-            'px-3 py-1 rounded-full text-xs transition-all duration-200 cursor-pointer'
+            'px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-xs transition-all duration-200 cursor-pointer'
           ]"
         >
           {{ item.shortTitle }}
@@ -65,21 +65,21 @@
           <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
 
           <!-- Bottom Banner Title & Action -->
-          <div class="absolute bottom-3 left-3 right-3 sm:bottom-5 sm:left-6 sm:right-6 flex items-center justify-between gap-3 text-white pointer-events-auto">
-            <div class="min-w-0 flex-1">
-              <span class="inline-block px-2.5 py-0.5 rounded-md bg-emerald-600/90 text-white text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-1">
+          <div class="absolute bottom-2 left-2 right-2 sm:bottom-4 sm:left-5 sm:right-5 flex items-center justify-between gap-2 text-white pointer-events-auto">
+            <div class="min-w-0 flex-1 hidden sm:block">
+              <span class="inline-block px-2 py-0.5 rounded-md bg-emerald-600/90 text-white text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-0.5">
                 {{ item.category }}
               </span>
-              <h3 class="text-xs sm:text-lg font-bold truncate drop-shadow-md">
+              <h3 class="text-xs sm:text-base font-bold truncate drop-shadow-md">
                 {{ item.title }}
               </h3>
             </div>
 
             <button
               @click.stop="openLightbox(index)"
-              class="shrink-0 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-white/90 hover:bg-white text-slate-900 text-xs font-bold shadow-md backdrop-blur-xs flex items-center gap-1.5 transition-all hover:scale-105"
+              class="ml-auto px-2.5 py-1 sm:px-4 sm:py-2 rounded-xl bg-white/90 hover:bg-white text-slate-900 text-[10px] sm:text-xs font-bold shadow-md backdrop-blur-xs flex items-center gap-1 transition-all hover:scale-105"
             >
-              <q-icon name="fullscreen" size="16px" />
+              <q-icon name="fullscreen" size="14px" />
               <span>Perbesar</span>
             </button>
           </div>
