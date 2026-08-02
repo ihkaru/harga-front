@@ -2,12 +2,10 @@
   <q-page>
     <div class="hero">
       <div class="hero-content">
-        <div>
-          <h5 style="margin-bottom: 0">
-            {{ Utils.getFormattedDate() }}
-          </h5>
+        <div class="text-xs sm:text-sm font-semibold tracking-wide text-slate-300 mb-2">
+          {{ Utils.getFormattedDate() }}
         </div>
-        <div class="hero-badge">
+        <div class="hero-badge shadow-xs">
           <span v-for="(word, index) in subtitleWords" :key="index" class="word-wrapper">
             <span class="word">&nbsp;{{ word }}</span>
           </span>
@@ -19,29 +17,26 @@
           <span class="word-wrapper">
             <span class="word">&nbsp;Harga,</span>
           </span>
-          <br />
+          <br class="hidden sm:inline" />
           <span class="word-wrapper">
-            <span class="word" style="color: #b19cd9">Mengendalikan</span>
+            <span class="word" style="color: #b19cd9">&nbsp;Mengendalikan</span>
           </span>
           <span class="word-wrapper">
             <span class="word" style="color: #b19cd9">&nbsp;Inflasi</span>
           </span>
         </h1>
-        <br />
-        <br />
-        <div class="button-container flex flex-wrap justify-center gap-3">
-          <a href="#komoditas" class="hero-button glow-on-hover">Data Komoditas</a>
-          <a href="#edukasi-pangan" class="hero-button glow-on-hover bg-emerald-600/90 text-white border-emerald-400">🛡️ Edukasi Pangan BPOM</a>
+        <div class="button-container flex flex-col xs:flex-row items-center justify-center gap-2.5 sm:gap-3 mt-4 sm:mt-6">
+          <a href="#komoditas" class="hero-button glow-on-hover w-full xs:w-auto text-center px-4 py-2 text-xs sm:text-sm font-semibold">Data Komoditas</a>
+          <a href="#edukasi-pangan" class="hero-button glow-on-hover bg-emerald-600/90 text-white border-emerald-400 w-full xs:w-auto text-center px-4 py-2 text-xs sm:text-sm font-semibold">🛡️ Edukasi Pangan BPOM</a>
         </div>
-        <div class="justify-center q-gutter-xs q-pb-sm" style="margin-top: 50px; display: flex">
+        <div class="flex justify-center items-center gap-4 mt-6 sm:mt-10">
           <!-- Main Logo -->
-          <q-img :src="`assets/${Config.assets.logoMain}`" spinner-color="primary" style="height: 8vh; max-width: 200px" fit="contain" />
+          <q-img :src="`assets/${Config.assets.logoMain}`" spinner-color="primary" class="h-10 sm:h-16 max-w-[120px] sm:max-w-[180px]" fit="contain" />
           <!-- Partner Logo -->
-          <q-img :src="`assets/${Config.assets.logoPartner}`" spinner-color="primary" style="height: 8vh; max-width: 200px" fit="contain" />
+          <q-img :src="`assets/${Config.assets.logoPartner}`" spinner-color="primary" class="h-10 sm:h-16 max-w-[120px] sm:max-w-[180px]" fit="contain" />
         </div>
-        <p style="margin-top: 10px; text-transform: uppercase;">
+        <p class="text-[10px] sm:text-xs tracking-wider uppercase opacity-80 mt-2 sm:mt-3 mb-0">
           {{ Config.appSubtitle }} <br />
-          <br />
           ({{ Config.appName }})
         </p>
       </div>
@@ -343,7 +338,7 @@ onMounted(() => {
   max-width: 100vw;
   background: linear-gradient(135deg, #0a0426 0%, #1a1040 100%);
   color: white;
-  padding: 2rem;
+  padding: 1.5rem 0.75rem;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -351,6 +346,12 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+
+@media (min-width: 640px) {
+  .hero {
+    padding: 2rem;
+  }
 }
 
 .hero::before {
@@ -367,29 +368,66 @@ onMounted(() => {
 .hero-badge {
   background: #ffd700;
   color: #000;
-  padding: 0.5rem 1.5rem;
+  padding: 0.35rem 0.85rem;
   border-radius: 50px;
-  font-weight: 600;
-  margin-bottom: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
   text-transform: uppercase;
-  font-size: 0.9rem;
+  font-size: 0.72rem;
   opacity: 1;
   transform: translateY(20px);
+  max-width: 95%;
+  line-height: 1.3;
+  display: inline-block;
+}
+
+@media (min-width: 640px) {
+  .hero-badge {
+    padding: 0.5rem 1.5rem;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+  }
 }
 
 .hero-content {
-  max-width: 80vw;
+  max-width: 95vw;
   margin: 0 auto;
   position: relative;
   z-index: 1;
 }
 
+@media (min-width: 640px) {
+  .hero-content {
+    max-width: 80vw;
+  }
+}
+
 .hero h1 {
-  font-size: 4rem;
-  margin-bottom: 1rem;
+  font-size: 1.65rem;
+  margin-bottom: 0.75rem;
   opacity: 1;
   transform: translateY(20px);
-  line-height: 1.2;
+  line-height: 1.25;
+  font-weight: 800;
+}
+
+@media (min-width: 480px) {
+  .hero h1 {
+    font-size: 2.25rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .hero h1 {
+    font-size: 3.25rem;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero h1 {
+    font-size: 4rem;
+  }
 }
 
 .hero h1 span {
