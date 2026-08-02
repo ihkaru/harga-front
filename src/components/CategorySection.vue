@@ -69,11 +69,16 @@
               <div v-for="(commodity, index) in item.commodities" :key="commodity.id" class="commodity-item">
                 <div class="commodity-content">
                   <div class="commodity-name">{{ commodity.nama }}</div>
-                  <div class="commodity-price">
-                    <span :class="commodity.priceChange.colorClass">
-                      {{ commodity.priceChange.displayChange }}
-                    </span>
-                    <q-icon :name="commodity.priceChange.icon" size="0.8em" :class="commodity.priceChange.colorClass" />
+                  <div class="flex items-center gap-2 shrink-0">
+                    <div class="text-xs sm:text-sm font-bold text-slate-900 tracking-tight whitespace-nowrap">
+                      Rp {{ getCommodityPrice(commodity) }}
+                    </div>
+                    <div class="commodity-price">
+                      <span :class="commodity.priceChange.colorClass">
+                        {{ commodity.priceChange.displayChange }}
+                      </span>
+                      <q-icon :name="commodity.priceChange.icon" size="0.8em" :class="commodity.priceChange.colorClass" />
+                    </div>
                   </div>
                 </div>
                 <q-separator v-if="index < item.commodities.length - 1" />
@@ -163,6 +168,14 @@ const scrollToCategory = async (categoryName) => {
   } else {
     console.warn(`Category element not found: ${categoryId}`);
   }
+};
+
+const getCommodityPrice = (commodity) => {
+  const lastPrice = Utils.Harga.getLastPrice(
+    commodity,
+    selectionStore.getSelectionByKey(Constants.SELECTED_WILAYAH)
+  );
+  return Utils.formatCurrency(lastPrice);
 };
 
 const getCommodityPriceChange = (commodity) => {
