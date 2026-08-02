@@ -41,7 +41,7 @@
         transition-next="slide-left"
         swipeable
         arrows
-        class="w-full h-[280px] xs:h-[340px] sm:h-[480px] md:h-[580px] lg:h-[650px] bg-slate-950"
+        class="w-full h-[360px] xs:h-[440px] sm:h-[600px] md:h-[750px] lg:h-[880px] xl:h-[980px] bg-slate-950"
       >
         <q-carousel-slide
           v-for="(item, index) in infographics"
