@@ -7,7 +7,7 @@
           <q-icon name="verified_user" size="12px" />
           <span>Dukungan BPOM & Disperindagnaker Kab. Mempawah</span>
         </div>
-        <h2 class="text-sm sm:text-lg md:text-xl font-bold text-slate-800 tracking-tight leading-snug">
+        <h2 class="!text-sm xs:!text-base sm:!text-lg md:!text-xl font-bold text-slate-800 tracking-tight leading-snug">
           Edukasi & Tips Keamanan Pangan
         </h2>
       </div>
