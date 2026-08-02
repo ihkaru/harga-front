@@ -429,7 +429,7 @@ onMounted(() => {
   opacity: 1;
   transform: translateY(20px);
   line-height: 1.2;
-  font-weight: 800;
+  font-weight: 300;
 }
 
 @media (min-width: 380px) {
