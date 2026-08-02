@@ -1,86 +1,105 @@
 <template>
-  <!-- Enhanced visual styling while maintaining exact structure -->
-  <div class="q-pa-none full-width full-height">
-    <q-card class="my-card shadow-0 q-pa-none full-height column">
-      <q-card-section class="q-pa-none col">
-        <!-- Enhanced refresh button with subtle shadow and hover effect -->
-        <div class="q-pb-md text-right">
-          <q-btn @click="handleSync" :loading="loadingUpdate" round color="secondary" icon="refresh"
-            class="text-right refresh-btn" size="md">
-            <template v-slot:loading>
-              <q-spinner-grid color="white" />
+  <div class="w-full flex flex-col space-y-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
+    <!-- Header Section: Avatar, Location, Title & Refresh Button -->
+    <div class="flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <q-avatar size="48px" class="shrink-0 border border-slate-200">
+          <q-img
+            :src="'https://harga-api.dvlp.asia/komoditas/' + selectedCommodity + '.webp'"
+            :alt="selectedCommodity"
+            fit="cover"
+          >
+            <template v-slot:error>
+              <q-img src="assets/MPW.png" fit="cover" />
             </template>
-          </q-btn>
-        </div>
-
-        <!-- Enhanced header section with better spacing -->
-        <div class="header-section">
-          <q-avatar class="commodity-avatar">
-            <q-img :src="'https://harga-api.dvlp.asia/komoditas/' + selectedCommodity + '.webp'"
-              class="commodity-image" />
-          </q-avatar>
-          <div class="commodity-info">
-            <div class="location-text">Pasar {{ selectedPasar }}, {{ selectedKecamatanLabel }}</div>
-            <div class="commodity-name">{{ selectedCommodity }}</div>
+          </q-img>
+        </q-avatar>
+        <div>
+          <div class="text-xs font-medium text-slate-500">
+            Pasar {{ selectedPasar }}, {{ selectedKecamatanLabel }}
+          </div>
+          <div class="text-base sm:text-lg font-bold text-slate-800 leading-snug">
+            {{ selectedCommodity }}
           </div>
         </div>
+      </div>
+      <q-btn
+        @click="handleSync"
+        :loading="loadingUpdate"
+        round
+        color="teal"
+        icon="refresh"
+        size="sm"
+        class="shrink-0"
+      >
+        <template v-slot:loading>
+          <q-spinner-grid color="white" />
+        </template>
+      </q-btn>
+    </div>
 
-        <!-- Enhanced price display with better typography -->
-        <div class="price-display">
-          Rp
-          <NumberFlow :value="displayPrice" :locales="'id-ID'" />
-        </div>
+    <!-- Price Display -->
+    <div class="flex flex-col space-y-1">
+      <div class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+        Rp <NumberFlow :value="displayPrice || 0" :locales="'id-ID'" />
+      </div>
 
-        <!-- Enhanced price change indicator with icons -->
-        <div :class="[priceChangeClass, 'price-change-container']">
-          <span class="price-change-icon">
-            {{ displayPrice >= displayInitialPrice ? '↗' : '↘' }}
-          </span>
-          {{ priceChangePrefix }}Rp
-          <NumberFlow :value="displayPriceChange" :locales="'id-ID'" />
-          (
-          <NumberFlow :value="displayPriceChangePercentage" :locales="'id-ID'" />%)
-        </div>
+      <!-- Price Change Indicator -->
+      <div class="flex items-center">
+        <span
+          :class="[
+            displayPrice >= displayInitialPrice
+              ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+              : 'bg-rose-50 text-rose-700 border-rose-200',
+            'inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold border'
+          ]"
+        >
+          <span>{{ displayPrice >= displayInitialPrice ? '↗' : '↘' }}</span>
+          <span>{{ priceChangePrefix }}Rp <NumberFlow :value="displayPriceChange || 0" :locales="'id-ID'" /></span>
+          <span>(<NumberFlow :value="displayPriceChangePercentage || 0" :locales="'id-ID'" />%)</span>
+        </span>
+      </div>
+    </div>
 
-        <!-- Enhanced info section with better visual hierarchy -->
-        <div class="price-info-section">
-          <div class="info-row">
-            <span class="info-label">Harga Hari Ini:</span>
-            <span class="info-value">Rp {{ currentPrice?.toLocaleString() ?? "" }}</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">
-              Harga {{ Utils.Constants.CHART_PERIODS_LABEL[selectedPeriod] }}
-              ({{ displayInitialPriceDate ?? "" }}):
-            </span>
-            <span class="info-value">Rp {{ displayInitialPrice.toLocaleString() }}</span>
-          </div>
-        </div>
-      </q-card-section>
+    <!-- Price Info Section -->
+    <div class="bg-slate-50/80 border border-slate-100 rounded-xl p-3.5 space-y-1.5 text-xs text-slate-600">
+      <div class="flex justify-between items-center">
+        <span class="font-medium">Harga Hari Ini:</span>
+        <span class="font-bold text-slate-800">Rp {{ (currentPrice || 0).toLocaleString('id-ID') }}</span>
+      </div>
+      <div class="flex justify-between items-center">
+        <span class="font-medium">
+          Harga {{ Utils.Constants.CHART_PERIODS_LABEL[selectedPeriod] }}
+          <template v-if="displayInitialPriceDate">({{ displayInitialPriceDate }})</template>:
+        </span>
+        <span class="font-bold text-slate-800">Rp {{ (displayInitialPrice || 0).toLocaleString('id-ID') }}</span>
+      </div>
+    </div>
 
-      <!-- Enhanced chart container with subtle border -->
-      <q-card-section class="chart-container enhanced-chart">
-        <div v-show="showTooltip" class="date-tooltip enhanced-tooltip" :style="{ left: tooltipPosition + 'px' }">
-          {{ displayDate }}
-        </div>
+    <!-- Chart Canvas -->
+    <div class="relative w-full h-[280px] sm:h-[320px] bg-slate-50/40 rounded-xl p-2 border border-slate-100/80 overflow-hidden">
+      <div v-show="showTooltip" class="absolute -top-2 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[11px] font-semibold px-2.5 py-1 rounded-md shadow-md z-10 whitespace-nowrap pointer-events-none" :style="{ left: tooltipPosition + 'px' }">
+        {{ displayDate }}
+      </div>
+      <Line :ref="chartRef" :data="chartData" :options="chartOptions" @mouseout="handleChartLeave" @touchend="handleChartLeave" />
+    </div>
 
-        <div v-show="showTooltip" class="vertical-line enhanced-line" :style="{ left: tooltipPosition - 16 + 'px' }">
-        </div>
-
-        <Line :ref="chartRef" :data="chartData" :options="chartOptions" @mouseout="handleChartLeave"
-          @touchend="handleChartLeave" />
-      </q-card-section>
-
-      <!-- Enhanced period selector with modern button styling -->
-      <q-card-section class="q-pa-none full-width column justify-between col">
-        <div></div>
-        <div class="period-selector">
-          <q-btn v-for="period in Utils.Constants.CHART_PERIODS" :key="period.value" :label="period.label"
-            :class="['period-btn', selectedPeriod === period.value ? 'period-btn-active' : 'period-btn-inactive']"
-            @click="selectPeriod(period.value)" flat round size="sm" />
-        </div>
-      </q-card-section>
-    </q-card>
+    <!-- Period Selector -->
+    <div class="flex justify-center mt-2 w-full">
+      <q-btn-toggle
+        :model-value="selectedPeriod"
+        @update:model-value="selectPeriod"
+        toggle-color="primary"
+        color="grey-2"
+        text-color="grey-7"
+        toggle-text-color="white"
+        dense
+        rounded
+        unelevated
+        :options="Utils.Constants.CHART_PERIODS.map(p => ({ label: p.label, value: p.value }))"
+        class="text-xs font-semibold"
+      />
+    </div>
   </div>
 </template>
 
@@ -110,6 +129,7 @@ import {
 import { useUtils } from "src/utils/utils";
 import { useSelectionStore } from "src/stores/selectionStore";
 import { useSyncService } from "src/services/SyncKomoditas";
+import Config from "src/config";
 import NumberFlow from "@number-flow/vue";
 const animated = ref(true);
 const showCaret = ref(true);
@@ -137,17 +157,24 @@ const minMaxLabelsPlugin = {
     const dataset = chart.data.datasets[0];
     const meta = chart.getDatasetMeta(0);
 
-    if (!meta.data.length) return;
+    if (!meta || !meta.data || !meta.data.length) return;
 
     const values = dataset.data;
+    if (!values || !values.length) return;
+
+    let isMaxLabelDone = false;
+    let isMinLabelDone = false;
+
     const maxValue = Math.max(...values);
     const minValue = Math.min(...values);
 
-    const formatNumber = (num) => "Rp " + num.toLocaleString();
+    const formatNumber = (num) => "Rp " + (num || 0).toLocaleString('id-ID');
 
     const drawLabel = (value, point, isMax) => {
+      if (!point || isNaN(point.x) || isNaN(point.y)) return;
       ctx.save();
-      ctx.fillStyle = dataset.borderColor;
+      ctx.beginPath();
+      ctx.fillStyle = dataset.borderColor || "#22c55e";
       ctx.font = "12px Arial";
 
       const text = formatNumber(value);
@@ -156,42 +183,32 @@ const minMaxLabelsPlugin = {
       const textHeight = 16;
       const bgPadding = 4;
 
-      // Mengecek posisi x untuk mencegah label terpotong di sisi kanan/kiri
       let xPos = point.x;
       const chartWidth = chart.width;
       const labelWidth = textWidth + bgPadding * 2;
 
-      // Menyesuaikan posisi x jika label akan terpotong
       if (xPos - labelWidth / 2 < 0) {
-        // Jika terlalu kiri
         xPos = labelWidth / 2 + bgPadding;
       } else if (xPos + labelWidth / 2 > chartWidth) {
-        // Jika terlalu kanan
         xPos = chartWidth - labelWidth / 2 - bgPadding;
       }
 
-      // Menyesuaikan posisi y dan menambah padding untuk mencegah terpotong
       const chartHeight = chart.height;
       let yPos;
       const labelTotalHeight = textHeight + bgPadding * 2;
 
       if (isMax) {
-        // Untuk label maksimum
         yPos = point.y - 10;
         if (yPos - labelTotalHeight < 0) {
-          // Jika akan terpotong di atas, pindah ke bawah titik
           yPos = point.y + labelTotalHeight;
         }
       } else {
-        // Untuk label minimum
         yPos = point.y + 20;
         if (yPos + labelTotalHeight > chartHeight) {
-          // Jika akan terpotong di bawah, pindah ke atas titik
           yPos = point.y - labelTotalHeight;
         }
       }
 
-      // Menggambar background
       ctx.fillStyle = "rgba(255, 255, 255, 1)";
       ctx.fillRect(
         xPos - textWidth / 2 - bgPadding,
@@ -200,16 +217,13 @@ const minMaxLabelsPlugin = {
         textHeight
       );
 
-      // Menggambar text
-      ctx.fillStyle = dataset.borderColor;
+      ctx.fillStyle = dataset.borderColor || "#22c55e";
       ctx.textAlign = "center";
       ctx.fillText(text, xPos, yPos + textHeight / 4);
+      ctx.closePath();
       ctx.restore();
     };
 
-    // Mencari dan menggambar label untuk nilai max dan min
-    var isMaxLabelDone = false;
-    var isMinLabelDone = false;
     meta.data.forEach((point, index) => {
       if (values[index] === maxValue && !isMaxLabelDone) {
         isMaxLabelDone = true;
@@ -427,81 +441,90 @@ const animation = {
     },
   },
 };
-const chartOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-  interaction: {
-    intersect: false,
-    mode: "index",
-  },
-  plugins: {
-    legend: {
-      display: false,
-    },
+const chartOptions = computed(() => {
+  const prices = filteredData.value.map((item) => item.price);
+  const minPrice = Math.min(...prices);
+  const maxPrice = Math.max(...prices);
+  const range = maxPrice - minPrice;
 
-    tooltip: {
-      enabled: false,
+  let yMin = undefined;
+  let yMax = undefined;
+
+  if (range === 0 && prices.length > 0) {
+    const price = prices[0];
+    yMin = price > 0 ? price * 0.95 : 0;
+    yMax = price > 0 ? price * 1.05 : 1000;
+  }
+
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: {
+      intersect: false,
+      mode: "index",
     },
-  },
-  scales: {
-    y: {
-      display: true,
-      // Menambahkan padding pada skala y untuk memberikan ruang bagi label
-      beginAtZero: false,
-      title: {
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        enabled: false,
+      },
+    },
+    scales: {
+      y: {
         display: true,
-        text: "Harga",
+        beginAtZero: false,
+        min: yMin,
+        max: yMax,
+        title: {
+          display: true,
+          text: "Harga (Rp)",
+        },
+        grid: {
+          display: true,
+          color: "rgba(0, 0, 0, 0.05)",
+        },
+        ticks: {
+          display: true,
+          callback: function (value) {
+            return value.toLocaleString("id-ID");
+          },
+        },
       },
-      grid: {
-        display: false,
-      },
-      padding: {
-        top: 20,
-        bottom: 20,
-      },
-      ticks: {
+      x: {
         display: false,
       },
     },
-    x: {
-      display: false,
-      // Menambahkan padding pada skala x untuk memberikan ruang bagi label
-      padding: {
-        left: 20,
-        right: 20,
-      },
+    hover: {
+      mode: "index",
+      intersect: false,
     },
-  },
-  hover: {
-    mode: "index",
-    intersect: false,
-  },
-  onHover: (event, elements, chart) => {
-    if (!event?.native) return;
+    onHover: (event, elements, chart) => {
+      if (!event?.native) return;
 
-    const chartPosition = chart.canvas.getBoundingClientRect();
+      if (elements && elements.length) {
+        showTooltip.value = true;
+        const dataIndex = elements[0].index;
+        const currentData = filteredData.value[dataIndex];
+        const initialData = filteredData.value[0];
+        displayInitialPriceDate.value = initialData.date;
 
-    if (elements && elements.length) {
-      showTooltip.value = true;
-      const dataIndex = elements[0].index;
-      const currentData = filteredData.value[dataIndex];
-      const initialData = filteredData.value[0];
-      displayInitialPriceDate.value = initialData.date;
+        const xPosition = elements[0].element.x;
+        tooltipPosition.value = xPosition + 15;
 
-      const xPosition = elements[0].element.x;
-      tooltipPosition.value = xPosition + 15;
-
-      updateDisplayValues(
-        currentData.price,
-        initialData.price,
-        currentData.date
-      );
-    } else {
-      showTooltip.value = false;
-    }
-  },
-  events: ["mousemove", "mouseout", "touchstart", "touchmove", "touchend"],
-};
+        updateDisplayValues(
+          currentData.price,
+          initialData.price,
+          currentData.date
+        );
+      } else {
+        showTooltip.value = false;
+      }
+    },
+    events: ["mousemove", "mouseout", "touchstart", "touchmove", "touchend"],
+  };
+});
 const currentPrice = computed(() => {
   let currentData = {};
   if (filteredData.value && filteredData.value.length > 0) {

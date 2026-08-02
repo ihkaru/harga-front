@@ -31,7 +31,7 @@ module.exports = configure(function (/* ctx */) {
     boot: ["axios"],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
-    css: ["app.scss"],
+    css: ["app.scss", "tailwind.css"],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
@@ -84,13 +84,25 @@ module.exports = configure(function (/* ctx */) {
           { server: false },
         ],
       ],
+      extendViteConf(viteConf) {
+        if (process.env.CHOKIDAR_USEPOLLING === "true") {
+          viteConf.server = {
+            ...viteConf.server,
+            watch: {
+              usePolling: true,
+              interval: 100,
+            },
+          };
+        }
+      },
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
     devServer: {
       // https: true
-      port: 9100,
-      open: true, // opens browser window automatically
+      port: process.env.PORT ? parseInt(process.env.PORT, 10) : 9100,
+      host: process.env.HOST || "0.0.0.0",
+      open: process.env.OPEN_BROWSER === "true", // set OPEN_BROWSER=true to auto-open
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework

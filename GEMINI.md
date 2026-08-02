@@ -36,6 +36,12 @@ The application includes a section within the main hero banner that displays AI-
 - **Next Steps:**
   - Further investigation is needed to identify the root cause of the issue. It might be related to the chart.js library itself or how it's being used in the component.
 
+### Config Changes & Dev Server Restart Requirement
+
+- **Symptom:** Changes to `quasar.config.js`, `postcss.config.cjs`, or `.env` do not take effect, causing unstyled components or compilation mismatch.
+- **Resolution:** Quasar CLI Vite does not hot-reload configuration files automatically. You MUST manually restart the dev server (using `npm run dev:clean` or `./dev.sh`) after changing any configuration file or installing CSS/PostCSS plugin packages.
+
+
 *   **Spec-Driven Development:** Before making any code changes, you must first consult the `spec` folder to understand the project's specifications. This is to ensure that your changes are consistent with the existing design and to avoid duplicating any functionality.
 *   **API:** The API specification is documented in `spec/05-api-specification.md`.
 *   **Components:** Component specifications are documented in the `spec/components` folder.

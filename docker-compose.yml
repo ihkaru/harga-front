@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: harga_frontend
+    restart: unless-stopped
+    ports:
+      - "9100:9100"
+    environment:
+      - NODE_ENV=development
+      - PORT=9100
+      - HOST=0.0.0.0
+      - CHOKIDAR_USEPOLLING=true
+      - VITE_API_BASE_URL=http://localhost:8000/api
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    command: npx quasar dev -H 0.0.0.0 -p 9100

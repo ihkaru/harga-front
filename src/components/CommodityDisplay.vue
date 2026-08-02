@@ -94,29 +94,16 @@ onBeforeUnmount(() => {
 </script>
 <style scoped>
 .scroll-wrapper {
-  overflow-x: auto;
-  white-space: nowrap;
+  overflow: hidden;
   width: 100%;
   display: flex;
-  justify-content: center;
-  scroll-behavior: smooth;
-  transform: translateY(-4em);
-  /* Menambahkan scroll snap agar terkunci pada setiap card */
-  scroll-snap-type: x mandatory;
+  position: relative;
+  justify-content: flex-start;
 }
 
 .scroll-content {
   display: flex;
   gap: 16px;
-}
-
-.commodity-card {
-  min-width: 200px;
-  width: 250px;
-  max-width: 250px;
-  margin-bottom: 10px;
-  scroll-snap-align: center;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  will-change: transform;
 }
 </style>

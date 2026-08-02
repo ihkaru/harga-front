@@ -1,123 +1,120 @@
-# Panduan Replikasi & Instalasi Frontend (ATM)
+# Panduan Replikasi & Instalasi Frontend (KOPI DEWA)
 
-Dokumen ini menjelaskan cara menduplikasi (replikasi) dan menjalankan frontend aplikasi ini untuk daerah Anda sendiri. Prinsip yang digunakan adalah **ATM (Amati, Tiru, Modifikasi)**.
+Dokumen ini menjelaskan cara menduplikasi (replikasi), mengonfigurasi, dan menjalankan frontend aplikasi **KOPI DEWA** (Kolaborasi Pengendalian Inflasi Daerah Kabupaten Mempawah). Spesifikasi teknis rinci pengembang tersedia di [spec/Development_Environment_Setup.md](file:///home/ihza/Projects/harga-front/spec/Development_Environment_Setup.md).
+
+---
 
 ## 📋 Prasyarat
 
-Pastikan komputer Anda sudah terinstall:
+Pastikan komputer Anda sudah terinstall salah satu dari opsi berikut:
 
-- **Node.js** (Versi 18 atau 20 direkomendasikan)
-- **NPM** (Biasanya sudah satu paket dengan Node.js)
-- **Backend API** yang sudah berjalan (lihat panduan backend terpisah)
+**Opsi A: Pengembangan Lokal**
+- **Node.js** (Versi 18 atau 20)
+- **NPM** (Bawaan Node.js)
+- **Backend API Server** berjalan di `http://localhost:8000`
 
-## 🚀 Langkah 1: Instalasi
+**Opsi B: Pengembangan via Docker**
+- **Docker** & **Docker Compose**
+- **Backend API Server** berjalan di `http://localhost:8000`
+
+---
+
+## 🚀 Langkah 1: Instalasi & Environment Setup
 
 1.  **Clone Repository** (atau download source code).
 2.  Buka terminal di folder project ini.
-3.  Install dependencies:
+3.  Install dependencies (untuk opsi lokal):
     ```bash
     npm install
     ```
-
-## ⚙️ Langkah 2: Konfigurasi Identitas Daerah
-
-Kami telah memusatkan semua konfigurasi di environment variable agar Anda tidak perlu mengedit kode program secara mendalam.
-
-1.  **Buat File Environment**
-    Salin file `.env.example` menjadi `.env`.
-
+4.  **Buat File Environment (`.env`)**
     ```bash
     cp .env.example .env
-    # Atau di Windows: copy .env.example .env
     ```
 
-2.  **Edit `.env`**
-    Buka file `.env` dan sesuaikan nilainya:
+5.  **Edit `.env`**
+    Sesuaikan variabel identitas dan URL backend API:
 
     ```env
     # --- Identitas Aplikasi ---
-    VITE_APP_NAME="SIMPANG"
-    VITE_APP_SUBTITLE="Sistem Pemantauan Harga Kabupaten Kubu Raya"
+    VITE_APP_NAME="KOPI DEWA"
+    VITE_APP_SUBTITLE="Kolaborasi Pengendalian Inflasi Daerah Kabupaten Mempawah"
 
     # --- Konfigurasi Wilayah ---
-    VITE_REGION_ID="kuburaya"
-    VITE_REGION_NAME="Kabupaten Kubu Raya"
-    VITE_REGION_DISTRICT="Sungai Raya"
-    # Koordinat Peta (Ambil dari Google Maps)
-    VITE_REGION_LAT=-0.123
-    VITE_REGION_LNG=109.123
+    VITE_REGION_ID="mempawah"
+    VITE_REGION_NAME="Kabupaten Mempawah"
+    VITE_REGION_DISTRICT="Mempawah Hilir"
+    VITE_REGION_LAT=0.36
+    VITE_REGION_LNG=108.96
 
     # --- Kontak Instansi ---
-    VITE_INSTITUTION_NAME="Dinas Koperasi dan UKM Kubu Raya"
-    VITE_INSTITUTION_ADDRESS="Jalan Arteri Supadio No. 1"
-    VITE_INSTITUTION_PHONE="(0561) 123456"
-    VITE_INSTITUTION_EMAIL="info@kuburaya.go.id"
+    VITE_INSTITUTION_NAME="Dinas Perdagangan, Perindustrian dan Tenaga Kerja Kabupaten Mempawah"
+    VITE_INSTITUTION_ADDRESS="Jalan Raden Kusno, Kelurahan Tengah, Kecamatan Mempawah Hilir"
 
-    # --- Koneksi ke Backend ---
-    # Ganti dengan URL backend lokal atau production Anda
-    VITE_API_BASE_URL="http://127.0.0.1:8000/api"
+    # --- Koneksi ke Backend API Server ---
+    VITE_API_BASE_URL="http://localhost:8000/api"
+
+    # --- Port Dev Server ---
+    PORT=9100
     ```
 
-## 🖼️ Langkah 3: Ganti Aset (Logo)
+---
 
-letakkan file logo anda di folder `public/assets/`.
+## 🖼️ Langkah 2: Ganti Aset (Logo)
 
-1.  **Logo Utama**: Simpan logo instansi/aplikasi Anda (misal `logo-kuburaya.png`).
-2.  **Logo Partner**: Simpan logo partner, misalnya BPS (misal `logo-bps.png`).
-3.  Update di `.env`:
-    ```env
-    VITE_LOGO_MAIN="logo-kuburaya.png"
-    VITE_LOGO_PARTNER="logo-bps.png"
-    ```
-
-## 🗺️ Langkah 4: Detail Wilayah (Kecamatan & Pasar)
-
-Beberapa data terlalu kompleks untuk `.env`. Silakan edit file:
-📂 `src/config/region.js`
-
-Ganti daftar kecamatan dan pasar sesuai daerah Anda:
-
-```javascript
-export default {
-  WILAYAH_LABELS: {
-    "001": "Kecamatan Sungai Raya",
-    "002": "Kecamatan Rasau Jaya",
-    // ... id kecamatan lainnya
-  },
-  KECAMATAN_PASAR: {
-    "001": "Pasar Melati",
-    "002": "Pasar Rasau",
-    // ... mapping kecamatan ke nama pasar utama
-  },
-  // ID Kecamatan default yang terpilih saat pertama buka
-  DEFAULT_SELECTED_WILAYAH: "001",
-};
+Letakkan file logo instansi/daerah Anda di folder `public/assets/`.
+Update nama file di `.env`:
+```env
+VITE_LOGO_MAIN="MPW.png"
+VITE_LOGO_PARTNER="BPS.png"
 ```
 
-## ▶️ Langkah 5: Jalankan Aplikasi
+---
 
-Jalankan server development:
+## ▶️ Langkah 3: Jalankan Dev Server
+
+### Cara 1: Menggunakan Script Auto-Clean (Rekomendasi Utama)
+
+Skrip ini otomatis mendeteksi dan menghentikan sisa proses *orphan* di port `9100` sebelum server dimulai, serta menghentikan seluruh proses turunan secara bersih ketika `Ctrl+C` ditekan.
 
 ```bash
-npm run dev
+npm run dev:clean
+# atau jalankan skrip langsung:
+./dev.sh
 ```
 
-Aplikasi akan berjalan di `http://localhost:9100` (atau port lain jika 9100 dipakai).
+Aplikasi akan berjalan di `http://localhost:9100` dengan HMR (Hot Module Replacement) yang *seamless*.
+
+---
+
+### Cara 2: Menggunakan Docker Compose
+
+Jika Anda ingin menjalankan dev server di lingkungan container yang terisolasi dengan *Instant Live Reload*:
+
+```bash
+docker compose up --build
+```
+
+Container frontend `harga_frontend` akan berjalan di `http://localhost:9100`. Setiap perubahan kode lokal akan langsung ter-update di server dev secara instan.
+
+---
 
 ## 🔨 Build untuk Production
 
-Jika sudah siap untuk di-deploy ke server hosting:
+Jika sudah siap untuk di-deploy ke server hosting (cPanel, VPS, Nginx):
 
 ```bash
 npm run build
 ```
 
-Hasil build akan ada di folder `dist/spa`. Folder inilah yang di-upload ke hosting (cPanel, VPS, dll).
+Hasil build akan tersimpan di folder `dist/spa`.
 
-## ❓ FAQ
+---
 
-**Q: Grafik tidak muncul?**
-A: Pastikan `VITE_API_BASE_URL` di `.env` sudah benar mengarah ke backend yang aktif.
+## ❓ FAQ & Troubleshooting
 
-**Q: Bagaimana cara ganti warna tema?**
-A: Saat ini warna tema masih diatur di CSS global (`src/css/app.scss` atau `quasar.config.js`). Kami berencana memindahkannya ke config di versi berikutnya.
+**Q: Port 9100 sudah digunakan / error EADDRINUSE?**
+A: Jalankan `npm run dev:clean` atau `./dev.sh`. Skrip akan otomatis membersihkan proses orphan yang masih menggantung di port 9100.
+
+**Q: Data komoditas/grafik tidak muncul?**
+A: Pastikan backend Laravel API Server sudah berjalan di `http://localhost:8000` dan endpoint `http://localhost:8000/api/komoditas` memberikan respon JSON yang valid.

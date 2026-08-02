@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+/* Prevent Tailwind v4 Preflight conflicts with Quasar Components & ChartJS Canvas */
+@layer base {
+  svg {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  canvas {
+    max-width: 100% !important;
+  }
+  .q-avatar img {
+    border-radius: 50% !important;
+    object-fit: cover !important;
+  }
+  button, input, select, textarea {
+    font-family: inherit;
+  }
+}

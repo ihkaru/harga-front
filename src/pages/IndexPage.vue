@@ -48,32 +48,26 @@
         </p>
       </div>
     </div>
-    <div class="q-py-lg" style="width: 100vw; height: 35vh">
-      <commodity-display class="commodity-display-container" :data="komoditasStore.get()" />
+    <div class="w-full overflow-hidden py-4 relative -mt-8 sm:-mt-14">
+      <commodity-display :data="komoditasStore.get()" />
     </div>
     <!-- <div style="margin-bottom: 100vh"></div> -->
-    <div style="margin-bottom: 30vh; margin-top: 10em">
-      <div class="row evenly">
-        <!-- Grafik kiri -->
-        <div class="col-md-8 col-xs-12 q-ma-none full-height" id="komoditas">
-          <div class="bg-white rounded-borders q-px-lg full-height">
-            <!-- Tempatkan grafik kiri di sini -->
-            <main-chart :key="selectedData?.nama + mainChartKey" :data="selectedData"></main-chart>
-          </div>
+    <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start" id="komoditas">
+        <!-- Grafik Kiri -->
+        <div class="lg:col-span-8 bg-white rounded-2xl shadow-sm border border-slate-100 p-2 sm:p-4">
+          <main-chart :key="selectedData?.nama + mainChartKey" :data="selectedData"></main-chart>
         </div>
 
-        <!-- Grafik kanan -->
-        <div class="col-md-4 col-xs-12">
-          <div class="bg-white rounded-borders full-width" v-if="isDataReady">
-            <!-- Tempatkan grafik kanan di sini -->
-            <list-komoditas :data="komoditasStore.get()" :key="listKomoditasKey"></list-komoditas>
-          </div>
+        <!-- List Kanan -->
+        <div class="lg:col-span-4 bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" v-if="isDataReady">
+          <list-komoditas :data="komoditasStore.get()" :key="listKomoditasKey"></list-komoditas>
         </div>
       </div>
-      <div id="ai-analysis" class="q-px-md" style="margin-top: 2em;">
+      <div id="ai-analysis" class="mt-8">
         <analysis-section :dark="false" />
       </div>
-      <div id="category-section" class="q-px-md" style="margin-top: 2em;">
+      <div id="category-section" class="mt-8">
         <CategorySection />
       </div>
     </div>

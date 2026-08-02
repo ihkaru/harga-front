@@ -1,113 +1,125 @@
 <template>
-  <div class="commodity-list-container">
-    <!-- Search Input -->
-    <div class="search-container">
-      <q-input v-model="searchQuery" dense debounce="300" placeholder="Cari Komoditas..." class="search-input" outlined>
+  <div class="w-full flex flex-col h-full bg-white rounded-2xl">
+    <!-- Search Input Header -->
+    <div class="sticky top-0 bg-white p-3 border-b border-slate-100 z-10">
+      <q-input
+        v-model="searchQuery"
+        dense
+        outlined
+        placeholder="Cari Komoditas..."
+        class="bg-slate-50 rounded-xl text-xs"
+      >
         <template v-slot:prepend>
-          <q-icon name="search" color="grey-6" />
+          <q-icon name="search" color="grey-6" size="18px" />
         </template>
         <template v-slot:append v-if="searchQuery">
-          <q-icon name="clear" color="grey-6" class="cursor-pointer" @click="searchQuery = ''" />
+          <q-icon name="clear" color="grey-6" class="cursor-pointer" @click="searchQuery = ''" size="18px" />
         </template>
       </q-input>
     </div>
 
     <!-- Commodity List -->
-    <q-list class="commodity-list scroll" bordered separator v-if="searchedKomoditas">
-      <q-item v-for="commodity in searchedKomoditas" :key="commodity.symbol || commodity.nama" class="commodity-item"
-        v-ripple @click="selectCommodity(commodity)" clickable>
-        <!-- Avatar Section -->
-        <q-item-section avatar class="commodity-avatar">
-          <q-avatar size="48px">
-            <q-img :src="`https://harga-api.dvlp.asia/komoditas/${commodity.nama}.webp`" :alt="commodity.nama"
-              loading="lazy" fit="cover" @error="onImageError">
+    <div class="flex-1 max-h-[580px] overflow-y-auto divide-y divide-slate-100" v-if="searchedKomoditas && searchedKomoditas.length > 0">
+      <div
+        v-for="commodity in searchedKomoditas"
+        :key="commodity.symbol || commodity.nama"
+        @click="selectCommodity(commodity)"
+        class="flex items-center justify-between gap-3 p-3.5 hover:bg-slate-50/80 transition-colors cursor-pointer group"
+      >
+        <!-- Avatar & Name Info -->
+        <div class="flex items-center gap-3 min-w-0 flex-1">
+          <q-avatar size="40px" class="shrink-0 border border-slate-200 shadow-2xs">
+            <q-img
+              :src="`https://harga-api.dvlp.asia/komoditas/${commodity.nama}.webp`"
+              :alt="commodity.nama"
+              fit="cover"
+            >
               <template v-slot:error>
-                <div class="absolute-full flex flex-center bg-grey-3">
-                  <q-icon name="inventory_2" size="24px" color="grey-6" />
-                </div>
-              </template>
-              <template v-slot:loading>
-                <div class="absolute-full flex flex-center bg-grey-2">
-                  <q-spinner size="20px" color="grey-5" />
-                </div>
+                <q-img src="assets/MPW.png" fit="cover" />
               </template>
             </q-img>
           </q-avatar>
-        </q-item-section>
-
-        <!-- Commodity Info Section -->
-        <q-item-section class="commodity-info">
-          <q-item-label class="commodity-name">
-            {{ commodity.nama }}
-          </q-item-label>
-          <q-item-label caption class="commodity-period">
-            {{ Constants.CHART_PERIODS_LABEL[selectedPeriod] }}: Rp
-            {{
-              Utils.formatCurrency(
-                Utils.getSparklinePrices(
-                  commodity,
-                  selectedPeriod,
-                  selectionStore.getSelectionByKey(Constants.SELECTED_WILAYAH)
-                )[0]
-              )
-            }}
-          </q-item-label>
-        </q-item-section>
-
-        <!-- Sparkline Section -->
-        <q-item-section class="sparkline-section">
-          <div class="sparkline-container">
-            <SparkLine :data="Utils.getSparklinePrices(
-              commodity,
-              selectedPeriod,
-              selectionStore.getSelectionByKey(Constants.SELECTED_WILAYAH)
-            )" :color="Utils.getPriceChange(
-              commodity,
-              selectedPeriod,
-              selectionStore.getSelectionByKey(Constants.SELECTED_WILAYAH)
-            ).change <= 0 ? '#21ba45' : '#c10015'" :width="80" :height="32" :show-area="true"
-              :show-trend-indicator="false" :highlight-endpoints="false" :stroke-width="2" background-color="#ffffff" />
-          </div>
-        </q-item-section>
-
-        <!-- Price Section -->
-        <q-item-section side class="price-section">
-          <div class="price-container">
-            <div class="current-price">
-              Rp{{
+          <div class="min-w-0 flex-1">
+            <div class="text-xs sm:text-sm font-semibold text-slate-800 truncate group-hover:text-blue-600 transition-colors">
+              {{ commodity.nama }}
+            </div>
+            <div class="text-[11px] text-slate-500 truncate mt-0.5">
+              {{ Constants.CHART_PERIODS_LABEL[selectedPeriod] }}: Rp {{
                 Utils.formatCurrency(
-                  Utils.Harga.getLastPrice(
+                  Utils.getSparklinePrices(
                     commodity,
+                    selectedPeriod,
                     selectionStore.getSelectionByKey(Constants.SELECTED_WILAYAH)
-                  )
-                )
+                  )[0]
+                ) || '0'
               }}
             </div>
-            <div :class="[
-              'price-change',
+          </div>
+        </div>
+
+        <!-- Sparkline -->
+        <div class="flex shrink-0 w-20 justify-center">
+          <SparkLine
+            :data="Utils.getSparklinePrices(
+              commodity,
+              selectedPeriod,
+              selectionStore.getSelectionByKey(Constants.SELECTED_WILAYAH)
+            )"
+            :color="Utils.getPriceChange(
+              commodity,
+              selectedPeriod,
+              selectionStore.getSelectionByKey(Constants.SELECTED_WILAYAH)
+            ).change <= 0 ? '#10b981' : '#ef4444'"
+            :width="75"
+            :height="28"
+            :show-area="true"
+            :show-trend-indicator="false"
+            :highlight-endpoints="false"
+            :stroke-width="2"
+            background-color="transparent"
+          />
+        </div>
+
+        <!-- Price Info & Badge -->
+        <div class="text-right shrink-0">
+          <div class="text-xs sm:text-sm font-bold text-slate-900 tracking-tight">
+            Rp {{
+              Utils.formatCurrency(
+                Utils.Harga.getLastPrice(
+                  commodity,
+                  selectionStore.getSelectionByKey(Constants.SELECTED_WILAYAH)
+                )
+              ) || '0'
+            }}
+          </div>
+          <div
+            :class="[
+              'inline-block px-2 py-0.5 mt-0.5 text-[11px] font-bold rounded-full text-center min-w-[45px]',
               Utils.getPriceChange(
                 commodity,
                 selectedPeriod,
                 selectionStore.getSelectionByKey(Constants.SELECTED_WILAYAH)
-              ).change <= 0 ? 'text-positive' : 'text-negative'
-            ]">
-              {{
-                Utils.getPriceChange(
-                  commodity,
-                  selectedPeriod,
-                  selectionStore.getSelectionByKey(Constants.SELECTED_WILAYAH)
-                ).change
-              }}%
-            </div>
+              ).change <= 0
+                ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                : 'bg-rose-50 text-rose-700 border border-rose-200'
+            ]"
+          >
+            {{
+              Utils.getPriceChange(
+                commodity,
+                selectedPeriod,
+                selectionStore.getSelectionByKey(Constants.SELECTED_WILAYAH)
+              ).change || '0'
+            }}%
           </div>
-        </q-item-section>
-      </q-item>
-    </q-list>
+        </div>
+      </div>
+    </div>
 
     <!-- Empty State -->
-    <div v-else-if="searchQuery && searchedKomoditas?.length === 0" class="empty-state">
-      <q-icon name="search_off" size="48px" color="grey-4" />
-      <div class="text-grey-6 q-mt-md">Tidak ada komoditas yang ditemukan</div>
+    <div v-else-if="searchQuery && searchedKomoditas?.length === 0" class="flex flex-col items-center justify-center p-8 text-center">
+      <span class="text-3xl mb-2">🔍</span>
+      <div class="text-xs font-medium text-slate-500">Tidak ada komoditas yang ditemukan</div>
     </div>
   </div>
 
@@ -163,6 +175,7 @@ import { ref, computed, onMounted, onBeforeMount, watch, onBeforeUnmount } from 
 import SparkLine from "./SparkLine.vue";
 import { useUtils } from "src/utils/utils";
 import { useSelectionStore } from "src/stores/selectionStore";
+import Config from "src/config";
 
 const Utils = useUtils();
 const Constants = Utils.Constants;

@@ -245,10 +245,9 @@ export function useUtils() {
         icon: icon,
         currentPrice: currentPrice,
         data: data.hargas.map((item) => ({
-          date: `${item.tahun}-${item.bulan}-${item.tanggal_angka.padStart(
-            2,
-            "0"
-          )}`,
+          date: `${item.tahun}-${String(item.bulan).padStart(2, "0")}-${String(
+            item.tanggal_angka
+          ).padStart(2, "0")}`,
           price: parseFloat(item.harga),
           kecamatan: item.kecamatan,
         })),
@@ -257,7 +256,7 @@ export function useUtils() {
     });
   }
   function formatCurrency(number) {
-    if (!number) return "";
+    if (number === undefined || number === null || isNaN(number) || number === "") return "0";
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
   function getObjectById(array, id) {
@@ -270,9 +269,12 @@ export function useUtils() {
   function getSparklinePrices(data, period, kecamatan) {
     // Helper function to calculate date ranges
 
-    // Filter data based on kecamatan
+    // Filter data based on kecamatan and exclude invalid/zero prices
     const filteredByKecamatan = data.data.filter(
-      (entry) => entry.kecamatan == Constants.WILAYAH_LABELS[kecamatan]
+      (entry) =>
+        entry.kecamatan == Constants.WILAYAH_LABELS[kecamatan] &&
+        entry.price > 0 &&
+        !isNaN(entry.price)
     );
 
     // Get the date range for the specified period

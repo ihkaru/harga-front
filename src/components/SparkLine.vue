@@ -1,19 +1,6 @@
 <template>
   <div class="sparkline-wrapper">
     <svg :width="width" :height="height" :viewBox="`0 0 ${width} ${height}`" class="sparkline-svg">
-      <!-- Gradient definitions for more professional look -->
-      <defs>
-        <linearGradient :id="`gradient-${gradientId}`" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" :stop-color="color" :stop-opacity="0.3" />
-          <stop offset="100%" :stop-color="color" :stop-opacity="0.05" />
-        </linearGradient>
-
-        <!-- Drop shadow filter -->
-        <filter :id="`shadow-${gradientId}`" x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow dx="0" dy="1" stdDeviation="1" :flood-color="color" flood-opacity="0.2" />
-        </filter>
-      </defs>
-
       <!-- Background grid (subtle) -->
       <g class="grid-lines" opacity="0.05">
         <line v-for="i in 2" :key="`h-${i}`" x1="0" :y1="(height / 3) * i" :x2="width" :y2="(height / 3) * i"
@@ -27,12 +14,12 @@
       </g>
 
       <!-- Area fill under the line -->
-      <path v-if="data.length > 1 && showArea" :d="generateAreaPath" :fill="`url(#gradient-${gradientId})`"
-        opacity="0.6" />
+      <path v-if="data.length > 1 && showArea" :d="generateAreaPath" :fill="color"
+        opacity="0.1" />
 
       <!-- Main sparkline path -->
       <path :d="generatePath" :stroke="color" :stroke-width="strokeWidth" fill="none" stroke-linecap="round"
-        stroke-linejoin="round" :filter="`url(#shadow-${gradientId})`" class="sparkline-path" />
+        stroke-linejoin="round" class="sparkline-path" />
 
       <!-- Data points (dots) - only show on hover or when specified -->
       <g v-if="showDots" class="data-points">
@@ -116,10 +103,6 @@ const props = defineProps({
   },
 });
 
-// Generate unique ID for gradients to avoid conflicts
-const gradientId = computed(() => {
-  return Math.random().toString(36).substr(2, 9);
-});
 
 const normalizedData = computed(() => {
   if (!props.data.length) return [];
@@ -250,10 +233,8 @@ const isFlat = computed(() => {
 .sparkline-wrapper {
   position: relative;
   display: inline-block;
-  background-color: #ffffff;
-  border-radius: 6px;
+  background-color: transparent;
   padding: 2px;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
 }
 
 .sparkline-svg {
@@ -321,29 +302,10 @@ const isFlat = computed(() => {
   pointer-events: none;
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .sparkline-wrapper {
-    background-color: #2d2d2d;
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-  }
 
-  .trend-indicator {
-    background-color: rgba(45, 45, 45, 0.9);
-  }
-}
-
-/* Professional animation on load */
+/* Static path rendering */
 .sparkline-path {
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
-  animation: drawLine 1s ease-out forwards;
-}
-
-@keyframes drawLine {
-  to {
-    stroke-dashoffset: 0;
-  }
+  opacity: 0.95;
 }
 
 /* Reduced motion for accessibility */
