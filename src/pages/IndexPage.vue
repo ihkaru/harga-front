@@ -25,15 +25,15 @@
             <span class="word" style="color: #b19cd9">&nbsp;Inflasi</span>
           </span>
         </h1>
-        <div class="button-container flex flex-col xs:flex-row items-center justify-center gap-2.5 sm:gap-3 mt-4 sm:mt-6">
-          <a href="#komoditas" class="hero-button glow-on-hover w-full xs:w-auto text-center px-4 py-2 text-xs sm:text-sm font-semibold">Data Komoditas</a>
-          <a href="#edukasi-pangan" class="hero-button glow-on-hover bg-emerald-600/90 text-white border-emerald-400 w-full xs:w-auto text-center px-4 py-2 text-xs sm:text-sm font-semibold">🛡️ Edukasi Pangan BPOM</a>
+        <div class="button-container flex flex-col xs:flex-row items-center justify-center gap-2 sm:gap-3 mt-3 sm:mt-6">
+          <a href="#komoditas" class="hero-button glow-on-hover">Data Komoditas</a>
+          <a href="#edukasi-pangan" class="hero-button glow-on-hover bg-emerald-600/90 text-white border-emerald-400">🛡️ Edukasi BPOM</a>
         </div>
-        <div class="flex justify-center items-center gap-4 mt-6 sm:mt-10">
+        <div class="flex justify-center items-center gap-3 mt-3 sm:mt-8">
           <!-- Main Logo -->
-          <q-img :src="`assets/${Config.assets.logoMain}`" spinner-color="primary" class="h-10 sm:h-16 max-w-[120px] sm:max-w-[180px]" fit="contain" />
+          <q-img :src="`assets/${Config.assets.logoMain}`" spinner-color="primary" class="h-8 sm:h-14 max-w-[80px] sm:max-w-[160px]" fit="contain" />
           <!-- Partner Logo -->
-          <q-img :src="`assets/${Config.assets.logoPartner}`" spinner-color="primary" class="h-10 sm:h-16 max-w-[120px] sm:max-w-[180px]" fit="contain" />
+          <q-img :src="`assets/${Config.assets.logoPartner}`" spinner-color="primary" class="h-8 sm:h-14 max-w-[80px] sm:max-w-[160px]" fit="contain" />
         </div>
         <p class="text-[10px] sm:text-xs tracking-wider uppercase opacity-80 mt-2 sm:mt-3 mb-0">
           {{ Config.appSubtitle }} <br />
@@ -258,7 +258,7 @@ onMounted(() => {
 <style>
 .glow-on-hover {
   width: 220px;
-  height: 50px;
+  height: 48px;
   border: none;
   outline: none;
   color: #fff;
@@ -267,6 +267,19 @@ onMounted(() => {
   position: relative;
   z-index: 0;
   border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 480px) {
+  .glow-on-hover {
+    width: 100%;
+    max-width: 240px;
+    height: 38px;
+    font-size: 0.75rem;
+  }
 }
 
 .glow-on-hover:before {
@@ -338,7 +351,7 @@ onMounted(() => {
   max-width: 100vw;
   background: linear-gradient(135deg, #0a0426 0%, #1a1040 100%);
   color: white;
-  padding: 1.5rem 0.75rem;
+  padding: 1rem 0.5rem;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -368,17 +381,25 @@ onMounted(() => {
 .hero-badge {
   background: #ffd700;
   color: #000;
-  padding: 0.35rem 0.85rem;
+  padding: 0.25rem 0.65rem;
   border-radius: 50px;
   font-weight: 700;
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.75rem;
   text-transform: uppercase;
-  font-size: 0.72rem;
+  font-size: 0.62rem;
   opacity: 1;
   transform: translateY(20px);
-  max-width: 95%;
-  line-height: 1.3;
+  max-width: 92%;
+  line-height: 1.25;
   display: inline-block;
+}
+
+@media (min-width: 480px) {
+  .hero-badge {
+    padding: 0.35rem 1rem;
+    font-size: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
 }
 
 @media (min-width: 640px) {
@@ -390,7 +411,7 @@ onMounted(() => {
 }
 
 .hero-content {
-  max-width: 95vw;
+  max-width: 96vw;
   margin: 0 auto;
   position: relative;
   z-index: 1;
@@ -403,17 +424,24 @@ onMounted(() => {
 }
 
 .hero h1 {
-  font-size: 1.65rem;
-  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
   opacity: 1;
   transform: translateY(20px);
-  line-height: 1.25;
+  line-height: 1.2;
   font-weight: 800;
+}
+
+@media (min-width: 380px) {
+  .hero h1 {
+    font-size: 1.4rem;
+  }
 }
 
 @media (min-width: 480px) {
   .hero h1 {
-    font-size: 2.25rem;
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
   }
 }
 
