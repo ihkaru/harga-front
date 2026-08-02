@@ -67,7 +67,7 @@
 
     <!-- Price Display -->
     <div class="flex flex-col space-y-1">
-      <div class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+      <div class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
         Rp <NumberFlow :value="displayPrice || 0" :locales="'id-ID'" />
       </div>
 
@@ -78,7 +78,7 @@
             displayPrice >= displayInitialPrice
               ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
               : 'bg-rose-50 text-rose-700 border-rose-200',
-            'inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold border'
+            'inline-flex items-center gap-1 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-xs font-semibold border'
           ]"
         >
           <span>{{ displayPrice >= displayInitialPrice ? '↗' : '↘' }}</span>
@@ -89,7 +89,7 @@
     </div>
 
     <!-- Price Info Section -->
-    <div class="bg-slate-50/80 border border-slate-100 rounded-xl p-3.5 space-y-1.5 text-xs text-slate-600">
+    <div class="bg-slate-50/80 border border-slate-100 rounded-xl p-2.5 sm:p-3.5 space-y-1 sm:space-y-1.5 text-xs text-slate-600">
       <div class="flex justify-between items-center">
         <span class="font-medium">Harga Hari Ini:</span>
         <span class="font-bold text-slate-800">Rp {{ (currentPrice || 0).toLocaleString('id-ID') }}</span>
@@ -104,7 +104,7 @@
     </div>
 
     <!-- Chart Canvas -->
-    <div class="relative w-full h-[280px] sm:h-[320px] bg-slate-50/40 rounded-xl p-2 border border-slate-100/80 overflow-hidden">
+    <div class="relative w-full h-[180px] sm:h-[320px] bg-slate-50/40 rounded-xl p-1.5 sm:p-2 border border-slate-100/80 overflow-hidden">
       <div v-show="showTooltip" class="absolute -top-2 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[11px] font-semibold px-2.5 py-1 rounded-md shadow-md z-10 whitespace-nowrap pointer-events-none" :style="{ left: tooltipPosition + 'px' }">
         {{ displayDate }}
       </div>
