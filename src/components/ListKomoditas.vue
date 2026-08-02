@@ -230,19 +230,14 @@ const searchedKomoditas = computed(() => {
 });
 
 const filteredKomoditas = computed(() => {
-  // console.log("filteringg", props.data);
   const res = props.data.map((item) => {
-    // console.log("fitlering item ", item);
     let res = Utils.Harga.filterByKecamatan(item, selectedKecamatan.value);
-    // console.log("filter result: ", res);
     return res;
   });
-  console.log("fitered res", res);
   return res.filter((item) => {
     if (item.data && item.data.length > 0) {
       return true;
     }
-    console.log(`Komoditas ${item.nama} tidak memiliki harga`);
     return false;
   });
 });

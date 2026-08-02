@@ -14,6 +14,7 @@
           :src="
             'https://harga-api.dvlp.asia/komoditas/' + commodity.nama + '.webp'
           "
+          @click="selectCommodity(commodity)"
         />
         <!-- Loop kedua, menggandakan card untuk efek looping tanpa jeda -->
         <CommodityCard
@@ -27,6 +28,7 @@
           :src="
             'https://harga-api.dvlp.asia/komoditas/' + commodity.nama + '.webp'
           "
+          @click="selectCommodity(commodity)"
         />
       </div>
     </div>
@@ -48,6 +50,14 @@ const props = defineProps({
 const commodities = computed(() => {
   return props.data.filter((commodity) => commodity.currentPrice !== 0);
 });
+
+const selectCommodity = (commodity) => {
+  selectionStore.setSelection(Constants.SELECTED_KOMODITAS, commodity);
+  const target = document.getElementById("komoditas");
+  if (target) {
+    target.scrollIntoView({ behavior: "smooth" });
+  }
+};
 
 const selectedPasar = computed(() => {
   return Constants.KECAMATAN_PASAR[
@@ -99,6 +109,8 @@ onBeforeUnmount(() => {
   display: flex;
   position: relative;
   justify-content: flex-start;
+  padding-top: 8px;
+  padding-bottom: 12px;
 }
 
 .scroll-content {

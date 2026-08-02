@@ -48,19 +48,19 @@
         </p>
       </div>
     </div>
-    <div class="w-full overflow-hidden py-4 relative -mt-8 sm:-mt-14">
+    <div class="w-full overflow-hidden py-2 sm:py-3 relative -mt-6 sm:-mt-12">
       <commodity-display :data="komoditasStore.get()" />
     </div>
     <!-- <div style="margin-bottom: 100vh"></div> -->
-    <div class="w-full max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-8">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-start" id="komoditas">
+    <div class="w-full max-w-7xl mx-auto px-2 sm:px-3 lg:px-4 py-3 sm:py-6 space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 items-start" id="komoditas">
         <!-- Grafik Kiri -->
-        <div class="lg:col-span-7 bg-white rounded-2xl p-0 sm:p-4">
-          <main-chart :key="selectedData?.nama + mainChartKey" :data="selectedData"></main-chart>
+        <div class="lg:col-span-7 bg-white rounded-2xl p-0 sm:p-2 lg:p-3">
+          <main-chart :key="mainChartKey" :data="selectedData"></main-chart>
         </div>
 
         <!-- List Kanan -->
-        <div class="lg:col-span-5 bg-white rounded-2xl overflow-hidden p-0 sm:p-4" v-if="isDataReady">
+        <div class="lg:col-span-5 bg-white rounded-2xl overflow-hidden p-0 sm:p-2 lg:p-3" v-if="isDataReady">
           <list-komoditas :data="komoditasStore.get()" :key="listKomoditasKey"></list-komoditas>
         </div>
       </div>
@@ -163,27 +163,20 @@ watch(
   () => komoditasStore.get(),
   (newVal, oldVal) => {
     if (newVal && selectedData.value.nama != "-") {
-      console.log("befpre", selectedData.value);
       selectedData.value = Utils.getObjectByCol(
         newVal,
         "nama",
         selectedData.value.nama
       );
-      console.log("newVal", selectedData.value);
       updateMainchart();
       updateListKomoditas();
     }
   }
 );
 onMounted(async () => {
-  console.log("On Mounted IndexPage---------");
   await SyncService.fetchKomoditas();
   komoditas.value = komoditasStore.get();
   selectedData.value = komoditas.value[0];
-  // console.log("komoditas.value", JSON.stringify(komoditas.value));
-  // selectedData.value = Utils.priceData.value;
-  console.log("priceData", Utils.priceData.value);
-  console.log("On Mounted IndexPage--------- End");
 });
 Chart.register(
   LineController,

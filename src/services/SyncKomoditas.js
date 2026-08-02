@@ -21,8 +21,8 @@ export function useSyncService() {
         dataUpdate.value = res.data;
       });
       await fetchKomoditas();
-    } catch (error) {
-      console.log("error updating", error.message);
+    } catch (err) {
+      error.value = err.message;
     } finally {
       loadingUpdate.value = false;
     }
@@ -32,24 +32,16 @@ export function useSyncService() {
     loading.value = true;
     error.value = null;
     try {
-      console.log("fetching");
       await api.get(apiUrl).then((res) => {
-        console.log("fetching success");
-        console.log("Raw data from API:", res.data);
         const transformedData = Utils.transformDataArray(res.data);
-        console.log("Transformed data:", transformedData);
         komoditasStore.set(transformedData);
         const lastUpdate = Utils.getCurrentDateTime();
-        console.log("Setting last update:", lastUpdate);
         komoditasStore.setLastUpdate(lastUpdate);
       });
-      // console.log("komo", komoditasStore.getLastUpdate);
     } catch (err) {
       error.value = err.message;
-      console.log("err:", err.message);
     } finally {
       loading.value = false;
-      console.log("loading", loading.value);
     }
   };
   return {

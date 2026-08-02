@@ -11,7 +11,6 @@ const api = axios.create({
   baseURL: apiBaseUrl,
 });
 
-console.log("Using API Base URL:", apiBaseUrl);
 export default boot(({ app }) => {
   app.config.globalProperties.$axios = axios;
   app.config.globalProperties.$api = api;

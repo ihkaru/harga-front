@@ -282,11 +282,9 @@ ChartJS.register(
 Utils.generatePriceData("2024-01-01", "2024-11-04", 2);
 
 const commodityData = ref([]);
-// console.log(props.data);
-// const commodityData = ref(Utils.priceData.value);
 
 const chartRef = ref(null);
-const selectedCommodity = ref("Beras");
+const selectedCommodity = computed(() => props.data?.nama || "Beras");
 
 const selectedPeriod = computed(() => {
   return (
@@ -305,17 +303,43 @@ const lineColor = ref("#FF0000");
 const showTooltip = ref(false);
 const tooltipPosition = ref(0);
 
+const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1024);
+
 onMounted(async () => {
   commodityData.value = props.data?.data;
-  selectedCommodity.value = props.data?.nama;
   loadingUpdate.value = SyncSerice.loadingUpdate.value;
 
-  window.addEventListener('resize', () => {
+  const handleResize = () => {
+    windowWidth.value = window.innerWidth;
     if (chartRef.value) {
       chartRef.value.chart.resize();
     }
-  });
+  };
+
+  window.addEventListener('resize', handleResize);
 });
+
+const dynamicBorderWidth = computed(() => {
+  return windowWidth.value < 640 ? 2.5 : 3;
+});
+
+const chartData = computed(() => ({
+  labels: filteredData.value.map((item) => item.date),
+  datasets: [
+    {
+      label: selectedCommodity.value,
+      borderColor: lineColor.value,
+      data: filteredData.value.map((item) => item.price),
+      tension: 0.1,
+      borderWidth: dynamicBorderWidth.value,
+      pointRadius: 0,
+      pointHoverRadius: 4,
+      pointHoverBackgroundColor: lineColor.value,
+      pointHoverBorderColor: "#FFF",
+      pointHoverBorderWidth: 2,
+    },
+  ],
+}));
 const formatDate = (dateString) => {
   const date = new Date(dateString);
   return date.toLocaleDateString("id-ID", {
@@ -421,12 +445,22 @@ const updateDisplayValues = (currentPrice, initialPrice, date) => {
 
 const handleChartLeave = () => {
   showTooltip.value = false;
-  if (filteredData.value.length > 0) {
+  if (filteredData.value && filteredData.value.length > 0) {
     const lastIndex = filteredData.value.length - 1;
     const currentData = filteredData.value[lastIndex];
     const initialData = filteredData.value[0];
-    displayInitialPriceDate.value = initialData.date;
-    updateDisplayValues(currentData.price, initialData.price, currentData.date);
+    displayInitialPriceDate.value = initialData?.date || "";
+    updateDisplayValues(
+      currentData?.price || 0,
+      initialData?.price || 0,
+      currentData?.date || ""
+    );
+  } else {
+    displayPrice.value = 0;
+    displayInitialPrice.value = 0;
+    displayInitialPriceDate.value = "";
+    displayPriceChange.value = 0;
+    displayPriceChangePercentage.value = 0;
   }
 };
 let easing = easingEffects.easeInCirc;
@@ -573,39 +607,21 @@ const chartOptions = computed(() => {
 const currentPrice = computed(() => {
   let currentData = {};
   if (filteredData.value && filteredData.value.length > 0) {
-    // console.log("current price", filteredData.value.length);
     currentData = filteredData.value[filteredData.value.length - 1];
-    // console.log("current price", currentData);
   }
   return currentData?.price ?? 0;
 });
-const chartData = computed(() => ({
-  labels: filteredData.value.map((item) => item.date),
-  datasets: [
-    {
-      label: selectedCommodity.value,
-      borderColor: lineColor.value,
-      data: filteredData.value.map((item) => item.price),
-      tension: 0.1,
-      borderWidth: 5,
-      pointRadius: 0,
-      pointHoverRadius: 4,
-      pointHoverBackgroundColor: lineColor.value,
-      pointHoverBorderColor: "#FFF",
-      pointHoverBorderWidth: 2,
-    },
-  ],
-}));
 
 onMounted(() => {
   handleChartLeave();
 });
 
 watch(
-  () => props.data,
-  (newVal, oldVal) => {
-    if (props.data?.length > 0) commodityData.value = props.data.data;
-  }
+  () => filteredData.value,
+  () => {
+    handleChartLeave();
+  },
+  { immediate: true, deep: true }
 );
 
 const selectPeriod = (period) => {

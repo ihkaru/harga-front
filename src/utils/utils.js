@@ -35,7 +35,6 @@ export function useUtils() {
   function isWithinDays(dateString, days) {
     const today = new Date();
     const date = new Date(dateString);
-    // console.log(dateString, date);
     const diffTime = Math.abs(today - date);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return diffDays <= days;
@@ -207,7 +206,6 @@ export function useUtils() {
         )}-${item.tanggal_angka.padStart(2, "0")}`,
         price: parseFloat(item.harga),
       }));
-      // console.log(prices);
 
       // Get the current price as the last price in the list
       const currentPrice = prices[prices.length - 1]?.price || 0;
@@ -285,9 +283,6 @@ export function useUtils() {
       .filter((entry) => new Date(entry.date) >= startDate)
       .map((entry) => entry.price);
 
-    if (sparklinePrices.length < 1) {
-      // console.log("Komoditas " + data.nama + " Tanpa sparkline", data, startDate);
-    }
     return sparklinePrices;
   }
 

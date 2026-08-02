@@ -1,5 +1,5 @@
 <template>
-  <q-card class="commodity-card border border-slate-100 bg-white rounded-2xl shadow-xs p-3.5 sm:p-4 flex flex-col items-center justify-between text-center select-none w-[170px] sm:w-[220px] shrink-0">
+  <q-card @click="$emit('click')" class="commodity-card border border-slate-100 bg-white rounded-2xl shadow-xs p-3.5 sm:p-4 flex flex-col items-center justify-between text-center select-none w-[170px] sm:w-[220px] shrink-0 cursor-pointer hover:border-blue-400 hover:shadow-md active:scale-[0.98] transition-all duration-200 group">
     <q-card-section class="q-pa-none flex flex-col items-center w-full">
       <q-avatar size="64px" class="sm:size-20 border border-slate-200 shadow-3xs mb-2.5">
         <q-img :src="src" fit="cover" />
