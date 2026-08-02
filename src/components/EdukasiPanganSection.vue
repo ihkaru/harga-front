@@ -7,7 +7,7 @@
           <q-icon name="verified_user" size="12px" />
           <span>Dukungan BPOM & Disperindagnaker Kab. Mempawah</span>
         </div>
-        <h2 class="!text-base xs:!text-lg sm:!text-xl md:!text-2xl font-bold text-slate-800 tracking-tight leading-snug">
+        <h2 class="edukasi-title font-bold text-slate-800 tracking-tight leading-snug">
           Edukasi & Tips Keamanan Pangan
         </h2>
       </div>
@@ -215,6 +215,29 @@ const prevImage = () => {
 </script>
 
 <style scoped>
+.edukasi-title {
+  font-size: 1.35rem !important;
+  line-height: 1.25 !important;
+}
+
+@media (min-width: 480px) {
+  .edukasi-title {
+    font-size: 1.65rem !important;
+  }
+}
+
+@media (min-width: 640px) {
+  .edukasi-title {
+    font-size: 1.9rem !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .edukasi-title {
+    font-size: 2.25rem !important;
+  }
+}
+
 :deep(.q-carousel) {
   width: 100%;
   aspect-ratio: 16 / 9;
