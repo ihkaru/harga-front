@@ -55,12 +55,12 @@
     <div class="w-full max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-8">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-start" id="komoditas">
         <!-- Grafik Kiri -->
-        <div class="lg:col-span-8 bg-white rounded-2xl p-0 sm:p-4">
+        <div class="lg:col-span-7 bg-white rounded-2xl p-0 sm:p-4">
           <main-chart :key="selectedData?.nama + mainChartKey" :data="selectedData"></main-chart>
         </div>
 
         <!-- List Kanan -->
-        <div class="lg:col-span-4 bg-white rounded-2xl overflow-hidden p-0 sm:p-4" v-if="isDataReady">
+        <div class="lg:col-span-5 bg-white rounded-2xl overflow-hidden p-0 sm:p-4" v-if="isDataReady">
           <list-komoditas :data="komoditasStore.get()" :key="listKomoditasKey"></list-komoditas>
         </div>
       </div>
