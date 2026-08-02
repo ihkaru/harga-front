@@ -54,16 +54,26 @@ module.exports = configure(function (/* ctx */) {
         node: "node20",
       },
 
-      vueRouterMode: "hash", // available values: 'hash', 'history'
-      // vueRouterBase,
-      // vueDevtools,
-      // vueOptionsAPI: false,
-
-      // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
-
-      // publicPath: '/',
-      // analyze: true,
-      // env: { ...env },
+      vueRouterMode: "history", // available values: 'hash', 'history'
+      env: {
+        VITE_API_BASE_URL: process.env.VITE_API_BASE_URL || process.env.API_BASE_URL || "http://localhost:8000/api",
+        API_BASE_URL: process.env.API_BASE_URL || process.env.VITE_API_BASE_URL || "http://localhost:8000/api",
+        VITE_APP_NAME: process.env.VITE_APP_NAME || "KOPI DEWA",
+        VITE_APP_SUBTITLE: process.env.VITE_APP_SUBTITLE || "Kolaborasi Pengendalian Inflasi Daerah Kabupaten Mempawah",
+        VITE_REGION_ID: process.env.VITE_REGION_ID || "mempawah",
+        VITE_REGION_NAME: process.env.VITE_REGION_NAME || "Kabupaten Mempawah",
+        VITE_REGION_DISTRICT: process.env.VITE_REGION_DISTRICT || "Mempawah Hilir",
+        VITE_REGION_LAT: process.env.VITE_REGION_LAT || "0.36",
+        VITE_REGION_LNG: process.env.VITE_REGION_LNG || "108.96",
+        VITE_INSTITUTION_NAME: process.env.VITE_INSTITUTION_NAME || "Dinas Perdagangan, Perindustrian dan Tenaga Kerja Kabupaten Mempawah",
+        VITE_INSTITUTION_ADDRESS: process.env.VITE_INSTITUTION_ADDRESS || "Jalan Raden Kusno, Kelurahan Tengah, Kecamatan Mempawah Hilir",
+        VITE_INSTITUTION_CITY_ZIP: process.env.VITE_INSTITUTION_CITY_ZIP || "Kabupaten Mempawah, Kalimantan Barat 78912",
+        VITE_INSTITUTION_PHONE: process.env.VITE_INSTITUTION_PHONE || "(0561) 691037",
+        VITE_INSTITUTION_EMAIL: process.env.VITE_INSTITUTION_EMAIL || "perindagnakerdinas@gmail.com",
+        VITE_COPYRIGHT_YEAR: process.env.VITE_COPYRIGHT_YEAR || "2024",
+        VITE_LOGO_MAIN: process.env.VITE_LOGO_MAIN || "MPW.png",
+        VITE_LOGO_PARTNER: process.env.VITE_LOGO_PARTNER || "BPS.png",
+      },
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,
