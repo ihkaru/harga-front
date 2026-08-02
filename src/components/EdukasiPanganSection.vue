@@ -41,7 +41,7 @@
         transition-next="slide-left"
         swipeable
         arrows
-        class="w-full !h-[380px] xs:!h-[460px] sm:!h-[620px] md:!h-[780px] lg:!h-[900px] xl:!h-[1000px] bg-slate-950"
+        class="w-full aspect-video bg-slate-950"
       >
         <q-carousel-slide
           v-for="(item, index) in infographics"
@@ -51,13 +51,13 @@
           @click="openLightbox(index)"
         >
           <!-- Background Image with HTML5 <picture> -->
-          <picture class="w-full h-full flex items-center justify-center p-1 sm:p-2">
+          <picture class="w-full h-full block">
             <source :srcset="item.webp" type="image/webp" />
             <img
               :src="item.jpg"
               :alt="item.title"
               loading="lazy"
-              class="w-full h-full object-contain rounded-lg"
+              class="w-full h-full object-cover sm:object-contain bg-slate-900"
             />
           </picture>
 
@@ -216,14 +216,8 @@ const prevImage = () => {
 
 <style scoped>
 :deep(.q-carousel) {
-  height: 75vh !important;
-  min-height: 380px;
-  max-height: 1000px;
-}
-@media (max-width: 640px) {
-  :deep(.q-carousel) {
-    height: 55vh !important;
-    min-height: 350px;
-  }
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto !important;
 }
 </style>
