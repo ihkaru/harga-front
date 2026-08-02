@@ -41,7 +41,7 @@
         transition-next="slide-left"
         swipeable
         arrows
-        class="w-full h-[360px] xs:h-[440px] sm:h-[600px] md:h-[750px] lg:h-[880px] xl:h-[980px] bg-slate-950"
+        class="w-full !h-[380px] xs:!h-[460px] sm:!h-[620px] md:!h-[780px] lg:!h-[900px] xl:!h-[1000px] bg-slate-950"
       >
         <q-carousel-slide
           v-for="(item, index) in infographics"
@@ -213,3 +213,17 @@ const prevImage = () => {
   currentSlide.value = (currentSlide.value - 1 + infographics.value.length) % infographics.value.length;
 };
 </script>
+
+<style scoped>
+:deep(.q-carousel) {
+  height: 75vh !important;
+  min-height: 380px;
+  max-height: 1000px;
+}
+@media (max-width: 640px) {
+  :deep(.q-carousel) {
+    height: 55vh !important;
+    min-height: 350px;
+  }
+}
+</style>
