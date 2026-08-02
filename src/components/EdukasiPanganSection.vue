@@ -1,64 +1,90 @@
 <template>
-  <div id="edukasi-pangan" class="w-full py-6 sm:py-8 bg-white rounded-3xl border border-slate-100/80 shadow-xs p-4 sm:p-6 space-y-6">
+  <div id="edukasi-pangan" class="w-full bg-white rounded-3xl border border-slate-100 shadow-sm p-4 sm:p-6 space-y-4">
     <!-- Header Section -->
-    <div class="flex flex-col items-center text-center space-y-2 max-w-2xl mx-auto">
-      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-semibold">
-        <q-icon name="verified_user" size="14px" />
-        <span>Dukungan BPOM & Disperindagnaker Kab. Mempawah</span>
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+      <div class="space-y-1">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-semibold">
+          <q-icon name="verified_user" size="14px" />
+          <span>Dukungan BPOM & Disperindagnaker Kab. Mempawah</span>
+        </div>
+        <h2 class="text-lg sm:text-xl font-bold text-slate-800 tracking-tight">
+          Edukasi & Tips Keamanan Pangan
+        </h2>
       </div>
-      <h2 class="text-xl sm:text-2xl font-bold text-slate-800 tracking-tight">
-        Edukasi Keamanan Pangan
-      </h2>
-      <p class="text-xs sm:text-sm text-slate-500 font-medium">
-        Panduan praktis memilih pangan siap saji, olahan, dan segar yang aman, sehat, serta layak konsumsi untuk keluarga Anda.
-      </p>
+
+      <!-- Quick Nav Buttons for Carousel -->
+      <div class="flex items-center gap-1.5 self-start sm:self-auto">
+        <button
+          v-for="(item, idx) in infographics"
+          :key="item.id"
+          @click="currentSlide = idx"
+          :class="[
+            currentSlide === idx
+              ? 'bg-emerald-600 text-white font-bold shadow-xs'
+              : 'bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium',
+            'px-3 py-1 rounded-full text-xs transition-all duration-200 cursor-pointer'
+          ]"
+        >
+          {{ item.shortTitle }}
+        </button>
+      </div>
     </div>
 
-    <!-- Infographics Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-      <div
-        v-for="(item, index) in infographics"
-        :key="item.id"
-        @click="openLightbox(index)"
-        class="group relative bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden shadow-2xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col justify-between"
+    <!-- Full-Width Banner Carousel Card -->
+    <div class="relative w-full rounded-2xl overflow-hidden bg-slate-950 border border-slate-200 group shadow-sm">
+      <q-carousel
+        v-model="currentSlide"
+        animated
+        infinite
+        :autoplay="5000"
+        transition-prev="slide-right"
+        transition-next="slide-left"
+        swipeable
+        arrows
+        class="w-full h-[220px] xs:h-[260px] sm:h-[360px] md:h-[440px] lg:h-[500px] bg-slate-950"
       >
-        <!-- Image Container with HTML5 <picture> WebP best practice -->
-        <div class="relative aspect-4/3 w-full bg-slate-100 overflow-hidden">
-          <picture>
+        <q-carousel-slide
+          v-for="(item, index) in infographics"
+          :name="index"
+          :key="item.id"
+          class="q-pa-none relative w-full h-full flex items-center justify-center cursor-pointer"
+          @click="openLightbox(index)"
+        >
+          <!-- Background Image with HTML5 <picture> -->
+          <picture class="w-full h-full flex items-center justify-center">
             <source :srcset="item.webp" type="image/webp" />
             <img
               :src="item.jpg"
               :alt="item.title"
               loading="lazy"
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              class="w-full h-full object-contain sm:object-cover"
             />
           </picture>
-          <div class="absolute inset-0 bg-slate-900/10 group-hover:bg-slate-900/0 transition-colors" />
-          <div class="absolute top-2.5 right-2.5 bg-slate-900/70 backdrop-blur-xs text-white text-[10px] font-medium px-2 py-0.5 rounded-full flex items-center gap-1">
-            <q-icon name="zoom_in" size="12px" />
-            <span>Perbesar</span>
-          </div>
-        </div>
 
-        <!-- Content Info -->
-        <div class="p-3.5 flex flex-col justify-between flex-1">
-          <div>
-            <div class="text-[10px] font-bold text-emerald-600 uppercase tracking-wider mb-0.5">
-              {{ item.category }}
+          <!-- Banner Overlay Gradient & Info Badge -->
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
+
+          <!-- Bottom Banner Title & Action -->
+          <div class="absolute bottom-3 left-3 right-3 sm:bottom-5 sm:left-6 sm:right-6 flex items-center justify-between gap-3 text-white pointer-events-auto">
+            <div class="min-w-0 flex-1">
+              <span class="inline-block px-2.5 py-0.5 rounded-md bg-emerald-600/90 text-white text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-1">
+                {{ item.category }}
+              </span>
+              <h3 class="text-xs sm:text-lg font-bold truncate drop-shadow-md">
+                {{ item.title }}
+              </h3>
             </div>
-            <h3 class="text-xs sm:text-sm font-bold text-slate-800 line-clamp-2 leading-snug group-hover:text-blue-600 transition-colors">
-              {{ item.title }}
-            </h3>
+
+            <button
+              @click.stop="openLightbox(index)"
+              class="shrink-0 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-white/90 hover:bg-white text-slate-900 text-xs font-bold shadow-md backdrop-blur-xs flex items-center gap-1.5 transition-all hover:scale-105"
+            >
+              <q-icon name="fullscreen" size="16px" />
+              <span>Perbesar</span>
+            </button>
           </div>
-          <div class="mt-3 flex items-center justify-between text-[11px] font-medium text-slate-500 pt-2 border-t border-slate-200/60">
-            <span>Tips BPOM</span>
-            <span class="text-blue-600 group-hover:underline font-semibold flex items-center gap-0.5">
-              <span>Lihat Detail</span>
-              <q-icon name="arrow_forward" size="12px" />
-            </span>
-          </div>
-        </div>
-      </div>
+        </q-carousel-slide>
+      </q-carousel>
     </div>
 
     <!-- Lightbox Modal Dialog -->
@@ -96,9 +122,9 @@
             <button
               v-for="(item, idx) in infographics"
               :key="item.id"
-              @click="activeIndex = idx"
+              @click="currentSlide = idx"
               :class="[
-                activeIndex === idx
+                currentSlide === idx
                   ? 'bg-emerald-600 text-white font-bold'
                   : 'text-slate-400 hover:text-white font-medium',
                 'px-3 py-1 rounded-full text-xs transition-all cursor-pointer'
@@ -111,12 +137,12 @@
 
         <!-- Active Infographic Full Image View -->
         <div class="flex-1 overflow-auto p-4 flex items-center justify-center relative">
-          <picture class="max-w-4xl w-full h-auto max-h-[80vh] flex items-center justify-center">
+          <picture class="max-w-4xl w-full h-auto max-h-[82vh] flex items-center justify-center">
             <source :srcset="activeItem.webp" type="image/webp" />
             <img
               :src="activeItem.jpg"
               :alt="activeItem.title"
-              class="max-w-full max-h-[80vh] object-contain rounded-xl shadow-2xl border border-slate-800"
+              class="max-w-full max-h-[82vh] object-contain rounded-xl shadow-2xl border border-slate-800"
             />
           </picture>
 
@@ -142,8 +168,8 @@
 <script setup>
 import { ref, computed } from 'vue';
 
+const currentSlide = ref(0);
 const isLightboxOpen = ref(false);
-const activeIndex = ref(0);
 
 const infographics = ref([
   {
@@ -172,18 +198,18 @@ const infographics = ref([
   },
 ]);
 
-const activeItem = computed(() => infographics.value[activeIndex.value] || infographics.value[0]);
+const activeItem = computed(() => infographics.value[currentSlide.value] || infographics.value[0]);
 
 const openLightbox = (index) => {
-  activeIndex.value = index;
+  currentSlide.value = index;
   isLightboxOpen.value = true;
 };
 
 const nextImage = () => {
-  activeIndex.value = (activeIndex.value + 1) % infographics.value.length;
+  currentSlide.value = (currentSlide.value + 1) % infographics.value.length;
 };
 
 const prevImage = () => {
-  activeIndex.value = (activeIndex.value - 1 + infographics.value.length) % infographics.value.length;
+  currentSlide.value = (currentSlide.value - 1 + infographics.value.length) % infographics.value.length;
 };
 </script>
