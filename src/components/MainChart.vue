@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full flex flex-col space-y-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
+  <div class="w-full flex flex-col space-y-4 p-4 bg-white rounded-2xl">
     <!-- Header Section: Avatar, Location, Title & Refresh Button -->
     <div class="flex items-center justify-between gap-4">
       <div class="flex items-center gap-3">
@@ -23,6 +23,7 @@
           </div>
         </div>
       </div>
+      <!-- Refresh Button (Desktop: sm+) -->
       <q-btn
         @click="handleSync"
         :loading="loadingUpdate"
@@ -30,12 +31,38 @@
         color="teal"
         icon="refresh"
         size="sm"
-        class="shrink-0"
+        class="shrink-0 hidden sm:inline-flex"
       >
         <template v-slot:loading>
           <q-spinner-grid color="white" />
         </template>
+        <q-tooltip class="bg-slate-800 text-white">Perbarui Data</q-tooltip>
       </q-btn>
+
+      <!-- Options Menu (Mobile: < sm) -->
+      <div class="sm:hidden shrink-0">
+        <q-btn
+          flat
+          round
+          dense
+          icon="more_vert"
+          color="grey-7"
+        >
+          <q-menu auto-close class="rounded-xl border border-slate-100 shadow-md">
+            <q-list style="min-width: 150px">
+              <q-item clickable @click="handleSync" class="items-center gap-2">
+                <q-item-section avatar class="min-w-0 pr-0">
+                  <q-icon v-if="!loadingUpdate" name="refresh" color="teal" size="20px" />
+                  <q-spinner-grid v-else color="teal" size="20px" />
+                </q-item-section>
+                <q-item-section class="text-xs font-semibold text-slate-700">
+                  Perbarui Data
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
+      </div>
     </div>
 
     <!-- Price Display -->
@@ -485,8 +512,15 @@ const chartOptions = computed(() => {
         },
         grid: {
           display: true,
-          color: "rgba(226, 232, 240, 0.6)",
           drawTicks: false,
+          color: function (context) {
+            const ticks = context.chart.scales.y?.ticks;
+            if (!ticks || ticks.length === 0) return "transparent";
+            if (context.index === 0 || context.index === ticks.length - 1) {
+              return "rgba(226, 232, 240, 0.8)";
+            }
+            return "transparent";
+          },
         },
         ticks: {
           display: true,
@@ -495,8 +529,11 @@ const chartOptions = computed(() => {
           },
           color: "#64748b",
           padding: 8,
-          callback: function (value) {
-            return value.toLocaleString("id-ID");
+          callback: function (value, index, ticks) {
+            if (index === 0 || index === ticks.length - 1) {
+              return value.toLocaleString("id-ID");
+            }
+            return "";
           },
         },
       },

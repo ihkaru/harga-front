@@ -24,11 +24,11 @@
         v-for="commodity in searchedKomoditas"
         :key="commodity.symbol || commodity.nama"
         @click="selectCommodity(commodity)"
-        class="grid grid-cols-[1fr_90px_120px] items-center gap-3 p-3.5 hover:bg-slate-50/80 transition-colors cursor-pointer group"
+        class="grid grid-cols-[1fr_55px_85px] items-center gap-2 p-3 hover:bg-slate-50/80 transition-colors cursor-pointer group"
       >
         <!-- Avatar & Name Info -->
-        <div class="flex items-center gap-3 min-w-0">
-          <q-avatar size="40px" class="shrink-0 border border-slate-200 shadow-2xs">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <q-avatar size="36px" class="shrink-0 border border-slate-200 shadow-2xs">
             <q-img
               :src="`https://harga-api.dvlp.asia/komoditas/${commodity.nama}.webp`"
               :alt="commodity.nama"
@@ -42,6 +42,7 @@
           <div class="min-w-0 flex-1">
             <div class="text-xs sm:text-sm font-semibold text-slate-800 truncate group-hover:text-blue-600 transition-colors">
               {{ commodity.nama }}
+              <q-tooltip class="bg-slate-900 text-white text-xs">{{ commodity.nama }}</q-tooltip>
             </div>
             <div class="text-[11px] text-slate-500 truncate mt-0.5">
               {{ Constants.CHART_PERIODS_LABEL[selectedPeriod] }}: Rp {{
@@ -57,8 +58,8 @@
           </div>
         </div>
 
-        <!-- Sparkline (Vertically & Horizontally Aligned Column) -->
-        <div class="flex justify-center items-center w-full min-w-0">
+        <!-- Sparkline (Shifted right, compact width) -->
+        <div class="flex justify-center items-center w-full min-w-0 pr-0.5">
           <SparkLine
             :data="Utils.getSparklinePrices(
               commodity,
@@ -70,8 +71,8 @@
               selectedPeriod,
               selectionStore.getSelectionByKey(Constants.SELECTED_WILAYAH)
             ).change <= 0 ? '#10b981' : '#ef4444'"
-            :width="75"
-            :height="28"
+            :width="52"
+            :height="24"
             :show-area="true"
             :show-trend-indicator="false"
             :highlight-endpoints="false"
@@ -94,7 +95,7 @@
           </div>
           <div
             :class="[
-              'inline-block px-2 py-0.5 mt-0.5 text-[11px] font-bold rounded-full text-center whitespace-nowrap min-w-[50px]',
+              'inline-block px-1.5 py-0.5 mt-0.5 text-[10px] sm:text-[11px] font-bold rounded-full text-center whitespace-nowrap min-w-[45px]',
               Utils.getPriceChange(
                 commodity,
                 selectedPeriod,
