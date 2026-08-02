@@ -1,7 +1,7 @@
 <template>
   <div class="w-full flex flex-col h-full bg-white rounded-2xl">
     <!-- Search Input Header -->
-    <div class="sticky top-0 bg-white p-3 border-b border-slate-100 z-10">
+    <div class="sticky top-0 bg-white p-2 sm:p-3 border-b border-slate-100 z-10">
       <q-input
         v-model="searchQuery"
         dense
@@ -24,7 +24,7 @@
         v-for="commodity in searchedKomoditas"
         :key="commodity.symbol || commodity.nama"
         @click="selectCommodity(commodity)"
-        class="grid grid-cols-[1fr_55px_85px] items-center gap-2 p-3 hover:bg-slate-50/80 transition-colors cursor-pointer group"
+        class="grid grid-cols-[1fr_55px_85px] items-center gap-2 px-2.5 py-2.5 sm:p-3 hover:bg-slate-50/80 transition-colors cursor-pointer group"
       >
         <!-- Avatar & Name Info -->
         <div class="flex items-center gap-2.5 min-w-0">

@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full flex flex-col space-y-4 p-4 bg-white rounded-2xl">
+  <div class="w-full flex flex-col space-y-3 sm:space-y-4 p-2.5 sm:p-4 bg-white rounded-2xl">
     <!-- Header Section: Avatar, Location, Title & Refresh Button -->
     <div class="flex items-center justify-between gap-4">
       <div class="flex items-center gap-3">
