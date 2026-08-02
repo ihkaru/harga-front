@@ -15,6 +15,7 @@ The application includes a section within the main hero banner that displays AI-
 ## Building and Running
 
 *   **Development Server:** `npm run dev`
+*   **Dev Server Rule:** If `./dev.sh` or a dev server instance is already running (e.g. in user's terminal), DO NOT run `npm run dev` or `./dev.sh` again automatically unless explicitly requested or strictly required.
 *   **Build for Production:** `npm run build`
 *   **Linting:** `npm run lint`
 *   **Formatting:** `npm run format`
