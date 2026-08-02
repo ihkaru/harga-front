@@ -348,6 +348,16 @@ export function useUtils() {
     return startDate;
   }
 
+  function getCommodityImageUrl(nama) {
+    if (!nama) return "assets/MPW.png";
+    const apiBaseUrl =
+      (typeof import.meta !== "undefined" && import.meta.env && import.meta.env.VITE_API_BASE_URL) ||
+      (typeof process !== "undefined" && process.env && (process.env.VITE_API_BASE_URL || process.env.API_BASE_URL)) ||
+      "http://localhost:8000/api";
+    const imageBaseUrl = apiBaseUrl.replace(/\/api\/?$/, "");
+    return `${imageBaseUrl}/komoditas/${encodeURIComponent(nama.trim())}.webp`;
+  }
+
   return {
     priceData,
     generatePriceData,
@@ -361,5 +371,6 @@ export function useUtils() {
     Harga,
     getSparklinePrices,
     getPriceChange,
+    getCommodityImageUrl,
   };
 }

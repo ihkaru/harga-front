@@ -29,10 +29,7 @@
               <q-item>
                 <q-item-section avatar>
                   <q-avatar size="60px">
-                    <q-img :src="'https://harga-api.dvlp.asia/komoditas/' +
-                      analysis.komoditas.nama +
-                      '.webp'
-                      " style="
+                    <q-img :src="Utils.getCommodityImageUrl(analysis.komoditas?.nama)" style="
                         max-width: 45px;
                         max-height: 45px;
                         border-radius: 50%;

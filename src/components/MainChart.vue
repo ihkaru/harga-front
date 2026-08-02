@@ -5,7 +5,7 @@
       <div class="flex items-center gap-3">
         <q-avatar size="48px" class="shrink-0 border border-slate-200">
           <q-img
-            :src="'https://harga-api.dvlp.asia/komoditas/' + selectedCommodity + '.webp'"
+            :src="Utils.getCommodityImageUrl(selectedCommodity)"
             :alt="selectedCommodity"
             fit="cover"
           >

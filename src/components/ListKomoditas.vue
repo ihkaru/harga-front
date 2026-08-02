@@ -30,7 +30,7 @@
         <div class="flex items-center gap-2.5 min-w-0">
           <q-avatar size="36px" class="shrink-0 border border-slate-200 shadow-2xs">
             <q-img
-              :src="`https://harga-api.dvlp.asia/komoditas/${commodity.nama}.webp`"
+              :src="Utils.getCommodityImageUrl(commodity.nama)"
               :alt="commodity.nama"
               fit="cover"
             >

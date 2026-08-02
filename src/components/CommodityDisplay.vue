@@ -11,9 +11,7 @@
           :price="commodity.currentPrice"
           :data="commodity.data"
           :location="'Pasar ' + selectedPasar"
-          :src="
-            'https://harga-api.dvlp.asia/komoditas/' + commodity.nama + '.webp'
-          "
+          :src="Utils.getCommodityImageUrl(commodity.nama)"
           @click="selectCommodity(commodity)"
         />
         <!-- Loop kedua, menggandakan card untuk efek looping tanpa jeda -->
@@ -25,9 +23,7 @@
           :price="commodity.currentPrice"
           :data="commodity.data"
           :location="'Pasar ' + selectedPasar"
-          :src="
-            'https://harga-api.dvlp.asia/komoditas/' + commodity.nama + '.webp'
-          "
+          :src="Utils.getCommodityImageUrl(commodity.nama)"
           @click="selectCommodity(commodity)"
         />
       </div>
